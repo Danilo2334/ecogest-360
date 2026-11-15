@@ -1,0 +1,59 @@
+# Secretos y configuración local; ejemplos seguros sí se versionan
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+.pgpass
+pgpass.conf
+secrets/
+credentials/
+
+# Python y Django
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+*.sqlite3
+*.sqlite3-journal
+media/
+staticfiles/
+
+# Node, Vite y resultados generados
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+playwright-report/
+test-results/
+
+# PostgreSQL: datos locales y respaldos, no migraciones ni SQL fuente
+pgdata/
+postgres-data/
+*.dump
+*.backup
+backups/
+
+# Archivos temporales y del sistema
+*.log
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+.idea/
+
+# Se conservan docs/, specs/, .specify/, .agents/, migraciones,
+# manifiestos y lockfiles de dependencias y configuración compartida de VS Code.
