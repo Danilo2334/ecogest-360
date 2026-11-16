@@ -7,6 +7,11 @@ movimientos, compostaje verificado, indicadores y CSV. Un solo producto, con met
 solo entradas a compostaje cuyo proceso y destino validó un gestor. Las entregas externas
 se muestran aparte y no se presumen aprovechadas. No se certifica calidad del compost.
 
+Para acreditación real se exigen entradas medidas, salida pesada independientemente y evidencia
+verificada por gestor. Los procesos estimados conservan trazabilidad, pero no se acreditan en
+este MVP; regularizarlos requiere un procedimiento futuro aprobado. Los simulados solo aportan
+al universo de demostración y no se convierten en mediciones reales al validarse.
+
 ## Stack y documentos
 
 Python 3.12, Django 5.2 LTS, DRF y PostgreSQL 16. React, TypeScript, Vite y CSS Modules.
@@ -144,6 +149,7 @@ Una universidad administrable; la segunda institución solo aparece en fixtures 
 Sin IA, IoT, PDF de informes, certificaciones, portal QR público ni reversión de consumos.
 Los informes usan generación corregida vigente y corte de validación, no reconstrucciones
 históricas de todas las correcciones. La acreditación se limita a compostaje.
-Los 13 criterios personalizados de revisión académica permanecen pendientes de revisión humana.
+Hay 12/13 criterios aprobados técnicamente; CHK013 sigue pendiente de demostración humana.
+La aprobación académica no se deduce de los tests. La enmienda SVG está ratificada en constitución 1.1.0.
 Consultar `docs/PRUEBAS.md` para resultados ejecutados y limitaciones de cobertura, sin asumir
 que toda prueba planificada tiene evidencia histórica de una fase inicial fallida.

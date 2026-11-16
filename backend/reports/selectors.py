@@ -1,5 +1,5 @@
 from decimal import Decimal
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, F
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime, parse_date
 from rest_framework.exceptions import ValidationError
@@ -56,6 +56,13 @@ def report(m, params, include_rows=True):
         "verified": sources.filter(
             movement__compost_input__process__verifications__decision="confirmado",
             movement__compost_input__process__verifications__created_at__lte=cutoff,
+            movement__compost_input__process__provenance__in=["medido", "simulado"],
+            movement__compost_input__process__provenance=F(
+                "allocation__generation__provenance"
+            ),
+            movement__compost_input__process__output__provenance=F(
+                "allocation__generation__provenance"
+            ),
         ),
         "in_process": sources.filter(
             movement__compost_input__process__state="en_proceso"
@@ -77,7 +84,7 @@ def report(m, params, include_rows=True):
         "cutoff": cutoff.isoformat(),
         "unit": "kg",
         "formula": "Entradas de la cohorte con compostaje validado hasta el corte / generación vigente de la cohorte × 100",
-        "limitations": "Solo compostaje acreditado; no representa todo el aprovechamiento institucional. Generación y estados vigentes: no reconstruye correcciones históricas.",
+        "limitations": "Solo compostaje acreditado medido o demostración simulada; estimados no acreditables. No representa todo el aprovechamiento institucional. Generación y estados vigentes: no reconstruye correcciones históricas.",
         "provisional": verified < generated,
         "provenance": params.get("provenance", "todas (incluye simulados y estimados)"),
     }

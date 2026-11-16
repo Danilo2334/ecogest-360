@@ -333,6 +333,15 @@ def dispatch(request, path):
     if request.FILES:
         import hashlib
 
+        if (
+            resource != "compost"
+            or action != "evidence"
+            or set(request.FILES) != {"file"}
+            or len(request.FILES.getlist("file")) != 1
+        ):
+            raise ValidationError(
+                "Adjunta un único documento en el campo file de evidencia."
+            )
         upload = request.FILES["file"]
         if upload.size > 10 * 1024 * 1024:
             raise ValidationError("Máximo 10 MiB.")

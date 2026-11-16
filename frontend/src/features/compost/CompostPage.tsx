@@ -139,6 +139,12 @@ export function CompostPage({
                 { key: "date", label: "Fecha" },
               ]}
             />
+            {p.provenance === "estimado" && (
+              <p>
+                Proceso estimado: no acredita aprovechamiento en el MVP. Su
+                regularización requiere un procedimiento aprobado.
+              </p>
+            )}
             {manager && !p.verified && (
               <ActionForm
                 title="Validar resultado"
@@ -157,7 +163,11 @@ export function CompostPage({
                         value: "rechazado",
                         label: "Rechazar: queda pendiente",
                       },
-                    ],
+                    ].filter(
+                      (option) =>
+                        p.provenance !== "estimado" ||
+                        option.value !== "confirmado",
+                    ),
                   },
                   { name: "reason", label: "Qué verificaste / motivo" },
                 )}

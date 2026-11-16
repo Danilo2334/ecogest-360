@@ -1,8 +1,9 @@
 # Implementation Plan: EcoGest 360 MVP
 
-**Branch**: `main` (Git real; el resolver identifica feature `001-ecogest-mvp`)
+**Branch**: implementación en `feat/001-ecogest-mvp`; base `main` (rama usada al preparar el diseño).
 **Date**: 2026-11-15 | **Spec**: [spec.md](spec.md)
-**Input**: Especificación aclarada Q1 B, Q2 A, Q3 A. Estado: diseño para revisión, no implementación.
+**Input**: Especificación aclarada Q1 B, Q2 A, Q3 A y cierre CHK004 aprobado.
+**Estado**: diseño original conservado con conciliación posterior; implementación y auditoría locales ejecutadas.
 
 ## Summary
 
@@ -111,3 +112,22 @@ La lista de calidad personalizada permanece abierta para revisión humana; no ma
 
 Sin excepciones constitucionales. Una entidad de reparto por origen y un recibo idempotente
 son necesarios para cohortes e integridad, no nuevas funcionalidades de usuario.
+
+## Conciliación posterior al diseño
+
+Las frases «futuro», «sin migración» y «pendiente de ejecución» anteriores describen la etapa
+original, no el estado actual. Resultados vigentes en docs/PRUEBAS.md y tasks.md.
+Transporte REST centralizado en core/views.py; servicios siguen separados por dominio.
+Movement representa el consumo, con ConsumptionSource para reparto; Incident está en migración
+inicial. CSS Modules compartidos y pruebas agrupadas por riesgo/flujo sustituyen rutas previstas
+sin cambiar las reglas funcionales. Listas sin paginación: desviación técnica documentada,
+no requisito funcional agregado; no se ha validado rendimiento de todos los listados a escala.
+
+CHK004: verify bloquea procesos estimados y salidas de procedencia incompatible; el selector
+excluye acreditaciones estimadas históricas sin borrar su historial. No cambian esquema,
+masas, locks ni idempotencia. Medidos requieren salida independiente y evidencia; simulados
+mantienen etiquetas y filtros. Pruebas nuevas antes del arreglo, sin rehacer historial TDD.
+
+SVG nativo se conserva en código y queda permitido por constitución 1.1.0, ratificada
+el 2026-11-15. docs/ENMIENDA_CONSTITUCION_SVG.md registra la aprobación. La discrepancia
+detectada en auditoría queda cerrada, sin cambiar dominio ni añadir dependencias.

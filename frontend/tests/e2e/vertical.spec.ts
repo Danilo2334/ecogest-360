@@ -57,6 +57,19 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
     .getByRole("button", { name: "Crear lote", exact: true })
     .click();
   const lot = (await (await created).json()).id;
+  const lotCard = page.locator("article").filter({
+    has: page.getByRole("heading", { name: "Lote #" + lot, exact: true }),
+  });
+  await lotCard.getByText("QR e identificación", { exact: true }).click();
+  await expect(lotCard.locator("img")).toBeVisible();
+  await expect
+    .poll(() =>
+      lotCard
+        .locator("img")
+        .evaluate((img: HTMLImageElement) => img.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await lotCard.screenshot({ path: "test-results/trazabilidad-auditoria.png" });
   await page.getByRole("button", { name: "Compostaje", exact: true }).click();
   const start = page.locator("form").filter({
     has: page.getByRole("heading", {
@@ -108,6 +121,9 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
     card.getByRole("cell", { name: "SIMULADO-E2E-" + process, exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Cerrar sesión" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Ingresa a EcoGest 360" }),
+  ).toBeVisible();
   await login(page, "gestor");
   await page.getByRole("button", { name: "Compostaje", exact: true }).click();
   card = page.locator("article").filter({
@@ -126,6 +142,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
   await expect(
     card.getByRole("cell", { name: "confirmado", exact: true }),
   ).toBeVisible();
+  await card.screenshot({ path: "test-results/compostaje-auditoria.png" });
   await page.getByRole("button", { name: "Resumen", exact: true }).click();
   await expect(
     page.getByText("Compostaje acreditado", { exact: true }),
@@ -167,14 +184,12 @@ test("recorrido por teclado y cinco pantallas adaptables", async ({ page }) => {
   await login(page, "operador");
   await page.getByRole("button", { name: "Registros", exact: true }).focus();
   await page.keyboard.press("Enter");
-  const form = page
-    .locator("form")
-    .filter({
-      has: page.getByRole("heading", {
-        name: "Registrar generación",
-        exact: true,
-      }),
-    });
+  const form = page.locator("form").filter({
+    has: page.getByRole("heading", {
+      name: "Registrar generación",
+      exact: true,
+    }),
+  });
   await form.getByLabel("Área", { exact: true }).focus();
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Tab");

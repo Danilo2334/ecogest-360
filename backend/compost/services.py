@@ -104,7 +104,10 @@ def evidence(m, pk, data, file=None):
     p = scoped(Process, m, pk, True)
     if p.verifications.filter(decision="confirmado").exists():
         raise Conflict("Evidencia de resultado confirmado es inmutable.")
-    reference = str(data.get("reference", "")).strip()
+    reference = data.get("reference", "")
+    if not isinstance(reference, str):
+        raise ValidationError("Referencia debe ser texto válido.")
+    reference = reference.strip()
     if not reference and not file:
         raise ValidationError("Documento o referencia verificable requeridos.")
     if len(reference) > 500:
@@ -154,6 +157,20 @@ def verify(m, pk, data):
     decision = data.get("decision")
     if decision not in ["confirmado", "rechazado"]:
         raise ValidationError("Decisión inválida.")
+    if decision == "confirmado":
+        if p.provenance not in ["medido", "simulado"]:
+            raise ValidationError(
+                "Los procesos estimados no pueden acreditarse en el MVP. "
+                "Su regularización requiere un procedimiento aprobado."
+            )
+        if not Output.objects.filter(process=p, provenance=p.provenance).exists():
+            raise ValidationError(
+                "Se requiere salida independiente de la misma procedencia."
+            )
+        if p.inputs.exclude(movement__lot__provenance=p.provenance).exists():
+            raise ValidationError(
+                "Las entradas deben conservar la procedencia del proceso."
+            )
     if decision == "confirmado" and (
         p.state != "finalizado"
         or not p.inputs.exists()

@@ -41,3 +41,55 @@ A1 y A2 aprobados expresamente. Dashboard distinguirá compostaje acreditado del
   La carga es selectiva por pantalla; paginación permanece como mejora para listados voluminosos.
 - La fase inicial roja se ejecutó con el flujo vertical antes de existir los módulos. Varias pruebas
   especializadas se añadieron después: no se atribuye una secuencia TDD completa a cada tarea.
+
+## Auditoría posterior — 2026-11-15
+
+- Se conservaron constitución, tres commits y autoría. Sin staging, commits ni publicación.
+- Correcciones dentro del alcance: rechazar textos obligatorios nulos y adjuntos inesperados;
+  fecha inicial del formulario en hora local, no recorte UTC. Pruebas de regresión ejecutadas.
+- Se informa contradicción SVG/biblioteca de gráficos y regla de salida estimada/medición propia
+  sin enmendar constitución ni decidir reglas ambientales nuevas. Ver AUDITORIA_FINAL.md.
+- No se agrega paginación durante auditoría: no la exige spec.md, aunque rendimiento de todos
+  los listados a 10 000 registros no está demostrado. Panel/CSV sí tienen medición local.
+- Aprobaciones humanas y cinco tareas TDD históricas permanecen pendientes; nuevas pruebas
+  no sustituyen ni retrofechan evidencia del desarrollo inicial.
+
+## Cierre de CHK004 autorizado
+
+El usuario aprueba acreditar únicamente procesos medidos con entrada y salida medida propia,
+evidencia verificable y validación del gestor; simulados solo en su universo de demostración.
+Procesos estimados no se confirman ni aportan A. Regularización fuera del MVP. No se cambia
+procedencia, masa o evidencia silenciosamente. Confirmaciones estimadas históricas, si existen,
+permanecen en el historial pero quedan excluidas del indicador bajo la nueva regla.
+Primero se actualiza spec.md; después se ejecutan regresiones rojas y se aplica corrección mínima.
+No se autoriza ratificar automáticamente la enmienda SVG: se prepara propuesta separada.
+
+## Criterios docentes confirmados por transcripción del usuario
+
+La matriz académica adopta los seis títulos exactos que el usuario comunica del PDF docente,
+página 2, consultado externamente. El PDF sigue fuera del repositorio y no fue inspeccionado
+directamente por el agente. Se reemplaza la clasificación provisional, sin notas ni porcentajes.
+Se incorpora la obligación comunicada de página 8: entrega individual de cada integrante en
+Campus UCC, aún pendiente. No implica autorización de publicación, carga, push ni merge.
+Este ajuste es documental; conserva resultados de pruebas, cinco tareas TDD parciales,
+CHK013 pendiente y propuesta SVG sin ratificar. CHK004 ya está corregido y probado.
+
+## Ratificación SVG — 2026-11-15
+
+Por autorización explícita del usuario se ratifica constitución 1.1.0 con fecha 2026-11-15.
+Solo se amplía §2 para permitir SVG nativo accesible con tabla/texto alternativo, evitando
+dependencia innecesaria. Se preservan seis apartados docentes y todas las reglas restantes.
+El resolvedor de Spec Kit funciona; se mantiene estructura docente por instrucción del usuario
+frente a la plantilla genérica resuelta. No hay hooks de extensiones configurados.
+Los estados anteriores de «propuesta pendiente» son históricos; el vigente es ratificado.
+No se crean commits ni remotos: únicamente propuesta de cierre, PR y aporte independiente.
+
+## Cierre local autorizado
+
+El usuario autoriza el commit local de correcciones, pruebas, documentación y evidencias del
+MVP con identidad real de Danilo. Se conserva el historial previo, sin fechas ni autores
+reescritos. Se retira únicamente el comentario temporal de revisión de la constitución.
+El PDF fue compartido/revisado en la conversación según la aclaración recibida; falta su copia
+local. No se atribuye consulta personal al estudiante ni lectura directa al agente local.
+CHK013 y cinco tareas TDD siguen pendientes; última ejecución de software: 38 aprobadas.
+Este cierre no repite auditorías ni pruebas y no autoriza repositorio remoto, push o merge.

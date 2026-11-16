@@ -25,7 +25,10 @@ def mass(data):
 
 
 def text(data, key, max_length=150):
-    value = str(data.get(key, "")).strip()
+    value = data.get(key, "")
+    if not isinstance(value, str):
+        raise ValidationError(f"{key}: se requiere texto válido.")
+    value = value.strip()
     if not value or len(value) > max_length:
         raise ValidationError(
             f"{key}: campo obligatorio, máximo {max_length} caracteres."

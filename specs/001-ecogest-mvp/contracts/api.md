@@ -45,6 +45,11 @@ a enviar un consumo nuevo. Decimales excesivos se rechazan; no convertir a float
 
 ## Reportes
 
+CHK004: POST verify con decisión confirmado devuelve 400 para procesos estimados o salida
+de procedencia incompatible, sin crear Verification ni modificar masa/procedencia. Medidos
+requieren salida medida independiente y evidencia; simulados se confirman solo como demo.
+El panel/CSV excluye de A las confirmaciones estimadas históricas, conservando sus registros.
+
 Filtros: generated_from, generated_to (inclusivos en zona del piloto), area, material,
 provenance y cutoff. Validar fechas y procedencias; excluir eventos posteriores al corte del
 numerador. Denominador usa generación vigente de cohorte, no suma movimientos.

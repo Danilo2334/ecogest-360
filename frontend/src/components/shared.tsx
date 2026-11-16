@@ -6,7 +6,10 @@ export const origins = [
   { value: "medido", label: "Medido" },
   { value: "estimado", label: "Estimado" },
 ];
-export const today = () => new Date().toISOString().slice(0, 10);
+export const today = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+};
 export const fields = (...items: Field[]) => items;
 export const opts = (rows: Row[], label = (r: Row) => r.name) =>
   rows.map((r) => ({ value: String(r.id), label: label(r) }));

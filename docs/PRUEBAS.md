@@ -101,3 +101,99 @@ Es una muestra local pequeña, no una prueba de carga sostenida ni certificació
   No se realizó despliegue, prueba de recuperación de backup ni revisión WCAG formal.
 - Capturas versionadas en docs/evidencias/ muestran exclusivamente demostración simulada.
   Totales dependen del número de ejecuciones previas; no constituyen mediciones reales.
+
+## 2026-11-15 — Auditoría posterior, sin commits
+
+Informe detallado: [AUDITORIA_FINAL.md](AUDITORIA_FINAL.md); guion humano:
+[DEMO_ACADEMICA.md](DEMO_ACADEMICA.md). No se sustituyen resultados históricos.
+
+| Ejecución en esta auditoría | Resultado |
+| --- | --- |
+| Suite backend original | 20/20 aprobadas, 40.435 s |
+| Regresiones nuevas antes de arreglo | Evidencia null: cuatro aserciones fallidas; campo inesperado de archivo: KeyError confirmado en ejecución aislada |
+| Suite backend tras correcciones | **24/24 aprobadas**, 40.522 s, PostgreSQL real |
+| Panel con 10 000 generaciones y 10 lectores | Máximo de diez muestras 0.060 s; CSV 0.600 s; mismos límites metodológicos anteriores |
+| Vitest original | 3/3 aprobadas |
+| Regresión fecha antes de arreglo | 1 fallida: 2026-11-16 en lugar de 2026-11-15 a las 23:30 de Bogotá |
+| Vitest final con TZ=America/Bogota | **4/4 aprobadas**, 3 archivos |
+| TypeScript y build final | Correctos; build incluye tsc --noEmit |
+| Playwright inicial | 3/3 aprobados, 11.9 s |
+| Playwright ampliado con capturas | 1 fallo por carrera del test entre logout y navegación; 2 aprobados |
+| Playwright tras esperar logout | 3/3 aprobados, 10.1 s; repetición tras ajuste de fecha registrada abajo |
+| Playwright final con fecha local y navegador America/Bogota | **3/3 aprobados**, 10.3 s |
+| Django check / makemigrations --check --dry-run | Sin problemas / sin cambios pendientes |
+| showmigrations --plan | Todas las migraciones existentes aplicadas; no se ejecutaron migraciones sobre la base de desarrollo en esta auditoría |
+| pip check | Sin dependencias incompatibles |
+| npm ci --dry-run --ignore-scripts | Lockfile aceptado; simulación, no reinstalación completa |
+| npm audit --omit=dev | 0 vulnerabilidades reportadas en dependencias de producción; no escáner de backend |
+| Escaneo Git de secretos | 3 commits, 129 blobs únicos, sin coincidencias de secretos locales/patrones buscados |
+
+Nuevas pruebas backend: test_audit.py cubre nulos en evidencia, adjunto con campo inesperado,
+22 acciones denegadas al consultor, PNG QR y consulta autorizada/anonimato. Los roles restantes,
+aislamiento, decimales, doble conteo, persistencia, concurrencia y CSV conservan sus suites.
+La generación PNG y lookup UUID no equivalen a una decodificación óptica: cámara pendiente.
+
+El test QR inicialmente cerraba FileResponse dentro de TestCase, cerrando su conexión antes del
+siguiente fixture; se corrigió el test. Las nuevas regresiones sí tienen rojo/verde observado;
+T008/T014/T019/T026/T032 permanecen parciales por falta de evidencia histórica anterior.
+
+No se borraron registros de desarrollo. Los recorridos agregaron generaciones y comprobantes
+simulados, incluidos intentos de demo incompletos del test fallido. Sus totales no deben
+interpretarse como una sola cohorte de 25 kg. El guion usa un área nueva para aislar cifras.
+11 criterios ambientales aprobados técnicamente; CHK004 y CHK013 pendientes según el informe.
+No se adjudica aprobación humana ni cumplimiento del PDF docente no disponible localmente.
+
+## 2026-11-15 — Cierre puntual CHK004
+
+Se aprobaron primero FR-018/019 y cuatro criterios de aceptación en spec.md. Después se creó
+test_compost_provenance.py y se ejecutó **antes de corregir el código**:
+6 pruebas, **3 aprobadas y 3 fallidas** en 9.775 s. Fallos reproducidos: estimado confirmado
+(201 frente a 400), salida histórica incompatible confirmada (201 frente a 400) y confirmación
+estimada histórica sumada a A (20 frente a 0). No se extrapola este rojo/verde al desarrollo previo.
+
+Corrección mínima: verify exige proceso medido/simulado y salida independiente de igual
+procedencia; rechaza estimados. Selector del panel/CSV excluye confirmaciones estimadas y
+salidas incompatibles. UI informa la restricción y no ofrece confirmar estimados, pero mantiene
+posibilidad de rechazo y trazabilidad. No se borran evidencias ni se cambian masas/procedencias.
+
+| Comando ejecutado desde raíz, salvo frontend | Resultado final |
+| --- | --- |
+| `backend/.venv/Scripts/python.exe backend/manage.py test tests --noinput` | **30/30 aprobadas**, 50.888 s, PostgreSQL real |
+| `npm.cmd run test -- --run` en frontend, con TZ=America/Bogota | **5/5 aprobadas**, 4 archivos |
+| `npm.cmd run test:e2e` en frontend | **3/3 aprobados**, 10.7 s, navegador America/Bogota |
+| `npm.cmd run typecheck` y `npm.cmd run build` en frontend | Correctos |
+| `manage.py check` | Sin problemas |
+| `manage.py makemigrations --check --dry-run` | Sin cambios de modelos pendientes |
+| `manage.py showmigrations --plan` | Todas las migraciones existentes aplicadas; no nuevas migraciones |
+
+**Total final: 38 pruebas aprobadas y 0 fallidas en las suites finales.** Los tres fallos
+iniciales de regresión permanecen documentados arriba. Se reinició solo el servidor Django
+propio para que Playwright probara el código corregido. No se reinicializó PostgreSQL.
+
+Los seis casos nuevos verifican medido con salida propia e idempotencia, estimado bloqueado,
+simulado separado, intento de salida incompatible, salida histórica incompatible y exclusión
+de acreditación estimada histórica sin borrar Verification. Panel y CSV coinciden por procedencia.
+Los datos etiquetados medido/estimado de estas pruebas son fixtures sintéticos dentro de
+test_ecogest: no mediciones de campo ni registros reales de la universidad.
+Vitest adicional comprueba mensaje y opciones del gestor ante proceso estimado.
+Las suites previas vuelven a comprobar masas, permisos, concurrencia, persistencia e integridad.
+
+Rendimiento observado con el mismo escenario local: panel máximo de diez muestras 0.073 s,
+CSV 0.589 s. No se extiende esa medición a todos los listados ni a producción.
+
+CHK004 aprobado técnicamente con regla autorizada: **12/13**; CHK013 permanece pendiente.
+Constitución vigente intacta y propuesta SVG 1.1.0 pendiente. Se creó hoja humana vacía y matriz
+docente provisional; el PDF oficial aún no está disponible. No hay nuevo commit ni publicación.
+T008/T014/T019/T026/T032 conservan su estado parcial por evidencia histórica TDD ausente.
+
+## Ratificación y cierre documental posterior
+
+Se ratifica constitución 1.1.0 con fecha 2026-11-15 por aprobación explícita del usuario.
+Se ejecutaron resolve-template constitution-template y check-prerequisites con RequireSpec,
+RequireTasks e IncludeTasks: ambos resolvieron correctamente. Sin hooks de extensiones.
+Se revisó coherencia de constitución, 25 FR, 7 SC y 42 tareas; no se modifican las cinco
+tareas TDD parciales. La lectura SDD distingue cobertura planificada de ejecución humana:
+T038 no sustituye CHK013, ni T041 prueba rendimiento de todos los listados.
+La guía de demo y hoja vacía se revisaron; no hay ejecución humana nueva.
+Estos cambios son documentales: no se repitieron suites de software. La última evidencia
+sigue siendo 38 aprobadas / 0 fallidas finales, con sus fallos iniciales preservados arriba.
