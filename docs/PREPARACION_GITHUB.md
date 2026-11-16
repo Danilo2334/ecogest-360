@@ -1,107 +1,90 @@
-# Preparación de GitHub — comandos propuestos, NO ejecutados
+# PreparaciÃ³n de GitHub â€” acciones propuestas, no ejecutadas
 
-Estado base: tres commits históricos más el cierre local autorizado; rama de implementación
-feat/001-ecogest-mvp; main en 58bab1f. Consultar `git log -4 --oneline` para el hash del cierre.
-Sin remoto. Este documento no autoriza crear repositorio, invitar colaboradores, subir ramas,
-abrir PR ni fusionar. Ejecutar cada fase únicamente tras autorización correspondiente.
-Sintaxis de creación de repositorio y PR contrastada con la ayuda de GitHub CLI instalada.
+## Historial comprobado
 
-Verificación final de preparación: `gh auth status` reconoce Danilo2334 como cuenta activa
-y francisco3788 como cuenta autenticada inactiva. No se cambiaron cuentas ni se comprobó
-una contribución de Francisco por el mero hecho de que su sesión exista. Identidad Git:
-Danilo Carlosama, correo noreply de Danilo2334. Tres commits conservados y sin remotos.
-`.gitignore` excluye .env, venv, node_modules, dist y media; comparación de 155 archivos
-candidatos con secretos locales sin coincidencias. Es una comprobación acotada, no certificación.
-Inventario de entrega: CHECKLIST_ENTREGA.md.
+| Commit | Autor registrado | AportaciÃ³n declarada por el usuario |
+| --- | --- | --- |
+| `58bab1f` | Danilo Carlosama / Danilo2334 | DocumentaciÃ³n SDD |
+| `fd90a7d` | Danilo Carlosama / Danilo2334 | Backend y pruebas |
+| `d680fb3` | Francisco Javier Molina Calderon / francisco3788 | Frontend y flujo completo |
+| `d29b01b` | Francisco Javier Molina Calderon / francisco3788 | Correcciones, regresiones y cierre documental |
 
-## 1. Propuesta de commit de cierre
+Los metadatos coinciden con la aclaraciÃ³n del usuario sobre el trabajo de cada integrante.
+No prueban por sÃ­ solos quiÃ©n realizÃ³ el trabajo ni constituyen una revisiÃ³n independiente.
+Ambos integrantes deben confirmar sus aportes desde sus cuentas reales. Las revisiones y PRs
+siguen pendientes. No se modificaron autores, fechas ni historial durante esta preparaciÃ³n.
 
-Mensaje: `fix: cerrar auditoria ambiental y ratificar constitucion 1.1.0`.
-Autor: identidad real actual de Danilo Carlosama / Danilo2334, sin cambios de configuración.
-Contenido: correcciones de auditoría y CHK004, regresiones, ratificación SVG, documentación
-y evidencias simuladas revisadas. Ver RESUMEN_CAMBIOS_PARA_COMMIT.md y diff completo.
-No atribuir este trabajo a Francisco. El comentario temporal Sync Impact Report se retiró
-al preparar el cierre local; no altera la enmienda ratificada.
+Correos de autor: Danilo `134672640+Danilo2334@users.noreply.github.com`;
+Francisco `134155095+francisco3788@users.noreply.github.com`.
+El committer de los cuatro commits es Danilo Carlosama; autor y committer son campos distintos.
+La identidad Git configurada sigue siendo Danilo Carlosama con su correo noreply.
+GitHub CLI reconoce Danilo2334 activo y francisco3788 autenticado inactivo; no se cambiaron cuentas.
 
-Comprobaciones previas desde raíz (lectura):
+`main` apunta a `58bab1f` y `feat/001-ecogest-mvp` a `d29b01b`.
+La base comÃºn es `58bab1f87373d0110b088fc5d894a9f9f467e104`.
+`git rev-list --left-right --count main...feat/001-ecogest-mvp` devuelve `0 3`.
+Por tanto main tiene un commit vÃ¡lido y el PR incluirÃ¡ tres commits posteriores:
+el commit SDD inicial estarÃ¡ en ambas ramas. No hace falta reescribir ni crear otra base.
+
+El respaldo `backup/antes-correccion-autoria` apunta a `b855a1f` y es solo local.
+No usar `git push --all`, `--mirror` ni force-push. No hay remoto configurado.
+Las correcciones documentales actuales requieren revisiÃ³n y un nuevo commit autorizado
+antes de publicarlas; no modificar los cuatro commits existentes.
+
+## PublicaciÃ³n privada propuesta, solo despuÃ©s de autorizaciÃ³n
+
+Destino propuesto: `Danilo2334/ecogest-360`; disponibilidad aÃºn no comprobada.
+Antes de ejecutar, verificar cuenta activa, identidad, diff, secretos y estado limpio.
+No imprimir tokens ni crear README/licencia remotos que introduzcan historia independiente.
+Si ya existe origin o el repositorio, inspeccionarlo y ajustar el procedimiento sin sobrescribirlo.
 
 ```powershell
 git status --short --branch
 git diff --check
-git diff --stat
 git config user.name
 git config user.email
 gh api user --jq .login
 git remote -v
-```
-
-Revisar también archivos nuevos con `git ls-files --others --exclude-standard` y comparar
-secretos sin imprimirlos. No usar `git add .` sin inspección. Seleccionar rutas revisadas,
-inspeccionar `git diff --cached --stat` y `git diff --cached`, y solo entonces, con autorización:
-
-```powershell
-git commit -m "fix: cerrar auditoria ambiental y ratificar constitucion 1.1.0"
-```
-
-## 2. Repositorio privado y PR de integración, cuando se autorice
-
-Nombre propuesto: Danilo2334/ecogest-360; confirmar disponibilidad/nombre antes de ejecutar.
-No inicializar README/licencia remota para no crear una historia independiente.
-Si origin ya existe, inspeccionarlo; no sobrescribirlo ni repetir creación.
-
-```powershell
+# Ejecutar lo siguiente Ãºnicamente con autorizaciÃ³n explÃ­cita:
 gh repo create Danilo2334/ecogest-360 --private --source . --remote origin
-git remote -v
 git push -u origin main
 git push -u origin feat/001-ecogest-mvp
+gh repo edit Danilo2334/ecogest-360 --default-branch main
 gh pr create --repo Danilo2334/ecogest-360 --base main --head feat/001-ecogest-mvp --draft --title "EcoGest 360: MVP ambiental y cierre de auditoria" --body-file docs/PR_MVP_PROPUESTO.md
 ```
 
-Los push anteriores son acciones futuras sujetas a permiso; no se ejecutaron. El PR conserva
-los commits existentes, muestra los cambios desde main y se revisa antes de cualquier merge.
-No usar `gh pr create --dry-run` como garantía de ausencia de push: la ayuda local advierte
-que puede subir cambios. No se propone comando automático de merge ni de despliegue.
+No se han ejecutado estas mutaciones. No usar `gh pr create --dry-run` como garantÃ­a de
+no publicar: puede subir cambios. No se autoriza merge ni despliegue con este documento.
 
-Después de autorizar acceso, Danilo invita a francisco3788 al repositorio privado. Francisco
-acepta con su propia cuenta. Nadie cambia cuentas para escribir en nombre del otro.
+## ConfirmaciÃ³n y revisiÃ³n autÃ©ntica
 
-## 3. Contribución independiente propuesta para Francisco
+1. Con autorizaciÃ³n, Danilo invita a `francisco3788`; Francisco acepta desde su cuenta.
+2. Danilo confirma sus dos aportes y revisa frontend y cierre; Francisco confirma los
+   dos aportes atribuidos y revisa backend/pruebas. Cada uno registra observaciones reales,
+   archivos revisados y resultados en el PR desde su cuenta; no generar aprobaciones ficticias.
+3. El PR abierto por Danilo puede recibir revisiÃ³n de Francisco. Danilo puede comentar
+   su revisiÃ³n, pero no aprobar su propio PR. Registrar limitaciÃ³n de revisiÃ³n de cÃ³digo propio.
+4. Para un PR independiente de Francisco, realizar un ensayo real de reproducciÃ³n del README
+   y documentar resultados en `docs/VERIFICACION_INSTALACION_FRANCISCO.md`, con correcciones
+   justificadas si existen. Crear rama `docs/francisco-reproduccion` desde la rama del MVP
+   y PR hacia ella, o desde main y hacia main si el MVP ya se integrÃ³. Danilo revisa ese PR.
+   No crear el informe ni un commit vacÃ­o para aparentar trabajo. Puede usarse otra copia
+   de trabajo en este mismo PC; registrar que no es un segundo equipo independiente.
+5. Guardar URLs de commits, PRs y revisiones, autores y fechas reales en la matriz docente.
+   Aprobar o fusionar solo tras revisar y obtener autorizaciÃ³n; mantener el respaldo local.
 
-**Tarea concreta:** reproducir el README en su propio entorno y elaborar
-`docs/VERIFICACION_INSTALACION_FRANCISCO.md` con fecha real, versiones, pasos ejecutados,
-resultados y dificultades; proponer las correcciones necesarias al README basadas en su ensayo.
-No rellenar ese documento antes de que él lo haga. Aceptación: pasos reproducibles, resultados
-reales, sin credenciales, sin afirmar aprobación donde hubo fallo, y una revisión de Danilo.
-Esto es una aportación independiente de documentación/QA, no reasignación del código existente.
+## Evidencias acadÃ©micas pendientes
 
-Opción para empezar antes del merge del MVP: Francisco parte de la rama de implementación y
-abre su PR contra ella; se revisa su contribución primero, y luego el PR global hacia main.
-Desde su equipo/cuenta, después de tener acceso y autorización:
+Consultar CHECKLIST_ENTREGA.md. CHK013 requiere ejecuciÃ³n humana y registro real en
+REGISTRO_DEMO_HUMANA.md; un PR o Playwright no lo sustituye. Mantener cinco tareas TDD
+histÃ³ricamente parciales. Cada integrante debe cargar su entrega en Campus UCC.
+El PDF docente fue revisado externamente segÃºn la conversaciÃ³n y sigue fuera del repositorio.
 
-```powershell
-gh api user --jq .login
-gh repo clone Danilo2334/ecogest-360
-cd ecogest-360
-git config user.name
-git config user.email
-git switch --create docs/francisco-reproduccion --track origin/feat/001-ecogest-mvp
-# Francisco ejecuta el ensayo y redacta su informe real antes de continuar.
-git add -- docs/VERIFICACION_INSTALACION_FRANCISCO.md
-# Si corrigió README, añadirlo solo tras inspeccionar su diff.
-git diff --cached
-git commit -m "docs: registrar verificacion independiente de instalacion"
-git push -u origin docs/francisco-reproduccion
-gh pr create --repo Danilo2334/ecogest-360 --base feat/001-ecogest-mvp --head docs/francisco-reproduccion --title "Verificacion independiente de instalacion" --body-file docs/VERIFICACION_INSTALACION_FRANCISCO.md
-```
+## Comprobación local de publicación
 
-Francisco debe verificar que login y autor configurado sean los suyos antes de crear su commit;
-no se proporcionan datos inventados de nombre/correo. Sin `--author`, amend, force-push ni
-reescritura del historial. La revisión y el merge requieren acciones reales y autorización.
-Si el MVP ya fue integrado, partir de main actualizado y usar main como base del PR.
-
-## 4. Evidencias finales y entrega
-
-Conservar enlaces de los PR, commits individuales, revisión auténtica, ensayo de instalación
-y hoja de demo humana. No declarar CHK013 cumplido por un PR o por ejecutar Playwright.
-Cada integrante entrega además en Campus UCC según la instrucción docente comunicada;
-el repositorio privado no sustituye esas cargas individuales.
+Se revisaron 156 archivos candidatos y 162 blobs del historial de main/MVP: sin
+coincidencias con secretos locales comprobados ni patrones de tokens/claves privadas buscados.
+Es una revisión acotada, no una garantía absoluta de ausencia de secretos. `.gitignore`
+excluye .env, entorno Python, node_modules, dist y adjuntos media; conserva artefactos SDD.
+`git diff --check` sin errores. El árbol del respaldo y el del MVP son idénticos;
+la corrección previa de autoría no cambió el contenido de aplicación.

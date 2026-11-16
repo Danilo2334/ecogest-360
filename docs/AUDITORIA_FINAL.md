@@ -97,9 +97,9 @@ la falta de secuencia TDD histórica de T008/T014/T019/T026/T032.
   ambientales/configuración y 5 PATCH evaluadas. Admin no hereda mutaciones ambientales.
 - GitHub CLI autenticado con cuenta activa Danilo2334; identidad configurada Danilo Carlosama,
   correo noreply de Danilo2334. No se cambiaron cuentas. Sin remotos configurados.
-- Rama feat/001-ecogest-mvp. Los tres commits conservados, todos del mismo autor verificado:
-  `58bab1f` documentación SDD; `fd90a7d` API PostgreSQL; `86fac23` web y pruebas.
-  Esto no constituye colaboración de un segundo integrante ni evidencia de PRs.
+- Estado Git actualizado: `main` en `58bab1f`, implementación en `d29b01b`, base común
+  `58bab1f`. Cuatro commits, dos por autor registrado; tabla y límites de atribución en
+  PREPARACION_GITHUB.md. Confirmación individual y PRs pendientes.
 
 ## Demostración recomendada y cierre
 
@@ -133,5 +133,8 @@ El usuario aprobó y ratificó SVG nativo como constitución 1.1.0 el 2026-11-15
 constitucional queda cerrada; las referencias anteriores a propuesta pendiente son históricas.
 Se preservan 12/13 criterios aprobados técnicamente (CHK004 respaldado por regresiones) y
 CHK013 pendiente de ejecución humana. No cambian las cinco tareas TDD parciales.
-PREPARACION_GITHUB.md contiene propuesta de commit real de Danilo, PR hacia main y ensayo
-independiente de Francisco; comandos no ejecutados. No existe nueva contribución atribuida.
+El cierre quedó registrado en `d29b01b`, atribuido a Francisco según aclaración del usuario.
+PREPARACION_GITHUB.md refleja el historial actual y las revisiones todavía pendientes.
+
+Los recuentos de tres commits y estados sin commit anteriores describen etapas históricas
+de la auditoría; el estado actual es el indicado en PREPARACION_GITHUB.md.

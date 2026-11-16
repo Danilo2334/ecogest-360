@@ -39,7 +39,7 @@ El catálogo se mantiene como demostrativo y no oficial. No marcar la ejecución
 10. Exportar CSV filtrado y contrastar filas y totales; seleccionar medido en esa área debe
     mostrar vacío/No calculable. No borrar demos previas para forzar cifras.
 11. Consultor: consultar sin formularios de escritura. Cerrar sesión y verificar acceso denegado.
-12. Mostrar informe de pruebas, capturas y limitaciones. Explicar que hay tres commits locales,
+12. Mostrar informe de pruebas, capturas y limitaciones. Explicar que hay cuatro commits locales (dos por autor registrado),
     pero publicación y colaboración verificable mediante PRs aún están pendientes.
 
 Registrar quién ejecutó la demo, fecha, navegador, IDs y resultados observados. Un ensayo

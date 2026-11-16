@@ -93,3 +93,21 @@ El PDF fue compartido/revisado en la conversación según la aclaración recibid
 local. No se atribuye consulta personal al estudiante ni lectura directa al agente local.
 CHK013 y cinco tareas TDD siguen pendientes; última ejecución de software: 38 aprobadas.
 Este cierre no repite auditorías ni pruebas y no autoriza repositorio remoto, push o merge.
+
+## Conciliación documental de autoría y preparación de GitHub — 2026-11-15
+
+| Commit | Autor registrado | Aportación declarada por el usuario |
+| --- | --- | --- |
+| `58bab1f` | Danilo Carlosama / Danilo2334 | Documentación SDD |
+| `fd90a7d` | Danilo Carlosama / Danilo2334 | Backend y pruebas |
+| `d680fb3` | Francisco Javier Molina Calderon / francisco3788 | Frontend y flujo completo |
+| `d29b01b` | Francisco Javier Molina Calderon / francisco3788 | Correcciones, regresiones y cierre documental |
+
+Los metadatos coinciden con la aclaración del usuario sobre el trabajo de cada integrante.
+No prueban por sí solos quién realizó el trabajo ni constituyen una revisión independiente.
+Ambos integrantes deben confirmar sus aportes desde sus cuentas reales. Las revisiones y PRs
+siguen pendientes. No se modificaron autores, fechas ni historial durante esta preparación.
+
+Se conservan main y la base común en `58bab1f`, implementación en `d29b01b` y respaldo
+solo local. Las declaraciones previas sobre autor único corresponden al estado anterior
+a la aclaración del usuario. CHK013 y cinco tareas TDD parciales no cambian.

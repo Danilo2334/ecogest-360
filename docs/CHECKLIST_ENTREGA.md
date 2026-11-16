@@ -13,7 +13,7 @@ Preparación local; no significa publicación, aprobación humana ni carga en Ca
 | Capturas de demostración simulada | docs/evidencias/ | Disponibles; no sustituyen ejecución humana |
 | Guion y registro humano | docs/DEMO_ACADEMICA.md; docs/REGISTRO_DEMO_HUMANA.md | Guion disponible; registro vacío y CHK013 pendiente |
 | Preparación del PR y cambios locales | docs/PREPARACION_GITHUB.md; docs/PR_MVP_PROPUESTO.md; docs/RESUMEN_CAMBIOS_PARA_COMMIT.md | Propuestos; no ejecutados |
-| Aporte de Francisco y revisión | Futuro docs/VERIFICACION_INSTALACION_FRANCISCO.md y PR propio | Pendientes; archivo no creado ni resultados atribuidos |
+| Aporte de Francisco y revisión | `d680fb3`, `d29b01b`; procedimiento en PREPARACION_GITHUB.md | Autoría según aclaración del usuario; confirmación personal, PR y revisión pendientes. Ensayo de instalación adicional aún no ejecutado |
 | Enlaces de repositorio privado, PRs y revisiones | Por registrar tras autorización y ejecución | Pendientes |
 | Entrega individual de ambos integrantes | Campus UCC; constancia individual | Pendiente; no sustituida por GitHub |
 
