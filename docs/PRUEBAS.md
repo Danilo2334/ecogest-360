@@ -219,3 +219,31 @@ Observatorio p95 0,418 s; V1 p95 conservador 0,073 s; CSV 0,598 s.
 Primer recorrido nuevo falló por selector de Área, corregido y validado. Sin migraciones.
 Detalle reproducible, limitaciones y archivos en INFORME_REFINAMIENTO_OBSERVATORIO.md.
 CHK013 pendiente; T008/T014/T019/T026/T032 históricas del MVP continúan parciales.
+
+
+## 2026-11-16 — Ejecución final V2 en curso
+
+Línea base repetida antes de B: backend 43/43 (82,511 s), Vitest 9/9, TypeScript correcto.
+Observatorio p95 0,567 s; V1 p95 conservador 0,197 s, CSV 0,733 s.
+Pasaporte: 3 pruebas previas a implementación, 2 fallos y 1 error por endpoint ausente;
+después 3/3 (4,653 s). Casos saldo/traslado, acceso institucional/QR y salida compartida.
+Build correcto tras UI B. Recorrido Playwright B 1/1 (6,2 s), capturas reales en
+evidencias/v2/pasaporte a 360/390/768/1280, sin overflow; QR por teclado y vuelta a lista.
+Primer intento de navegador falló porque el selector buscaba 87 sin unidad; corregido a 87 kg.
+B aún requiere ampliar integración/accesos y revisar capturas antes de cerrar tarea y checkpoint.
+C/D/E todavía pendientes de implementación. No llamada OpenAI ni prueba humana CHK013.
+
+
+### Cierre técnico B y cálculo C
+
+Pasaporte compacto con generaciones desplegables, acceso desde Registros (incluido hallazgo
+del Observatorio→Registros), fuentes y QR. Capturas desktop/móvil inspeccionadas.
+Simulador: cuatro pruebas previas fallaron con 404; tras implementación cinco pasan,
+incluyendo 25/20/8 +3→23 acreditados hipotéticos, 2 pendientes y 92 %.
+Regresión completa ejecutada: 51/51 backend (160,961 s), 12/12 Vitest, TypeScript/build
+correctos, 7/7 Playwright (45,8 s). Observatorio p95 0,700 s; V1 p95 conservador 0,129 s;
+CSV 1,207 s. Pasaporte+Simulador específicos 8/8 backend.
+Cohorte simulada C: E=87 kg, hipótesis +10 muestra A'=110, G'=365 y tasa 30,14 %.
+Rechazo de +88 kg, recarga de base y cuatro anchos sin desbordamiento verificados.
+Capturas en evidencias/v2/pasaporte y evidencias/v2/simulador. Sin datos reales ni IA.
+Pendiente C: transferencia manual a Planes (fase D). CHK013 sin ejecución humana.

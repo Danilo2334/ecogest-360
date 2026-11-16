@@ -174,3 +174,7 @@ Bloqueantes para declarar spec lista: Q1, Q2 y política Q3. Para activar IA: mo
 presupuesto explícito y política de datos compatible con la cuenta. No se pide clave aquí.
 No bloqueantes del diseño: copia local del PDF, nombre final de iconos, tipografía local dentro
 de la pila propuesta, ejemplos redactados para la demo. No autorizar dependencias nuevas por estética.
+
+
+## Orden final de ejecución — 2026-11-16
+B–E e integración autorizadas localmente. Se preservan los antecedentes de aprobación por fases. Sin gasto IA real hasta presupuesto/flag; commits auténticos y migraciones aditivas autorizados. Sin push/merge/despliegue.

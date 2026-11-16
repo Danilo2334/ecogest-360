@@ -36,3 +36,49 @@ Los KPI abren la cohorte base, no un subconjunto supuestamente acreditado. Balan
 usan summary.generated/verified_compost/pending/distribution, sin alterar report/dashboard/CSV V1.
 El comando de demostración no crea endpoints ni amplía permisos de API.
 
+
+
+## B — contrato autorizado
+GET /api/v2/lots/{uuid}/passport devuelve lot {id,public_id,provenance,state}, balance
+{assigned,available,consumed}, sources con generación/material/área/masa asignada, events
+{key,kind,date,actor,kg,balance_effect,description,process,evidence_url}, processes con
+entrada de este lote, entrada total, salida independiente y estado/verificación.
+Fechas ISO de registros reales; actor de creación del lote no persistido se declara null.
+Eventos de proceso compartido no reparten su salida entre lotes. Autenticación y ámbito
+institucional en cada acceso. 404 para ajeno/inexistente, 401 sin sesión. Sin escrituras.
+
+## C — contrato autorizado
+POST /api/v2/scenarios/preview: {filters, hypothesis, amount, base_token?}.
+filters solo generated_from/to,area,material,provenance; corte manual no permitido porque E
+es disponibilidad actual. Procedencia única y período obligatorio. Hipótesis increase_compost
+o reduce_nonrecoverable; amount decimal 0..límite, hasta 3 decimales.
+Respuesta base (report vigente), eligible E, nonrecoverable N, base_token (huella sin corte
+volátil), result {generated,verified_compost,pending,rate}, delta (kg y puntos de tasa),
+filters, formula, limitations. La primera carga usa amount=0; cálculos posteriores envían
+base_token; si cambió contexto/masas/elegibilidad, 409 y recarga explícita.
+Ninguna operación idempotente ni registro persistido para simulación: cálculo puro, sesión y
+CSRF exigidos. No ofrece interpretación de saldo pasado ni acredita estimados.
+
+## D — contrato detallado de implementación
+GET /api/v2/plans lista institucional y /api/v2/plan-options miembros activos autorizados
+para asignación (solo identidad local, nunca contexto IA). POST /api/v2/plans crea borrador
+con problem,action,area,responsible,indicator (generated/verified_compost/rate), target,
+direction (reduce/increase), due_date, filters, reason. Gestor único escritor.
+PATCH /api/v2/plans/{id}: version y reason obligatorios; campos editables problem/action/
+responsible/target/direction/due_date; no sustituir universo/área/indicador/base.
+POST /api/v2/plans/{id}/transitions: version,reason,state; borrador→en_curso→en_evaluacion→
+cerrado; cancelar desde cualquier estado no terminal con motivo. Inicio captura base
+actual congelada; cierre exige evaluación persistida. Estados terminales no editables.
+POST /api/v2/plans/{id}/followups: version,reason,text; seguimiento humano auditable.
+POST /api/v2/plans/{id}/evaluations: version,reason,generated_from/to.
+El período base y posterior deben estar cerrados, tener igual duración, sin solapamiento
+y conservar procedencia/área/material. El corte lo fija el servidor al evaluar; cohortes
+con distinta maduración se advierten. Sin datos, tasa nula o fuente base corregida: no_evaluable.
+La evaluación recalcula fuente base y la compara con su huella excluyendo el corte volátil,
+pero incluyendo generación, acreditación e IDs/valores fuente. Resultado persistido
+con valor, meta vigente, filtros y motivo; nunca afirma causalidad. Cambio de meta posterior
+invalida evaluación previa para cierre (debe evaluar de nuevo).
+PlanRevision registra antes/después y actor por cada cambio; bloqueo fila + version contra
+sobrescritura concurrente, idempotencia para POST mutadores mediante mecanismo existente.
+Decimales no negativos hasta 3 posiciones; tasa objetivo 0..100; fechas ISO válidas;
+textos no vacíos hasta 2000; responsable activo de misma institución; sin DELETE.

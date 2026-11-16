@@ -132,3 +132,26 @@ Escenario SIMULADO opcional en institución separada, comando explícito probado
 ejecutar, sin restablecimientos. Fechas explicativas es-CO y controles nativos conservados.
 Filtros plegables en móvil; detalle metodológico accesible. No se inicia Pasaporte ni IA.
 Ver docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y docs/DATOS_DEMO_OBSERVATORIO.md.
+
+
+## 2026-11-16 — Orden final V2: ejecución local B–E
+
+Usuario autoriza completar B–E, integración, migraciones aditivas y commits locales auténticos.
+Sin push, merge ni gasto IA. Checkpoint del Observatorio: b082971, autor configurado Danilo
+Carlosama (correo noreply Danilo2334), sin alterar contribuciones anteriores. Revisión de
+candidatos sin patrones de secretos; .env excluido. OPENAI_API_KEY presente (solo booleano).
+Checklist documental 17/17; no hooks de extensión. Documentos con autorizaciones anteriores
+se conservan como historia; spec/plan/tasks incorporan orden vigente.
+Pasaporte construido como proyección institucional: autor de creación de lote no persistido
+se muestra no disponible, controles usan su fecha registrada y salida compartida pertenece al
+proceso completo. No nuevos modelos ni escrituras ambientales en B.
+
+
+### Simulación y preparación de persistencia D
+
+C usa cálculo Decimal sobre report V1: E descuenta consumos por origen (no asignaciones
+dos veces), N toma solo categoría negro, token de base excluye corte volátil pero incluye
+fuentes/valores/consumos/filtros. Corte histórico se rechaza. Escenarios no persistentes.
+Respaldo previo a Planes en backups/ecogest-before-v2-plans-20261116.dump, excluido de Git,
+119353 bytes; pg_restore --list legible y restauración exitosa en base independiente
+ecogest_v2_migration_trial_20261116. Aún no se aplicaron migraciones nuevas.

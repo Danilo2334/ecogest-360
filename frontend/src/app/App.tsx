@@ -5,6 +5,7 @@ import { CompostPage } from "../features/compost/CompostPage";
 import { LotsPage } from "../features/lots/LotsPage";
 import { WastePage } from "../features/waste/WastePage";
 import { ReportsPage } from "../features/reports/ReportsPage";
+import { ScenarioPage } from "../features/scenarios/ScenarioPage";
 import { useEffect, useState } from "react";
 import { api, type Row } from "../services/api";
 import s from "./App.module.css";
@@ -79,7 +80,7 @@ export default function App() {
       ["Registros", "Lotes"].includes(page)
         ? api("generations?" + (page === "Registros" ? query : ""))
         : Promise.resolve([]),
-      ["Lotes", "Compostaje"].includes(page)
+      ["Lotes", "Compostaje", "Registros"].includes(page)
         ? api("lots")
         : Promise.resolve([]),
       page === "Compostaje" ? api("compost/processes") : Promise.resolve([]),
@@ -143,6 +144,7 @@ export default function App() {
     admin = user?.role === "administrador";
   const nav = [
     "Resumen",
+    "Simulador",
     "Registros",
     "Lotes",
     "Compostaje",
@@ -331,7 +333,7 @@ export default function App() {
               <div className={s.loadingBar} />
             </div>
           )}
-          {(page === "Resumen" || page === "Registros") && (
+          {["Resumen", "Registros", "Simulador"].includes(page) && (
             <section
               className={`${s.filters} ${filtersOpen ? "" : s.filtersCollapsed}`}
               aria-label="Filtros"
@@ -464,6 +466,7 @@ export default function App() {
             />
           )}
           {page === "Registros" && <WastePage {...featureProps} />}
+          {page === "Simulador" && <ScenarioPage query={query} />}
           {page === "Lotes" && <LotsPage {...featureProps} />}
           {page === "Compostaje" && <CompostPage {...featureProps} />}
           {page === "Incidencias" && <IncidentsPage {...featureProps} />}

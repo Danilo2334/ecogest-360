@@ -1,4 +1,6 @@
 import { History } from "./History";
+import { useState } from "react";
+import { PassportPage } from "../lots/PassportPage";
 import type { Row } from "../../services/api";
 import { ActionForm } from "../../components/ActionForm";
 import {
@@ -22,6 +24,9 @@ export function WastePage({
   dashboard,
   query,
 }: FeatureProps) {
+  const [passport, setPassport] = useState<string | null>(null);
+  if (passport)
+    return <PassportPage uuid={passport} onBack={() => setPassport(null)} />;
   return (
     <>
       {operator && (
@@ -86,6 +91,26 @@ export function WastePage({
         />
       )}
       <History rows={data.generations} manager={manager} refresh={refresh} />
+      <details>
+        <summary>Pasaportes de los registros filtrados</summary>
+        <p>
+          Los filtros de esta consulta se conservan. Cada pasaporte muestra la
+          historia completa del lote.
+        </p>
+        {(data.lots || [])
+          .filter((l: Row) =>
+            l.sources.some((source: Row) =>
+              data.generations.some((g: Row) => g.id === source.generation),
+            ),
+          )
+          .map((l: Row) => (
+            <p key={l.id}>
+              <button onClick={() => setPassport(l.public_id)}>
+                Consultar pasaporte del lote #{l.id}
+              </button>
+            </p>
+          ))}
+      </details>
     </>
   );
 }

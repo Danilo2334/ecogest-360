@@ -2,7 +2,7 @@
 
 **Feature Branch**: `feat/002-ecogest-intelligence`
 **Created**: 2026-11-15
-**Status**: Dirección aprobada el 2026-11-16. Implementación autorizada SOLO fase A: identidad, navegación y Observatorio.
+**Status**: Dirección aprobada el 2026-11-16. Ejecución local A–E e integración autorizada por orden final del usuario; IA sin llamadas pagadas hasta presupuesto y bandera explícita.
 **Input**: [Brief maestro](../../docs/PROMPT_MAESTRO_ECOGEST_360_INTELLIGENCE_V2.md).
 
 Esta especificación describe solo la evolución del MVP. Conserva la constitución 1.1.0 y
@@ -243,4 +243,4 @@ Fase A no ofrece acciones funcionales de módulos futuros; hallazgos llevan a re
 - **SC-009**: Repetir la generación mantiene IDs y cantidades; colisión de usuarios o institución aborta sin cambios. Todas las nuevas masas son simuladas. La cohorte produce una comparación calculable, 14 puntos diarios y tres áreas; balance y distribución concilian con la generación, tanto sin filtros como por área/material.
 - **SC-010**: Capturas reales antes/después a 360/390/768/1280, sin desbordamiento; recorridos de teclado y filtros conservados comprobados. Regresión backend/frontend y build aprobados. CHK013 sigue pendiente.
 
-Solo este refinamiento está autorizado; Pasaporte, Simulador, Planes e IA siguen pendientes.
+Antecedente: este refinamiento se detuvo para revisión. La orden final posterior autoriza B–E, commits locales y migraciones aditivas; no publicación ni gasto real.

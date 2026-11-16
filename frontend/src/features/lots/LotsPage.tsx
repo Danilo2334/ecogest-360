@@ -1,4 +1,6 @@
 import type { Row } from "../../services/api";
+import { useState } from "react";
+import { PassportPage } from "./PassportPage";
 import { ActionForm } from "../../components/ActionForm";
 import {
   origins,
@@ -21,6 +23,22 @@ export function LotsPage({
   dashboard,
   query,
 }: FeatureProps) {
+  const [selected, setSelected] = useState<string | null>(() =>
+    window.location.pathname.startsWith("/lotes/")
+      ? window.location.pathname.split("/")[2]
+      : null,
+  );
+  if (selected)
+    return (
+      <PassportPage
+        uuid={selected}
+        onBack={() => {
+          setSelected(null);
+          if (window.location.pathname.startsWith("/lotes/"))
+            window.history.replaceState({}, "", "/");
+        }}
+      />
+    );
   return (
     <>
       {operator && (
@@ -66,6 +84,9 @@ export function LotsPage({
                 <Badge value={lot.state} />
               </div>
               <Badge value={lot.provenance} />
+              <button onClick={() => setSelected(lot.public_id)}>
+                Abrir pasaporte ambiental del lote #{lot.id}
+              </button>
               <h3>{lot.available} kg disponibles</h3>
               <details>
                 <summary>QR e identificación</summary>

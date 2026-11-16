@@ -32,6 +32,8 @@ from traceability import services as trace
 from compost import services as compost
 from reports.selectors import report
 from reports.observatory import observatory
+from traceability.passport import passport
+from reports.scenarios import preview
 from reports.csv_export import export
 
 
@@ -155,8 +157,8 @@ def configure(m, resource, data, pk=None):
 @api_view(["GET", "POST", "PATCH"])
 def dispatch(request, path):
     routes = {
-        "GET": r"session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|observatory|reports/generation\.csv",
-        "POST": r"session/logout|sites|areas|materials|users|generations(?:/\d+/(?:review|correct))?|lots(?:/\d+/(?:movements|close))?|compost/processes(?:/\d+/(?:inputs|measurements|finalize|evidence|verify))?|incidents",
+        "GET": r"v2/lots/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/passport|session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|observatory|reports/generation\.csv",
+        "POST": r"v2/scenarios/preview|session/logout|sites|areas|materials|users|generations(?:/\d+/(?:review|correct))?|lots(?:/\d+/(?:movements|close))?|compost/processes(?:/\d+/(?:inputs|measurements|finalize|evidence|verify))?|incidents",
         "PATCH": r"institution|(?:sites|areas|materials|users)/\d+",
     }
     if not re.fullmatch(routes[request.method], path):
@@ -168,6 +170,8 @@ def dispatch(request, path):
     if request.method != "GET" and not isinstance(data, dict):
         raise ValidationError("Se requiere un objeto de datos.")
     if request.method == "GET":
+        if resource == "v2":
+            return Response(passport(m, parts[2]))
         if path == "session/me":
             return Response(
                 {
@@ -257,6 +261,8 @@ def dispatch(request, path):
         if resource == "reports":
             return export(*report(m, request.query_params))
         raise NotFound()
+    if path == "v2/scenarios/preview":
+        return Response(preview(m, data))
     if path == "session/logout":
         logout(request)
         return Response({"message": "Sesión cerrada."})

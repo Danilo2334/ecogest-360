@@ -61,3 +61,7 @@ Controles nativos conservados; resumen es-CO elimina ambigüedad aun si el naveg
 Pruebas del generador preceden implementación y ejecución; pruebas UI adicionales verifican
 cohorte y filtros. Pasaporte/Simulador/Planes/IA no forman parte de este incremento.
 
+
+
+## Orden final de ejecución — 2026-11-16
+B–E e integración autorizadas localmente. Se preservan los antecedentes de aprobación por fases. Sin gasto IA real hasta presupuesto/flag; commits auténticos y migraciones aditivas autorizados. Sin push/merge/despliegue.
