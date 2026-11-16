@@ -197,3 +197,25 @@ T038 no sustituye CHK013, ni T041 prueba rendimiento de todos los listados.
 La guía de demo y hoja vacía se revisaron; no hay ejecución humana nueva.
 Estos cambios son documentales: no se repitieron suites de software. La última evidencia
 sigue siendo 38 aprobadas / 0 fallidas finales, con sus fallos iniciales preservados arriba.
+
+## 2026-11-16 — Fase A Intelligence
+
+Resultados y fallos preservados en [INFORME_FASE_A_V2.md](INFORME_FASE_A_V2.md).
+Django 39/39, Vitest 7/7, Playwright 4/4: 50 pruebas finales aprobadas en esta fase.
+TypeScript/build correctos. Observatorio p95 0.457 s, 10 000 registros, 10 lectores, 100 consultas.
+Capturas reales bajo docs/evidencias/v2; simulaciones existentes, no mediciones reales.
+Ninguna prueba de IA ni de fases futuras ejecutada; CHK013 y TDD histórico V1 sin cambios.
+
+
+## 2026-11-16 — Refinamiento del Observatorio
+
+Backend: 43/43 (76,059 s); Vitest: 9/9; Playwright: 5/5 (19,5 s).
+Después se amplió el recorrido de refinamiento con contraste y teclado: 1/1 (3,4 s),
+cinco textos representativos ≥5,43:1. TypeScript/build correcto. Cuatro anchos sin
+desbordamiento, capturas antes/después preservadas e inspeccionadas.
+Generador: documentado primero, pruebas antes del comando (3 errores y 1 paso por excepción
+esperada), luego 4/4; ejecución local y repetición con misma huella, sin duplicados.
+Observatorio p95 0,418 s; V1 p95 conservador 0,073 s; CSV 0,598 s.
+Primer recorrido nuevo falló por selector de Área, corregido y validado. Sin migraciones.
+Detalle reproducible, limitaciones y archivos en INFORME_REFINAMIENTO_OBSERVATORIO.md.
+CHK013 pendiente; T008/T014/T019/T026/T032 históricas del MVP continúan parciales.

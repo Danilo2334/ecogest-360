@@ -31,6 +31,7 @@ from waste import services as waste
 from traceability import services as trace
 from compost import services as compost
 from reports.selectors import report
+from reports.observatory import observatory
 from reports.csv_export import export
 
 
@@ -154,7 +155,7 @@ def configure(m, resource, data, pk=None):
 @api_view(["GET", "POST", "PATCH"])
 def dispatch(request, path):
     routes = {
-        "GET": r"session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|reports/generation\.csv",
+        "GET": r"session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|observatory|reports/generation\.csv",
         "POST": r"session/logout|sites|areas|materials|users|generations(?:/\d+/(?:review|correct))?|lots(?:/\d+/(?:movements|close))?|compost/processes(?:/\d+/(?:inputs|measurements|finalize|evidence|verify))?|incidents",
         "PATCH": r"institution|(?:sites|areas|materials|users)/\d+",
     }
@@ -249,6 +250,8 @@ def dispatch(request, path):
                     )
                 )
             )
+        if resource == "observatory":
+            return Response(observatory(m, request.query_params))
         if resource == "dashboard":
             return Response(report(m, request.query_params, include_rows=False)[0])
         if resource == "reports":

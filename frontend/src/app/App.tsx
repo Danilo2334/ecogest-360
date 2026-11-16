@@ -9,6 +9,25 @@ import { useEffect, useState } from "react";
 import { api, type Row } from "../services/api";
 import s from "./App.module.css";
 
+function initialFilters(): Row {
+  const end = new Date();
+  end.setDate(end.getDate() - 1);
+  const start = new Date(end);
+  start.setDate(start.getDate() - 29);
+  const local = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return {
+    provenance: "medido",
+    generated_from: local(start),
+    generated_to: local(end),
+  };
+}
+const navLabel = (name: string) =>
+  name === "Resumen"
+    ? "Observatorio"
+    : name === "Lotes"
+      ? "Trazabilidad"
+      : name;
 export default function App() {
   const [user, setUser] = useState<Row | null>(null),
     [page, setPage] = useState(
@@ -29,14 +48,16 @@ export default function App() {
     incidents: [],
   });
   const [dashboard, setDashboard] = useState<Row | null>(null),
-    [filters, setFilters] = useState<Row>({});
+    [filters, setFilters] = useState<Row>(initialFilters);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const refresh = () => {
     setNotice("Operación guardada. Los datos se actualizaron.");
     setRevision((x) => x + 1);
   };
   const query = new URLSearchParams(
     Object.entries(filters)
-      .filter(([, v]) => v)
+      .filter(([k, v]) => v && k !== "cutoffLocal")
       .map(([k, v]) => [k, String(v)]),
   ).toString();
   useEffect(() => {
@@ -49,6 +70,7 @@ export default function App() {
     if (!user) return;
     let active = true;
     setLoading(true);
+    setDashboard(null);
     setError("");
     Promise.all([
       api("areas"),
@@ -61,7 +83,7 @@ export default function App() {
         ? api("lots")
         : Promise.resolve([]),
       page === "Compostaje" ? api("compost/processes") : Promise.resolve([]),
-      page === "Resumen" ? api("dashboard?" + query) : Promise.resolve(null),
+      page === "Resumen" ? api("observatory?" + query) : Promise.resolve(null),
       page === "Incidencias" ? api("incidents") : Promise.resolve([]),
       user.role === "administrador" && page === "Institución"
         ? api("users")
@@ -110,6 +132,7 @@ export default function App() {
     const form = new FormData(e.currentTarget);
     try {
       await api("session/login", Object.fromEntries(form));
+      setFilters(initialFilters());
       setUser(await api("session/me"));
     } catch (e) {
       setError((e as Error).message);
@@ -198,12 +221,27 @@ export default function App() {
   };
   return (
     <div className={s.shell}>
+      <a className={s.skipLink} href="#main-content">
+        Ir al contenido
+      </a>
       <aside className={s.sidebar}>
         <div className={s.logo}>
           ◉ EcoGest <b>360</b>
         </div>
-        <p className={s.eyebrow}>TU CAMPUS, EN EQUILIBRIO</p>
-        <nav aria-label="Principal">
+        <p className={s.eyebrow}>INTELLIGENCE / CAMPUS</p>
+        <button
+          className={s.mobileToggle}
+          aria-expanded={menuOpen}
+          aria-controls="main-navigation"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          Menú {menuOpen ? "−" : "+"}
+        </button>
+        <nav
+          id="main-navigation"
+          aria-label="Principal"
+          className={menuOpen ? s.navOpen : undefined}
+        >
           {nav.map((name, i) => (
             <button
               key={name}
@@ -217,7 +255,7 @@ export default function App() {
               <span aria-hidden="true">
                 {["◫", "≡", "◇", "♧", "!", "⚙"][i]}
               </span>
-              {name}
+              {navLabel(name)}
             </button>
           ))}
         </nav>
@@ -228,6 +266,20 @@ export default function App() {
             onClick={async () => {
               await api("session/logout", {});
               setUser(null);
+              setDashboard(null);
+              setData({
+                areas: [],
+                sites: [],
+                materials: [],
+                generations: [],
+                lots: [],
+                processes: [],
+                users: [],
+                incidents: [],
+              });
+              setFilters(initialFilters());
+              setPage("Resumen");
+              setMenuOpen(false);
             }}
           >
             Cerrar sesión
@@ -237,18 +289,22 @@ export default function App() {
       <div className={s.content}>
         <header className={s.topbar}>
           <span>{user.institution}</span>
-          <Badge value="Piloto universitario" />
+          <span className={s.environment}>
+            ● Entorno local · Piloto universitario
+          </span>
         </header>
-        <main>
+        <main id="main-content">
           <div className={s.heading}>
             <div>
               <span className={s.eyebrow}>
-                ECOGEST 360 / {page.toUpperCase()}
+                CONSOLA AMBIENTAL / {navLabel(page).toUpperCase()}
               </span>
-              <h1>{page === "Resumen" ? "El ciclo de tus residuos" : page}</h1>
+              <h1>
+                {page === "Resumen" ? "Observatorio ambiental" : navLabel(page)}
+              </h1>
               <p>
                 {page === "Resumen"
-                  ? "Información trazable para decisiones ambientales responsables."
+                  ? "Entiende el presente. Decide el siguiente paso."
                   : "Cada operación conserva su origen, responsable y evidencia."}
               </p>
             </div>
@@ -257,103 +313,156 @@ export default function App() {
             </span>
           </div>
           {error && (
-            <p role="alert" className={s.error}>
-              {error}
-            </p>
+            <div role="alert" className={s.error}>
+              <p>{error}</p>
+              <button onClick={() => setRevision((x) => x + 1)}>
+                Reintentar consulta
+              </button>
+            </div>
           )}
           {notice && (
             <p role="status" className={s.success}>
               {notice}
             </p>
           )}
-          {loading && <p role="status">Actualizando datos…</p>}
+          {loading && (
+            <div className={s.loading} role="status">
+              Actualizando datos…
+              <div className={s.loadingBar} />
+            </div>
+          )}
           {(page === "Resumen" || page === "Registros") && (
-            <section className={s.filters} aria-label="Filtros">
-              <label>
-                Procedencia
-                <select
-                  value={filters.provenance || ""}
-                  onChange={(e) =>
-                    setFilters({ ...filters, provenance: e.target.value })
-                  }
-                >
-                  <option value="">Todas las procedencias</option>
-                  {origins.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Desde
-                <input
-                  type="date"
-                  value={filters.generated_from || ""}
-                  onChange={(e) =>
-                    setFilters({ ...filters, generated_from: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Hasta
-                <input
-                  type="date"
-                  value={filters.generated_to || ""}
-                  onChange={(e) =>
-                    setFilters({ ...filters, generated_to: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Área
-                <select
-                  value={filters.area || ""}
-                  onChange={(e) =>
-                    setFilters({ ...filters, area: e.target.value })
-                  }
-                >
-                  <option value="">Todas</option>
-                  {data.areas.map((r: Row) => (
-                    <option key={r.id} value={r.id}>
-                      {r.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Material
-                <select
-                  value={filters.material || ""}
-                  onChange={(e) =>
-                    setFilters({ ...filters, material: e.target.value })
-                  }
-                >
-                  <option value="">Todos</option>
-                  {data.materials.map((r: Row) => (
-                    <option key={r.id} value={r.id}>
-                      {r.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Corte de validación
-                <input
-                  type="datetime-local"
-                  onChange={(e) =>
-                    setFilters({
-                      ...filters,
-                      cutoff: e.target.value
-                        ? new Date(e.target.value).toISOString()
-                        : "",
+            <section
+              className={`${s.filters} ${filtersOpen ? "" : s.filtersCollapsed}`}
+              aria-label="Filtros"
+            >
+              <p className={s.filterPeriod}>
+                Período:{" "}
+                {filters.generated_from
+                  ? new Date(
+                      filters.generated_from + "T12:00:00",
+                    ).toLocaleDateString("es-CO", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
                     })
-                  }
-                />
-              </label>
+                  : "sin inicio"}{" "}
+                —{" "}
+                {filters.generated_to
+                  ? new Date(
+                      filters.generated_to + "T12:00:00",
+                    ).toLocaleDateString("es-CO", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : "sin fin"}
+              </p>
+              <button
+                className={s.filterToggle}
+                aria-expanded={filtersOpen}
+                aria-controls="filter-controls"
+                onClick={() => setFiltersOpen(!filtersOpen)}
+              >
+                {filtersOpen ? "Ocultar filtros" : "Ajustar filtros"}
+              </button>
+              <div id="filter-controls" className={s.filterControls}>
+                <label>
+                  Procedencia
+                  <select
+                    value={filters.provenance || ""}
+                    onChange={(e) =>
+                      setFilters({ ...filters, provenance: e.target.value })
+                    }
+                  >
+                    <option value="">Todas las procedencias</option>
+                    {origins.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Desde
+                  <input
+                    type="date"
+                    value={filters.generated_from || ""}
+                    onChange={(e) =>
+                      setFilters({ ...filters, generated_from: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Hasta
+                  <input
+                    type="date"
+                    value={filters.generated_to || ""}
+                    onChange={(e) =>
+                      setFilters({ ...filters, generated_to: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Área
+                  <select
+                    value={filters.area || ""}
+                    onChange={(e) =>
+                      setFilters({ ...filters, area: e.target.value })
+                    }
+                  >
+                    <option value="">Todas</option>
+                    {data.areas.map((r: Row) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Material
+                  <select
+                    value={filters.material || ""}
+                    onChange={(e) =>
+                      setFilters({ ...filters, material: e.target.value })
+                    }
+                  >
+                    <option value="">Todos</option>
+                    {data.materials.map((r: Row) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Corte de validación
+                  <input
+                    value={filters.cutoffLocal || ""}
+                    type="datetime-local"
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        cutoffLocal: e.target.value,
+                        cutoff: e.target.value
+                          ? new Date(e.target.value).toISOString()
+                          : "",
+                      })
+                    }
+                  />
+                </label>
+              </div>
             </section>
           )}
-          {page === "Resumen" && <ReportsPage {...featureProps} />}
+          {page === "Resumen" && !loading && (
+            <ReportsPage
+              {...featureProps}
+              onExplore={(area) => {
+                if (area) setFilters({ ...filters, area: String(area) });
+                setPage("Registros");
+              }}
+            />
+          )}
           {page === "Registros" && <WastePage {...featureProps} />}
           {page === "Lotes" && <LotsPage {...featureProps} />}
           {page === "Compostaje" && <CompostPage {...featureProps} />}
@@ -361,7 +470,7 @@ export default function App() {
           {page === "Institución" && <IdentityPage {...featureProps} />}
         </main>
         <footer className={s.footer}>
-          EcoGest 360 · Registro y trazabilidad ambiental{" "}
+          EcoGest 360 Intelligence · Piloto universitario{" "}
           <span>Datos con origen. Decisiones con evidencia.</span>
         </footer>
       </div>

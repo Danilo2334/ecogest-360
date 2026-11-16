@@ -111,3 +111,24 @@ siguen pendientes. No se modificaron autores, fechas ni historial durante esta p
 Se conservan main y la base común en `58bab1f`, implementación en `d29b01b` y respaldo
 solo local. Las declaraciones previas sobre autor único corresponden al estado anterior
 a la aclaración del usuario. CHK013 y cinco tareas TDD parciales no cambian.
+
+## 2026-11-16 — Intelligence: aprobación y fase A
+
+Usuario aprueba Q1 períodos completos comparables, Q2 simulador efímero/planes persistentes
+solo gestor y Q3 IA contextual opcional sin escritura ni gasto hasta autorización. Solo fase A
+implementada: identidad/navegación/Observatorio; sin nuevas dependencias o migraciones.
+Se conserva report() V1 como fuente de G/A. Consulta observatory aditiva, corte compartido,
+comparación no disponible ante evidencia insuficiente, procedencias separadas y fechas Bogotá.
+Plan/tareas/contratos en specs/002-ecogest-intelligence; informe y capturas en INFORME_FASE_A_V2.md.
+No commits, push, merge, despliegue o modificaciones del PR #1. Backend de desarrollo reiniciado
+por usar --noreload; datos conservados. B–F requieren nueva autorización.
+
+
+## 2026-11-16 — Refinamiento A autorizado
+
+Se conserva identidad verde/marfil. Balance G=A+pendiente, distribución por material y
+hallazgos deterministas; KPI consultan cohorte base sin confundirla con masa acreditada.
+Escenario SIMULADO opcional en institución separada, comando explícito probado antes de
+ejecutar, sin restablecimientos. Fechas explicativas es-CO y controles nativos conservados.
+Filtros plegables en móvil; detalle metodológico accesible. No se inicia Pasaporte ni IA.
+Ver docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y docs/DATOS_DEMO_OBSERVATORIO.md.

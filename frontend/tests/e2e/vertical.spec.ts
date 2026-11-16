@@ -5,13 +5,19 @@ const password = env
   .match(/^DEMO_PASSWORD=(.*)$/m)![1]
   .trim()
   .replace(/^['"]|['"]$/g, "");
+async function navigate(page: Page, name: string) {
+  const target = page.getByRole("button", { name, exact: true });
+  if (!(await target.isVisible()))
+    await page.getByRole("button", { name: /Menú/ }).click();
+  await target.click();
+}
 async function login(page: Page, role: string) {
   await page.goto("/");
   await page.getByLabel("Usuario", { exact: true }).fill("demo_" + role);
   await page.getByLabel("Contraseña", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Ingresar al sistema" }).click();
   await expect(
-    page.getByRole("heading", { name: "El ciclo de tus residuos" }),
+    page.getByRole("heading", { name: "Observatorio ambiental" }),
   ).toBeVisible();
   await expect(page.getByText("Actualizando datos…")).toHaveCount(0);
 }
@@ -21,7 +27,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await login(page, "operador");
-  await page.getByRole("button", { name: "Registros", exact: true }).click();
+  await navigate(page, "Registros");
   const form = page.locator("form").filter({
     has: page.getByRole("heading", { name: "Registrar generación" }),
   });
@@ -44,7 +50,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
   await expect(
     page.getByText("Operación guardada.", { exact: false }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Lotes", exact: true }).click();
+  await navigate(page, "Trazabilidad");
   const lotForm = page.locator("form").filter({
     has: page.getByRole("heading", { name: "Crear lote", exact: true }),
   });
@@ -70,7 +76,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
     )
     .toBeGreaterThan(0);
   await lotCard.screenshot({ path: "test-results/trazabilidad-auditoria.png" });
-  await page.getByRole("button", { name: "Compostaje", exact: true }).click();
+  await navigate(page, "Compostaje");
   const start = page.locator("form").filter({
     has: page.getByRole("heading", {
       name: "Iniciar compostaje",
@@ -125,7 +131,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
     page.getByRole("heading", { name: "Ingresa a EcoGest 360" }),
   ).toBeVisible();
   await login(page, "gestor");
-  await page.getByRole("button", { name: "Compostaje", exact: true }).click();
+  await navigate(page, "Compostaje");
   card = page.locator("article").filter({
     has: page.getByRole("heading", {
       name: "Proceso #" + process,
@@ -143,7 +149,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
     card.getByRole("cell", { name: "confirmado", exact: true }),
   ).toBeVisible();
   await card.screenshot({ path: "test-results/compostaje-auditoria.png" });
-  await page.getByRole("button", { name: "Resumen", exact: true }).click();
+  await navigate(page, "Observatorio");
   await expect(
     page.getByText("Compostaje acreditado", { exact: true }),
   ).toBeVisible();
@@ -170,7 +176,7 @@ test("flujo web: generación, lote, compostaje, evidencia, validación y CSV", a
 });
 test("consultor: consulta sin formularios de escritura", async ({ page }) => {
   await login(page, "consultor");
-  await page.getByRole("button", { name: "Registros", exact: true }).click();
+  await navigate(page, "Registros");
   await expect(
     page.getByRole("button", { name: "Registrar generación", exact: true }),
   ).toHaveCount(0);
@@ -208,13 +214,13 @@ test("recorrido por teclado y cinco pantallas adaptables", async ({ page }) => {
   for (const width of [360, 1280]) {
     await page.setViewportSize({ width, height: 800 });
     for (const name of [
-      "Resumen",
+      "Observatorio",
       "Registros",
-      "Lotes",
+      "Trazabilidad",
       "Compostaje",
       "Incidencias",
     ]) {
-      await page.getByRole("button", { name, exact: true }).click();
+      await navigate(page, name);
       await expect(page.getByText("Actualizando datos…")).toHaveCount(0);
       expect(
         await page.evaluate(
