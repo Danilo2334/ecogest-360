@@ -7,7 +7,7 @@ const password = readFileSync("../.env", "utf8")
 test("Observatorio real: roles, filtros, teclado y cuatro anchos", async ({
   page,
 }) => {
-  mkdirSync("../docs/evidencias/v2", { recursive: true });
+  mkdirSync("../docs/evidencias/v2/integracion", { recursive: true });
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   for (const role of ["administrador", "operador", "gestor", "consultor"]) {
@@ -38,7 +38,7 @@ test("Observatorio real: roles, filtros, teclado y cuatro anchos", async ({
           ),
         ).toBeTruthy();
         await page.screenshot({
-          path: `../docs/evidencias/v2/observatorio-${width}.png`,
+          path: `../docs/evidencias/v2/integracion/observatorio-${width}.png`,
           fullPage: true,
         });
       }

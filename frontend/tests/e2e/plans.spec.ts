@@ -76,7 +76,7 @@ test("Gestor conecta escenario con plan, evaluación y cierre auditado", async (
   await expect(
     page.getByRole("heading", { name: "Meta alcanzada observada" }),
   ).toBeVisible();
-  mkdirSync("../docs/evidencias/v2/planes", { recursive: true });
+  mkdirSync("../docs/evidencias/v2/integracion/planes", { recursive: true });
   for (const width of [1280, 768, 390, 360]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.evaluate(() => {
@@ -89,7 +89,7 @@ test("Gestor conecta escenario con plan, evaluación y cierre auditado", async (
       ),
     ).toBeTruthy();
     await page.screenshot({
-      path: `../docs/evidencias/v2/planes/planes-${width}.png`,
+      path: `../docs/evidencias/v2/integracion/planes/planes-${width}.png`,
       fullPage: true,
     });
   }

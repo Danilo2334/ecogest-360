@@ -90,7 +90,7 @@ test("Cohorte aislada: comparación, balance, evidencia, teclado y capturas", as
       .locator("tbody tr"),
   ).toHaveCount(14);
   await page.getByText("Ver datos de la gráfica", { exact: true }).click();
-  mkdirSync("../docs/evidencias/v2/despues-refinamiento", { recursive: true });
+  mkdirSync("../docs/evidencias/v2/integracion/despues-refinamiento", { recursive: true });
   for (const width of [1280, 768, 390, 360]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.evaluate(() => {
@@ -103,7 +103,7 @@ test("Cohorte aislada: comparación, balance, evidencia, teclado y capturas", as
       ),
     ).toBeTruthy();
     await page.screenshot({
-      path: `../docs/evidencias/v2/despues-refinamiento/observatorio-${width}.png`,
+      path: `../docs/evidencias/v2/integracion/despues-refinamiento/observatorio-${width}.png`,
       fullPage: true,
     });
   }

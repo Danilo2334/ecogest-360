@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "traceability",
     "compost",
     "interventions",
+    "intelligence",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -60,3 +61,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
 ]
+
+# Opt-in only. Values never sent to the browser; ordinary tests use mocks.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.6-terra")
+AI_ENABLED = os.getenv("AI_ENABLED") == "1"
+AI_BUDGET_AUTHORIZED = os.getenv("AI_BUDGET_AUTHORIZED") == "1"
+OPENAI_SMOKE_TEST = os.getenv("OPENAI_SMOKE_TEST") == "1"
+AI_DAILY_BUDGET_USD = os.getenv("AI_DAILY_BUDGET_USD", "0")
+AI_PROJECT_BUDGET_USD = os.getenv("AI_PROJECT_BUDGET_USD", "0")

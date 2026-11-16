@@ -7,12 +7,30 @@ import { WastePage } from "../features/waste/WastePage";
 import { ReportsPage } from "../features/reports/ReportsPage";
 import { ScenarioPage } from "../features/scenarios/ScenarioPage";
 import type { Scenario } from "../features/scenarios/ScenarioPage";
+import { AssistantPage } from "../features/assistant/AssistantPage";
 import { PlansPage } from "../features/plans/PlansPage";
 import { useEffect, useState } from "react";
 import { api, type Row } from "../services/api";
 import s from "./App.module.css";
 
-function initialFilters(): Row {
+const routes: Record<string, string> = {
+  Resumen: "/",
+  Simulador: "/simulador",
+  "Planes de acción": "/planes",
+  Asistente: "/asistente",
+  Registros: "/registros",
+  Lotes: "/lotes",
+  Compostaje: "/compostaje",
+  Incidencias: "/incidencias",
+  Institución: "/institucion",
+};
+function routePage() {
+  return window.location.pathname.startsWith("/lotes/")
+    ? "Lotes"
+    : Object.keys(routes).find((k) => routes[k] === window.location.pathname) ||
+        "Resumen";
+}
+function initialFilters(readUrl = true): Row {
   const end = new Date();
   end.setDate(end.getDate() - 1);
   const start = new Date(end);
@@ -23,6 +41,20 @@ function initialFilters(): Row {
     provenance: "medido",
     generated_from: local(start),
     generated_to: local(end),
+    ...(readUrl
+      ? Object.fromEntries(
+          [...new URLSearchParams(window.location.search)].filter(([k]) =>
+            [
+              "provenance",
+              "generated_from",
+              "generated_to",
+              "area",
+              "material",
+              "cutoff",
+            ].includes(k),
+          ),
+        )
+      : {}),
   };
 }
 const navLabel = (name: string) =>
@@ -33,9 +65,7 @@ const navLabel = (name: string) =>
       : name;
 export default function App() {
   const [user, setUser] = useState<Row | null>(null),
-    [page, setPage] = useState(
-      window.location.pathname.startsWith("/lotes/") ? "Lotes" : "Resumen",
-    ),
+    [page, setPage] = useState(routePage),
     [loading, setLoading] = useState(true);
   const [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
@@ -64,6 +94,46 @@ export default function App() {
       .filter(([k, v]) => v && k !== "cutoffLocal")
       .map(([k, v]) => [k, String(v)]),
   ).toString();
+  function navigate(next: string, area?: string, uuid?: string) {
+    const nextFilters = area ? { ...filters, area } : filters;
+    if (area) setFilters(nextFilters);
+    const params = new URLSearchParams(
+      Object.entries(nextFilters)
+        .filter(([k, v]) => v && k !== "cutoffLocal")
+        .map(([k, v]) => [k, String(v)]),
+    );
+    window.history.pushState(
+      {},
+      "",
+      `${uuid ? "/lotes/" + uuid : routes[next] || "/"}?${params}`,
+    );
+    setPage(next);
+    setMenuOpen(false);
+    setNotice("");
+  }
+  useEffect(() => {
+    const restore = () => {
+      setPage(routePage());
+      setFilters(initialFilters());
+      setMenuOpen(false);
+    };
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
+  useEffect(() => {
+    if (!user) return;
+    const path =
+      page === "Lotes" && window.location.pathname.startsWith("/lotes/")
+        ? window.location.pathname
+        : routes[page] || "/";
+    window.history.replaceState({}, "", path + (query ? "?" + query : ""));
+  }, [page, query, user]);
+  useEffect(() => {
+    if (user) {
+      window.scrollTo(0, 0);
+      document.getElementById("page-title")?.focus();
+    }
+  }, [page, user]);
   useEffect(() => {
     api("session/me")
       .then(setUser)
@@ -149,6 +219,7 @@ export default function App() {
     "Resumen",
     "Simulador",
     "Planes de acción",
+    "Asistente",
     "Registros",
     "Lotes",
     "Compostaje",
@@ -248,18 +319,32 @@ export default function App() {
           aria-label="Principal"
           className={menuOpen ? s.navOpen : undefined}
         >
-          {nav.map((name, i) => (
+          {nav.map((name) => (
             <button
               key={name}
               aria-current={page === name ? "page" : undefined}
               className={page === name ? s.active : ""}
               onClick={() => {
-                setPage(name);
+                navigate(name);
                 setNotice("");
               }}
             >
               <span aria-hidden="true">
-                {["◫", "≡", "◇", "♧", "!", "⚙"][i]}
+                {
+                  (
+                    {
+                      Resumen: "◫",
+                      Simulador: "↗",
+                      "Planes de acción": "◎",
+                      Asistente: "✧",
+                      Registros: "≡",
+                      Lotes: "◇",
+                      Compostaje: "♧",
+                      Incidencias: "!",
+                      Institución: "⚙",
+                    } as Record<string, string>
+                  )[name]
+                }
               </span>
               {navLabel(name)}
             </button>
@@ -284,7 +369,8 @@ export default function App() {
                 users: [],
                 incidents: [],
               });
-              setFilters(initialFilters());
+              window.history.replaceState({}, "", "/");
+              setFilters(initialFilters(false));
               setPage("Resumen");
               setMenuOpen(false);
             }}
@@ -306,13 +392,19 @@ export default function App() {
               <span className={s.eyebrow}>
                 CONSOLA AMBIENTAL / {navLabel(page).toUpperCase()}
               </span>
-              <h1>
+              <h1 id="page-title" tabIndex={-1}>
                 {page === "Resumen" ? "Observatorio ambiental" : navLabel(page)}
               </h1>
               <p>
                 {page === "Resumen"
                   ? "Entiende el presente. Decide el siguiente paso."
-                  : "Cada operación conserva su origen, responsable y evidencia."}
+                  : page === "Simulador"
+                    ? "Compara una hipótesis antes de intervenir."
+                    : page === "Planes de acción"
+                      ? "Decide, documenta y contrasta el resultado observado."
+                      : page === "Asistente"
+                        ? "Preguntas claras. Evidencia verificable. Decisiones humanas."
+                        : "Cada operación conserva su origen, responsable y evidencia."}
               </p>
             </div>
             <span className={s.date}>
@@ -338,9 +430,13 @@ export default function App() {
               <div className={s.loadingBar} />
             </div>
           )}
-          {["Resumen", "Registros", "Simulador", "Planes de acción"].includes(
-            page,
-          ) && (
+          {[
+            "Resumen",
+            "Registros",
+            "Simulador",
+            "Planes de acción",
+            "Asistente",
+          ].includes(page) && (
             <section
               className={`${s.filters} ${filtersOpen ? "" : s.filtersCollapsed}`}
               aria-label="Filtros"
@@ -366,6 +462,13 @@ export default function App() {
                       year: "numeric",
                     })
                   : "sin fin"}
+                <button
+                  className={s.filterReset}
+                  type="button"
+                  onClick={() => setFilters(initialFilters(false))}
+                >
+                  Restablecer filtros
+                </button>
               </p>
               <button
                 className={s.filterToggle}
@@ -467,8 +570,27 @@ export default function App() {
             <ReportsPage
               {...featureProps}
               onExplore={(area) => {
-                if (area) setFilters({ ...filters, area: String(area) });
-                setPage("Registros");
+                navigate("Registros", area ? String(area) : undefined);
+              }}
+            />
+          )}
+          {["Resumen", "Simulador", "Planes de acción"].includes(page) && (
+            <p>
+              {page === "Resumen" && (
+                <button onClick={() => navigate("Simulador")}>
+                  Explorar una hipótesis →
+                </button>
+              )}{" "}
+              <button onClick={() => navigate("Asistente")}>
+                Consultar al asistente con estos filtros →
+              </button>
+            </p>
+          )}
+          {page === "Asistente" && (
+            <AssistantPage
+              query={query}
+              onNavigate={(next, area, uuid) => {
+                navigate(next, area, uuid);
               }}
             />
           )}
@@ -480,7 +602,7 @@ export default function App() {
                 manager
                   ? (scenario) => {
                       setProposal(scenario);
-                      setPage("Planes de acción");
+                      navigate("Planes de acción");
                     }
                   : undefined
               }
@@ -495,7 +617,9 @@ export default function App() {
               onClearProposal={() => setProposal(null)}
             />
           )}
-          {page === "Lotes" && <LotsPage {...featureProps} />}
+          {page === "Lotes" && (
+            <LotsPage key={window.location.pathname} {...featureProps} />
+          )}
           {page === "Compostaje" && <CompostPage {...featureProps} />}
           {page === "Incidencias" && <IncidentsPage {...featureProps} />}
           {page === "Institución" && <IdentityPage {...featureProps} />}

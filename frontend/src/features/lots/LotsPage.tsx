@@ -35,7 +35,11 @@ export function LotsPage({
         onBack={() => {
           setSelected(null);
           if (window.location.pathname.startsWith("/lotes/"))
-            window.history.replaceState({}, "", "/");
+            window.history.replaceState(
+              {},
+              "",
+              "/lotes" + window.location.search,
+            );
         }}
       />
     );

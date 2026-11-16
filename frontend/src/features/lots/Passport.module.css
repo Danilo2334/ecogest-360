@@ -129,6 +129,9 @@
   padding-top: 14px;
   margin-top: 14px;
 }
+.planLayout .side {
+  order: 0;
+}
 .source strong {
   font-size: 15px;
 }

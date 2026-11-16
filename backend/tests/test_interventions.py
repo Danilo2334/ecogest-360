@@ -131,6 +131,15 @@ class InterventionTests(Fixture, TestCase):
     def test_only_manager_and_revision_conflict(self):
         self.generation()
         self.assertEqual(self.post("v2/plans", self.payload()).status_code, 403)
+        from django.contrib.auth.models import User
+        from organizations.models import Membership
+
+        admin = User.objects.create_user("plan_admin")
+        Membership.objects.create(
+            user=admin, institution=self.institution, role="administrador"
+        )
+        self.client.force_authenticate(admin)
+        self.assertEqual(self.post("v2/plans", self.payload()).status_code, 403)
         self.client.force_authenticate(self.manager)
         r = self.post("v2/plans", self.payload())
         self.assertEqual(r.status_code, 201)
@@ -149,6 +158,9 @@ class InterventionTests(Fixture, TestCase):
             409,
         )
         self.assertEqual(len(result.data["revisions"]), 2)
+        self.operator.is_active = False
+        self.operator.save()
+        self.assertFalse(self.client.get("/api/v2/plans").data[0]["responsible_active"])
         self.client.force_authenticate(self.reader)
         self.assertEqual(self.client.get("/api/v2/plans").status_code, 200)
         self.assertEqual(

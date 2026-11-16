@@ -95,6 +95,9 @@ def serialize(p):
     return {
         **state_data(p),
         "responsible_name": p.responsible.username,
+        "responsible_active": Membership.objects.filter(
+            user=p.responsible, institution=p.institution, user__is_active=True
+        ).exists(),
         "area_name": p.area.name,
         "revisions": [
             {
@@ -121,6 +124,7 @@ def serialize(p):
                 "id": r.pk,
                 "actor": r.actor.username,
                 "date": r.created_at.isoformat(),
+                "version": r.version,
                 **r.result,
             }
             for r in p.evaluations.select_related("actor").order_by("pk")

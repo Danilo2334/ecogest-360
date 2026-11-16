@@ -82,3 +82,29 @@ PlanRevision registra antes/después y actor por cada cambio; bloqueo fila + ver
 sobrescritura concurrente, idempotencia para POST mutadores mediante mecanismo existente.
 Decimales no negativos hasta 3 posiciones; tasa objetivo 0..100; fechas ISO válidas;
 textos no vacíos hasta 2000; responsable activo de misma institución; sin DELETE.
+
+## E — contrato de implementación controlada
+GET /api/v2/assistant/context?{filtros}: hechos locales, metodología y disponibilidad sin llamar IA.
+POST /api/v2/assistant: {mode: mis_datos|explicar|proponer, question: 1..2000,
+filters: generated_from/to,provenance,area?,material?,cutoff?}, Idempotency-Key UUID.
+No campos extra (incluidos institution_id, contexto, SQL o herramientas). Procedencia única.
+Sesión y CSRF; todos los roles leen su institución. No recibe historial conversacional.
+Devuelve status, reason, facts, explanations, actions, context, answer (null si degradado).
+El proveedor selecciona IDs de hechos y códigos de explicaciones/acciones de un catálogo
+determinista. La redacción factual y las cifras se renderizan desde ese catálogo; no se
+publica texto libre del modelo. Así se verifican también referencias y ausencia de cifras
+inventadas, sin fingir una respuesta abierta universal. Fuera de ese alcance: insufficient.
+El contexto externo omite nombres de usuarios/instituciones, textos libres y adjuntos;
+áreas se representan con IDs, nombres se resuelven solo localmente. Máximo 6000 bytes de
+contexto (cota conservadora de tokens) y 16000 bytes entrada completa + esquema; 1000 tokens
+de salida. No tools, previous_response_id, búsquedas ni SQL. store=false, timeout 25 s,
+sin reintentos SDK. Detectar patrones obvios de secretos/correo en pregunta; advertir al
+usuario no ingresar información privada (no garantiza anonimización universal).
+Uso externo bloqueado salvo AI_ENABLED, AI_BUDGET_AUTHORIZED y OPENAI_SMOKE_TEST=1,
+clave presente, modelo tarifado permitido y presupuestos diario institucional/proyecto >0.
+Reserva atómica previa con advisory lock global; un envío pendiente por usuario, cinco
+intentos/minuto; UUID repetido 409 sin repetir gasto. No persistir preguntas/respuestas.
+Metadatos de uso conservan costo reservado/consumido; errores sin usage retienen reserva
+conservadora. Un proceso interrumpido requiere conciliación administrativa, nunca liberar
+cuota automáticamente si el cobro es incierto. 429 límites. Errores del proveedor: estado
+no_disponible sin detalles técnicos/secretos. Solo esta tabla técnica cambia al consultar.

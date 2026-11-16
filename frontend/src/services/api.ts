@@ -4,11 +4,13 @@ export async function api(
   data?: unknown,
   method = "POST",
   key?: string,
+  signal?: AbortSignal,
 ): Promise<any> {
   const headers: Record<string, string> = {};
   if (data !== undefined) {
     const csrf = await fetch("/api/session/csrf", {
       credentials: "same-origin",
+      signal,
     }).then((r) => r.json());
     headers["X-CSRFToken"] = csrf.csrfToken;
     headers["Idempotency-Key"] = key || crypto.randomUUID();
@@ -16,6 +18,7 @@ export async function api(
       headers["Content-Type"] = "application/json";
   }
   const response = await fetch("/api/" + path, {
+    signal,
     method: data === undefined ? "GET" : method,
     credentials: "same-origin",
     headers,

@@ -51,7 +51,9 @@ def passport(m, uuid):
             dict(
                 generation=g.pk,
                 area=g.area.name,
+                area_id=g.area_id,
                 material=g.material.name,
+                material_id=g.material_id,
                 assigned=kg(a.kg),
                 generated=kg(g.kg),
                 date=g.date.isoformat(),

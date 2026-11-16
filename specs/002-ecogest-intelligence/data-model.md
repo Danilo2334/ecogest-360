@@ -8,12 +8,12 @@ Serie: fecha local, kg (cadena 3 decimales), número de registros. Ausencia no e
 Ranking: area_id, nombre, kg generados, pendiente; identidad por ID, desempate nombre/ID.
 Hallazgo: código determinista, texto, valores, filtros fuente; no entidad ambiental nueva.
 
-## B/C — posteriores
+## B/C — proyecciones implementadas
 
 Pasaporte es proyección de lotes y relaciones, sin nueva masa. Escenario vive en memoria:
 base, corte, hipótesis única, E/N, resultado; no tablas ni escrituras operativas.
 
-## D — persistencia aditiva futura
+## D — persistencia aditiva
 
 InterventionPlan: institución/creador, problema y acción (1–2000 caracteres), área y responsable
 activos de la misma institución; indicador enum generación/compostaje_acreditado/tasa, unidad kg/%;
@@ -24,8 +24,14 @@ PlanEvaluation: plan, período posterior, valor, fuentes y resultado alcanzada/n
 misma duración/procedencia/filtros; no causalidad. Gestor único escritor. Conflicto versión →409.
 Transiciones y restricciones: spec FR-017–020; cancelar con motivo, cerrar con evaluación registrada.
 
-## E — posterior
+## E — contabilidad separada
 
 Conversación efímera, no mensajes persistentes. Cuotas/uso mínimos separados de dominio:
 institución, período, presupuesto autorizado, reserva y coste consumido, sin preguntas/respuestas.
 Activación requiere precio/modelo y monto aprobados; reserva atómica antes de cada llamada.
+Entidad física Invocation: institución/usuario, UUID idempotente, momento/día, modelo,
+estado pending/completed/unknown, debit decimal USD y tokens de entrada/salida nullable.
+Unique usuario+UUID y débito no negativo. Los límites autorizados se leen del entorno;
+consumo agregado institucional diario y global acumulado, no se reinicia automáticamente.
+Reservas inciertas permanecen contabilizadas. Sin tabla de conversaciones ni contenido
+en OperationReceipt. Followup de Plan registra avance humano sin alterar la base ambiental.

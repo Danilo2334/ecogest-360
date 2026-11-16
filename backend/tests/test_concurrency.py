@@ -61,6 +61,66 @@ class ConcurrencyTests(TransactionTestCase):
     def test_same_operation(self):
         self.assertEqual(self.run_race(["same", "same"]), ["1.000", "1.000"])
 
+    def test_plan_edits_preserve_one_version_under_real_race(self):
+        from tests.test_interventions import InterventionTests
+        from interventions.services import create, mutate
+        from interventions.models import Plan, Revision
+
+        self.generation()
+        manager = Membership.objects.get(user=self.manager)
+        plan = create(manager, InterventionTests.payload(self))
+
+        def edit(label):
+            return mutate(
+                manager,
+                plan["id"],
+                "edit",
+                {"version": 1, "reason": "Concurrent test", "problem": label},
+            )
+
+        results = self.concurrent(
+            [lambda: edit("Primera propuesta"), lambda: edit("Otra propuesta")]
+        )
+        self.assertEqual(sum(r == "conflict" for r in results), 1)
+        self.assertEqual(Plan.objects.get(pk=plan["id"]).version, 2)
+        self.assertEqual(Revision.objects.filter(plan_id=plan["id"]).count(), 2)
+
+    def test_assistant_global_budget_and_inflight_are_atomic(self):
+        from django.test import override_settings
+        from intelligence.services import reserve
+        from intelligence.models import Invocation
+        from rest_framework.exceptions import Throttled
+        from decimal import Decimal
+        import uuid
+
+        def allocate(user, budget):
+            try:
+                reserve(
+                    Membership.objects.get(user=user),
+                    uuid.uuid4(),
+                    (Decimal("1"), budget),
+                )
+                return "reserved"
+            except Throttled:
+                return "throttled"
+
+        with override_settings(OPENAI_MODEL="gpt-5.6-terra"):
+            results = self.concurrent(
+                [
+                    lambda: allocate(self.operator, Decimal(".06")),
+                    lambda: allocate(self.reader, Decimal(".06")),
+                ]
+            )
+            self.assertCountEqual(results, ["reserved", "throttled"])
+            self.assertEqual(Invocation.objects.count(), 1)
+            results = self.concurrent(
+                [
+                    lambda: allocate(self.manager, Decimal("1")),
+                    lambda: allocate(self.manager, Decimal("1")),
+                ]
+            )
+            self.assertCountEqual(results, ["reserved", "throttled"])
+
     def concurrent(self, actions):
         barrier = Barrier(len(actions))
 

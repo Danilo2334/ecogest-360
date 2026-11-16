@@ -778,3 +778,20 @@
     margin-bottom: 16px;
   }
 }
+
+.filterReset {
+  float: right;
+  background: transparent;
+  color: #145443;
+  font-size: 13px;
+  padding: 0 4px;
+  min-height: 28px;
+  text-decoration: underline;
+}
+@media (max-width: 900px) {
+  .filterReset {
+    float: none;
+    display: block;
+    min-height: 44px;
+  }
+}

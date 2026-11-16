@@ -135,7 +135,7 @@ export function PlansPage({
                 f.name === "action" && proposal
                   ? {
                       ...f,
-                      value: `Revisar viabilidad de hipótesis ${proposal.hypothesis}: ${proposal.amount} kg; decisión humana pendiente.`,
+                      value: `Revisar viabilidad de hipótesis ${proposal.hypothesis === "increase_compost" ? "aumentar compostaje acreditado" : "reducir generación no aprovechable"}: ${proposal.amount} kg; decisión humana pendiente.`,
                     }
                   : f,
               ),
@@ -197,7 +197,7 @@ export function PlansPage({
           <button className={s.back} onClick={() => setSelected(null)}>
             ← Volver a los planes
           </button>
-          <div className={s.layout}>
+          <div className={`${s.layout} ${s.planLayout}`}>
             <section className={s.panel}>
               <span>
                 {states[p.state]} · {p.provenance.toUpperCase()} · versión{" "}
@@ -205,6 +205,12 @@ export function PlansPage({
               </span>
               <h3>{p.problem}</h3>
               <p>{p.action}</p>
+              {p.responsible_active === false && (
+                <p role="status">
+                  Responsable inactivo o fuera de la institución. El gestor debe
+                  revisar la asignación; se conserva el historial anterior.
+                </p>
+              )}
               <p>
                 {p.responsible_name} · {p.area_name} · fecha objetivo:{" "}
                 {p.due_date}
@@ -243,6 +249,12 @@ export function PlansPage({
               {p.evaluations.map((e: Row) => (
                 <article className={s.source} key={e.id}>
                   <h4>{results[e.status]}</h4>
+                  {e.version !== p.version && p.state !== "cerrado" && (
+                    <p>
+                      Evaluación de una versión anterior. Reevalúa antes de
+                      cerrar el plan.
+                    </p>
+                  )}
                   <p>
                     {e.filters.generated_from} — {e.filters.generated_to}:{" "}
                     {e.observation.value === null

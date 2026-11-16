@@ -19,7 +19,9 @@ type Passport = {
   sources: {
     generation: number;
     area: string;
+    area_id: number;
     material: string;
+    material_id: number;
     assigned: string;
     generated: string;
     date: string;
@@ -68,6 +70,25 @@ export function PassportPage({
     [error, setError] = useState(""),
     [retry, setRetry] = useState(0);
   const [includeOrigins, setIncludeOrigins] = useState(false);
+  function cohortQuery() {
+    if (!data || !data.sources.length) return "";
+    const dates = data.sources
+      .map((x) =>
+        new Date(x.date).toLocaleDateString("sv-SE", {
+          timeZone: "America/Bogota",
+        }),
+      )
+      .sort();
+    const areas = [...new Set(data.sources.map((x) => x.area_id))];
+    const materials = [...new Set(data.sources.map((x) => x.material_id))];
+    return new URLSearchParams({
+      provenance: data.lot.provenance,
+      generated_from: dates[0],
+      generated_to: dates[dates.length - 1],
+      ...(areas.length === 1 ? { area: String(areas[0]) } : {}),
+      ...(materials.length === 1 ? { material: String(materials[0]) } : {}),
+    }).toString();
+  }
   useEffect(() => {
     let active = true;
     setData(null);
@@ -112,6 +133,17 @@ export function PassportPage({
             </p>
             <small>{data.lot.public_id}</small>
           </header>
+          {data.sources.length > 0 && (
+            <p className={s.note}>
+              Explora la cohorte del período y origen de este lote; puede
+              incluir otros registros del mismo universo.{" "}
+              <a href={"/simulador?" + cohortQuery()}>
+                Simular una alternativa
+              </a>{" "}
+              ·{" "}
+              <a href={"/asistente?" + cohortQuery()}>Consultar al asistente</a>
+            </p>
+          )}
           <div className={s.balance} aria-label="Balance del lote">
             {[
               ["Asignado", data.balance.assigned],

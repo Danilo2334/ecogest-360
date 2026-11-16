@@ -36,16 +36,16 @@ Orden final recibida: T012–T025 autorizadas localmente; CHK013 humana y activa
 
 ## Phase 6 — US4 / D autorizada localmente
 
-- [ ] T018 [US4] Probar roles, concurrencia, base congelada y evaluación en backend/tests/test_interventions.py (FR-017–020, SC-005).
+- [X] T018 [US4] Probar roles, concurrencia, base congelada y evaluación en backend/tests/test_interventions.py (FR-017–020, SC-005).
 - [X] T019 [US4] Crear backend/interventions/models.py y migraciones aditivas: textos 1–2000, institución compartida, estados y versión entera según data-model.md (FR-017–020).
 - [X] T020 [US4] Crear backend/interventions/services.py y frontend/src/features/plans/PlansPage.tsx con auditoría, metas y comparación válida (FR-017–020,026–028).
 
 ## Phase 7 — US5 / E autorizada localmente
 
 - [ ] T021 [US5] Aprobar modelo, presupuesto y política de datos en specs/002-ecogest-intelligence/research.md antes de habilitar red (FR-025).
-- [ ] T022 [US5] Probar proveedor falso, inyección, timeout, cuota, fuentes y aislamiento en backend/tests/test_intelligence.py (FR-021–025,028, SC-006).
-- [ ] T023 [US5] Implementar backend/intelligence/provider.py y services.py con reserva atómica, contexto mínimo y ausencia de escritura (FR-021–025).
-- [ ] T024 [US5] Implementar frontend/src/features/assistant/AssistantPage.tsx con tres modos, fuentes y degradación honesta (FR-021–028).
+- [X] T022 [US5] Probar proveedor falso, inyección, timeout, cuota, fuentes y aislamiento en backend/tests/test_intelligence.py (FR-021–025,028, SC-006).
+- [X] T023 [US5] Implementar backend/intelligence/provider.py y services.py con reserva atómica, contexto mínimo y ausencia de escritura (FR-021–025).
+- [X] T024 [US5] Implementar frontend/src/features/assistant/AssistantPage.tsx con tres modos, fuentes y degradación honesta (FR-021–028).
 
 ## Final Phase — Convergencia autorizada localmente
 
@@ -75,6 +75,20 @@ Commits locales auténticos autorizados; push no autorizado. A no requiere esque
 - [X] T029 Ejecutar backend 43, frontend 9, Playwright 5, TypeScript/build y capturas en cuatro anchos; comprobación representativa de contraste y teclado.
 - [X] T030 Registrar docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y detenerse para revisión. CHK013 y TDD histórico permanecen pendientes/parciales.
 
-Estado T017: cálculo/UX/pruebas implementados; falta transferencia revisable al plan durante D. T025 conserva prueba humana pendiente.
+Estado final T017: cálculo, UX, pruebas y transferencia revisable al plan completos. T025 conserva prueba humana pendiente.
 
-T017: transferencia escenario→plan validada por servidor y Playwright. T018: roles, auditoría, versión obsoleta e idempotencia probados; ensayo concurrente real pendiente en convergencia.
+T017: transferencia escenario→plan validada por servidor y Playwright. T018: roles, auditoría, versión obsoleta, idempotencia y ensayo concurrente real PostgreSQL aprobados.
+
+## Phase 8: Convergence
+
+- [X] T031 Completar restablecimiento explícito de filtros y verificar rutas con contexto en frontend/src/app/App.tsx y frontend/tests/e2e/assistant.spec.ts según FR-002/003/026 (partial, MEDIUM).
+- [X] T032 Actualizar estado vigente de plan.md, data-model.md, README.md, docs/DISENO_EXPERIENCIA_V2.md y reutilizar docs/DEMO_ACADEMICA.md para recorrido V2 de 10–15 minutos; conservar historia y mapa documental según plan F (partial, MEDIUM).
+- [X] T033 Ejecutar regresión integrada, capturas de cuatro anchos, teclado y revisión visual B–E; registrar resultados finales y límites en docs/PRUEBAS.md según SC-001/006/007/008/010 (partial, HIGH).
+
+Convergencia 2026-11-16: 32 FR, 10 SC y 5 historias examinadas. Sin conflicto constitucional crítico detectado. T021 (presupuesto/prueba real IA) y T025 (componente humano SC-007/CHK013) permanecen pendientes; no se duplican ni se cierran mediante automatización.
+
+
+Cierre local: T031–033 resueltas; enlaces, capturas y resultados en PRUEBAS.md. T025 parcialmente
+satisfecha técnicamente, sin marcar completada por faltar ejecución humana. T021: SDK/modelo,
+política y controles implementados; falta presupuesto autorizado y llamada real. No se
+considera un impedimento para el modo local autorizado por la orden final.

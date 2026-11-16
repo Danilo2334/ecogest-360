@@ -4,13 +4,15 @@
 
 ## Summary
 
-Evolución aditiva del MVP. Fase A autorizada: Observatorio de lectura y sistema visual sin
-cambiar fórmulas V1, modelos ni datos. Fases B–F solo planificadas y requieren nueva autorización.
+Evolución aditiva del MVP. A aprobada; B–E e integración autorizadas por la orden final.
+Observatorio, Pasaporte, Simulador, Planes y Asistente implementados localmente; validación
+automatizada integrada aprobada (PRUEBAS.md). No cambia fórmulas V1. Activación pagada de IA y demo humana pendientes.
 
 ## Technical Context
 
 Python 3.12, Django 5.2/DRF, PostgreSQL 16; React/TypeScript/Vite y CSS Modules existentes.
-Sin dependencias nuevas ni migraciones en A. SDK OpenAI solo en fase E posterior y con presupuesto.
+Sin dependencias nuevas ni migraciones en A. E usa SDK oficial OpenAI 3.51.0; no habilita
+red hasta presupuesto/flag. D/E añaden tablas; modelos ambientales V1 intactos.
 Pruebas Django/PostgreSQL, Vitest, Playwright. Windows local, responsive 360/390/768/1280.
 Objetivo SC-008: p95 ≤2 s, 10 000 registros/10 lectores, 100 muestras. Sin promesa de producción.
 
@@ -26,10 +28,11 @@ A: backend/reports/observatory.py, backend/core/views.py (GET nuevo), backend/te
 frontend/src/features/reports/{ReportsPage.tsx,Observatory.module.css,types.ts};
 frontend/src/components/MetricCard.tsx; frontend/src/app/{App.tsx,App.module.css,global.css};
 frontend/tests/observatory.test.tsx y frontend/tests/e2e/observatory.spec.ts.
-B futura: backend/traceability/passport.py, frontend/src/features/lots/PassportPage.tsx.
-C futura: backend/reports/scenarios.py, frontend/src/features/scenarios/ScenarioPage.tsx.
-D futura: backend/interventions/{models,services,views}.py y migraciones, frontend/src/features/plans/.
-E futura: backend/intelligence/{provider,context,services,views}.py, frontend/src/features/assistant/.
+B: backend/traceability/passport.py, frontend/src/features/lots/PassportPage.tsx.
+C: backend/reports/scenarios.py, frontend/src/features/scenarios/ScenarioPage.tsx.
+D: backend/interventions/{models,services}.py y migraciones, frontend/src/features/plans/.
+E: backend/intelligence/{models,provider,context,services}.py y migraciones, frontend/src/features/assistant/.
+D/E reutilizan dispatch en backend/core/views.py, sin duplicar vistas ni permisos.
 F: docs/PRUEBAS.md, docs/evidencias/v2/, README.md.
 
 ## Arquitectura y secuencia
@@ -48,7 +51,8 @@ Pasaporte/escenarios no requieren modificar entidades V1; planes y cuotas futura
 
 ## Complexity Tracking
 
-No excepciones constitucionales ni nuevas bibliotecas. No rehacer dispatch ni report V1.
+No excepciones constitucionales. OpenAI es la dependencia justificada de E, instalada solo
+en el entorno virtual; sin librería visual nueva. No rehacer dispatch ni report V1.
 Ver research.md, data-model.md, contracts/api.md y quickstart.md para contratos verificables.
 # Adenda de refinamiento A — 2026-11-16
 

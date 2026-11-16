@@ -32,7 +32,7 @@ test("Simulación real efímera con filtros, límites y cuatro anchos", async ({
         }),
       }),
   ).toContainText("110");
-  mkdirSync("../docs/evidencias/v2/simulador", { recursive: true });
+  mkdirSync("../docs/evidencias/v2/integracion/simulador", { recursive: true });
   for (const width of [1280, 768, 390, 360]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.evaluate(() => {
@@ -45,7 +45,7 @@ test("Simulación real efímera con filtros, límites y cuatro anchos", async ({
       ),
     ).toBeTruthy();
     await page.screenshot({
-      path: `../docs/evidencias/v2/simulador/simulador-${width}.png`,
+      path: `../docs/evidencias/v2/integracion/simulador/simulador-${width}.png`,
       fullPage: true,
     });
   }
