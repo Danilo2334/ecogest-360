@@ -169,3 +169,45 @@ Se acotó la huella del generador a dominios ambientales V1, excluyendo recibos 
 la misma huella original sigue vigente tras crear un plan simulado.
 Inventario docs/specs: 41 Markdown, ningún duplicado exacto. No se archivó ni borró contenido
 académico; README ahora distingue fuentes canónicas y antecedentes. Pendiente cotejo final de enlaces.
+
+
+## 2026-11-16 — Asistente E y cierre integrado local
+
+SDK oficial OpenAI 3.51.0 fijado con dependencias transitivas en el entorno virtual.
+Responses API, modelo tarifado configurable gpt-5.6-terra, sin fallback. Fuente vigente y
+precios en research.md; no disponibilidad real afirmada. El modelo selecciona IDs/códigos
+sobre un catálogo determinista: cifras, explicaciones y acciones se resuelven desde servidor.
+Se evita publicar texto libre supuestamente verificado mediante heurísticas. La limitación
+es explícita: fuera del catálogo puede no responder, no ofrece una conversación universal.
+
+Conversación solo en memoria; metadatos Invocation para cuota, sin preguntas/respuestas.
+Reserva atómica global, una consulta pendiente por usuario y UUID único. Ante cobro incierto
+se conserva la reserva, sin liberar automáticamente tras caída de proceso. No se activaron
+banderas ni modificó el .env; presupuesto y prueba real siguen pendientes. Se conservan
+explicaciones locales con aviso honesto. Destino oficial fijo, sin herramientas/SQL/adjuntos,
+store=false sin prometer retención cero. Pregunta con advertencia de privacidad y filtro
+conservador; el usuario no debe introducir información privada.
+
+Rutas de módulos y filtros restaurables, enlaces desde Pasaporte a cohorte claramente
+identificada, Simulador→propuesta revisable de Plan y acceso al Asistente. Respuesta previa
+conserva contexto al cambiar filtros; navegación obsoleta deshabilitada, respuestas tardías
+descartadas. Plan informa responsable inactivo y evaluación antigua; no altera permisos.
+
+Convergencia Spec Kit añadió T031–033 para filtros, documentación y verificación final.
+Se conservan evidencias originales de fases; Playwright escribe ahora en integracion/.
+Inventario de 44 Markdown (41 docs/specs + README/AGENTS/constitución), sin duplicados exactos.
+No se archivaron ni fusionaron antecedentes académicos; README funciona como mapa canónico.
+Se amplió DEMO_ACADEMICA.md para V2 y se preservó el recorrido operativo V1 como alternativa.
+Sin nuevos informes por etapa, sin cambios en plantillas, constitución, autores o historial.
+
+Cotejo final de 52 vínculos locales: ningún destino ausente. Respaldos excluidos, 0 claves
+potenciales detectadas en candidatos mediante patrones sin imprimir valores. No se archivó
+ningún Markdown: los documentos similares cumplen funciones históricas distintas. La única
+consolidación es el mapa canónico y la actualización del guion existente, sin pérdida de evidencia.
+
+Hitos locales de la orden final (autor real configurado Danilo Carlosama): `b082971`
+Observatorio/cohorte, `f04b749` Pasaporte/Simulador, `b0f31d5` Planes y `26ceb8d`
+Asistente/navegación/convergencia. No se reescribió ningún commit anterior. El cierre
+siguiente incorpora únicamente documentación y capturas revisadas. main conserva
+58bab1f87373d0110b088fc5d894a9f9f467e104; MVP conserva
+34ce7bf24463a3ce476cdb52e9c002f2ab777faf; respaldo local conservado.

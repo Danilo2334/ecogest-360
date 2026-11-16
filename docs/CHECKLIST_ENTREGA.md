@@ -1,5 +1,7 @@
 # Inventario de entrega académica
 
+Actualización V2 al final; la tabla siguiente conserva el antecedente de preparación V1.
+
 Preparación local; no significa publicación, aprobación humana ni carga en Campus UCC.
 
 | Contenido | Ubicación | Estado |
@@ -23,3 +25,16 @@ capturas revisadas con datos simulados. No fabricar videos, firmas ni constancia
 
 Preparación visual: se abrió la pantalla de acceso de EcoGest 360 en Chrome mediante control
 del agente. Esto acredita disponibilidad de la pantalla, no una demo humana ni cierre de CHK013.
+
+
+## Actualización local V2 — 2026-11-16
+
+- Constitución 1.1.0 y artefactos V1 preservados; fuentes V2 en specs/002-ecogest-intelligence.
+- A–E implementadas. Resultado vigente de pruebas en PRUEBAS.md (69 backend, recorridos
+  completos y específicos, Vitest y build). La cifra 38 de la tabla es histórica.
+- Capturas actuales revisadas: docs/evidencias/v2/integracion y docs/evidencias/v2/asistente.
+  Originales de fases preservados; README enlaza fuentes canónicas y antecedentes.
+- Guion audiovisual V2 reutiliza DEMO_ACADEMICA.md; CHK013 sigue pendiente, sin firmas fabricadas.
+- Asistente OpenAI apagado: presupuesto, confirmación de saldo y smoke test real pendientes.
+- V2 solo local. Historial previo, main, rama MVP y respaldo preservados; no publicación/merge.
+- Revisión auténtica por ambos integrantes y carga individual en Campus UCC pendientes.

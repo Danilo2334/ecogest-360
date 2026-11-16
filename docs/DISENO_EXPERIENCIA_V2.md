@@ -213,4 +213,30 @@ y mantenimiento; Incidencias permanece accesible globalmente y desde detalle.
 
 Evaluar en 360/390/768/1280 px, teclado, zoom y movimiento reducido. Una persona debe poder
 identificar procedencia, fuente y siguiente acción sin ayuda oral; registrar tiempo y errores.
-Estos wireframes describen la dirección completa. Capturas de fase A ejecutada en docs/evidencias/v2/; las vistas restantes no se han implementado.
+Estos wireframes son antecedentes del diseño. A–E están implementadas localmente; la prueba pagada IA y la aceptación humana siguen pendientes.
+
+
+## Estado construido — orden final 2026-11-16
+
+Pasaporte, Simulador, Planes y Asistente reutilizan verde bosque/marfil, CSS Modules,
+formularios accesibles y estados explícitos. Rutas /simulador, /planes, /asistente,
+/registros y /lotes conservan filtros; recarga y atrás del navegador restauran el contexto.
+Las fuentes del pasaporte permiten explorar la cohorte del origen, avisando que puede
+incluir otros registros. Observatorio abre evidencia y escenario; el escenario propone un
+plan que el gestor revisa; planes permiten volver a consulta contextual del asistente.
+
+Planes utilizan un único formulario de propuesta y un detalle por selección, sin duplicar
+formularios en cada tarjeta. Edición de meta/responsable y auditoría se despliegan; el
+resultado ambiental se separa del seguimiento. Responsable inactivo se advierte. Las metas
+son valores absolutos del indicador (kg o %), la diferencia de tasas usa puntos porcentuales.
+
+Asistente: tres modos, ejemplos que enfocan la pregunta por teclado, fuentes locales,
+metodología sin servicio y respuesta estructurada verificable. El modelo selecciona códigos
+validados; no se renderiza texto libre con cifras inventadas. No ofrece conversación abierta
+fuera del catálogo. Conversación efímera; respuesta anterior conserva contexto y deshabilita
+acciones obsoletas al cambiar filtros. Los envíos tardíos se descartan, la espera UI se acota
+sin reintentos automáticos. La IA nunca inicia decisiones humanas. Capturas en
+`evidencias/v2/asistente` muestran el modo local real, no respuestas falsas de OpenAI.
+
+Las capturas reales en pasaporte/simulador/planes/asistente cubren 360/390/768/1280; resultados
+finales y límites en PRUEBAS.md. El guion audiovisual existente se amplió, no se creó otro.

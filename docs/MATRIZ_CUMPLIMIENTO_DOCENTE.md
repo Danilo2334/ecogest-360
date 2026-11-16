@@ -40,3 +40,23 @@ pesos y formato exacto. El PDF fue compartido y revisado en la conversación seg
 recibida; no se atribuye una consulta personal al estudiante ni una inspección directa al agente local.
 Las correcciones técnicas autorizadas de CHK004 ya se ejecutaron; no se reconstruye el MVP
 ni se repiten pruebas por este cambio exclusivamente documental.
+
+
+## Adenda de cierre local V2 — 2026-11-16
+
+Las filas anteriores conservan el estado histórico de auditoría/preparación V1. Para el
+estado técnico vigente consultar README, specs/002-ecogest-intelligence y PRUEBAS.md:
+A–E integradas, 69 pruebas backend aprobadas, regresión de navegador 9/9 más 3 recorridos
+posteriores de rutas y responsive. OpenAI implementado con mocks, sin gasto real ni activación.
+Migraciones completas verificadas en PostgreSQL vacío aislado; reproducción por otra persona
+sigue pendiente. La guía audiovisual existente incorpora V2 y preserva alternativa V1.
+
+Se mantienen los seis criterios oficiales sin porcentajes de nota: Artefactos SDD **Parcial**
+por evidencias históricas incompletas y cierres humanos; Aplicación funcional **Parcial** por
+CHK013 y validación independiente; Calidad técnica **Cumple en alcance probado**;
+Trabajo colaborativo **Parcial** sin revisión auténtica comprobada en esta ejecución;
+Pruebas y verificación **Cumple en alcance automatizado probado**, sin extrapolar a llamada
+OpenAI real; Documentación y demo **Parcial** hasta evidencia humana y entrega.
+El repositorio privado y PR #1 son antecedentes indicados por el equipo, no nuevas operaciones
+ni revisiones verificadas aquí. Esta ejecución V2 no hizo push, PR, merge ni consulta remota.
+No se reatribuyeron autores. Campus UCC y PDF físico siguen pendientes según registro previo.

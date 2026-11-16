@@ -263,3 +263,72 @@ Respaldo restaurado y migración inicial de interventions ejecutada con éxito e
 luego desarrollo. manage.py check correcto; makemigrations --check --dry-run sin cambios.
 Pendientes finales: concurrencia real entre gestores, regresión global después de E, revisión
 visual móvil de Planes, enlaces documentales, CHK013 humana y pruebas pagadas IA no autorizadas.
+
+
+## 2026-11-16 — Asistente E e integración final V2
+
+E inició con 4 tests: 3 fallos 404 y 1 caso CSRF ya satisfecho. Tras implementar,
+9/9 pasaron (67,149 s); se añadió un caso de selección de lotes sin verificación.
+Proveedor simulado: ausencia de clave/presupuesto, cuatro roles, ámbito institucional,
+contexto mínimo sin nombres/textos libres, entrada maliciosa sin capacidades, respuesta
+con fuentes ajenas/campos inventados, timeout, idempotencia, reserva, cuota y cinco/minuto.
+SDK oficial instalado; firma local responses.parse comprobada. El mock verifica store=false,
+1000 tokens, timeout 25 s, cero reintentos, sin tools ni previous_response_id.
+
+Concurrencia PostgreSQL real: 2/2 (19,073 s), edición de plan con versión obsoleta y
+reserva global/usuario simultánea; ambas mantienen una sola operación aceptada.
+
+Regresión completa: `backend/.venv/Scripts/python.exe backend/manage.py test tests --keepdb --noinput`:
+**69/69**, 616,697 s. Incluye V1, procedencias, QR/evidencias/permisos, masas, duplicados,
+compostaje, Pasaporte, Simulador, Planes, IA simulada y rendimiento. Una invocación anterior
+sin la etiqueta `tests` descubrió cero pruebas; NO se contabiliza como validación.
+Observatorio 10 000 filas / 10 lectores / 100 muestras: **p95=0,814 s**.
+Reporte V1 p95 conservador=0,267 s; exportación CSV=3,309 s. CSV no se presenta como <2 s.
+
+Playwright completo: **9/9** (2,0 min), incluido flujo vertical original de 25/20/8,
+CSV, consultor, filtros y cuatro anchos. Tras ajustes de orden visual/rutas/filtros:
+**3/3** (38,0 s), Asistente→Simulador→recarga→Atrás→restablecer, Pasaporte→cohorte del
+Simulador y plan con evaluación/cierre. El primer ensayo de Asistente falló por selector
+exacto SIMULADO; el texto real incluía corte. Se corrigió el selector, no los datos.
+Vitest: 17/17 (12,47 s) antes de la última ampliación de verificación de contexto.
+TypeScript/build correctos; JS 289,12 kB / gzip 87,92 kB y CSS 26,61 kB.
+
+Revisión visual: capturas efectivas de B/C/D/E en 360/390/768/1280 sin overflow; inspección
+representativa en los cuatro tamaños. Se corrigió herencia de estilo en valores del Asistente,
+se restauró anchura de filtros y se puso evidencia de Planes antes de formularios en tablet.
+Teclado: fuentes/QR, ejemplos del asistente y navegación; contraste de cinco textos del
+Observatorio mínimo 5,43:1. No es una certificación integral WCAG ni ensayo humano CHK013.
+
+Las capturas originales de A/B/C/D se conservaron byte por byte. Nuevas capturas de
+regresión en `docs/evidencias/v2/integracion/`; Asistente en `docs/evidencias/v2/asistente/`.
+No se presentan mocks como respuesta OpenAI real. La repetición del seed después de Planes
+conservó 84 registros y huella `0338edc5f662074ac44d29fe36577ef135fd0001004605c0681d22cf69fa17e2`.
+
+Migración intelligence ensayada en copia y aplicada en desarrollo. Además, todas las
+migraciones V1+D+E pasaron desde una base PostgreSQL vacía independiente
+`ecogest_v2_clean_trial_20261116`; no se borró ninguna base ni se probó reversión destructiva.
+Respaldo previo E en `backups/ecogest-before-v2-assistant-20261116.dump`, ignorado por Git.
+`manage.py check`: correcto; `makemigrations --check --dry-run`: sin cambios; `pip check`:
+sin incompatibilidades. Se conservaron ramas protegidas y constitución 1.1.0.
+
+OpenAI: presencia de clave comprobada solo como booleano; AI_ENABLED, AI_BUDGET_AUTHORIZED
+y OPENAI_SMOKE_TEST falsos; **0 invocaciones en la base local**. Ninguna llamada pagada,
+saldo de cuenta ni latencia real verificados. T021 permanece pendiente de autorización.
+CHK013 y componente humano de T025/SC-007 pendientes. T008/T014/T019/T026/T032 del MVP
+continúan parciales por evidencia TDD histórica; esta suite no corrige el pasado.
+
+
+Última ampliación UI: **18/18 Vitest** (11,97 s), incluida respuesta previa identificada
+al cambiar filtros y botones de contexto obsoleto deshabilitados. TypeScript/build correcto
+(JS 289,32 kB / gzip 87,96 kB). Cotejo documental final: **44 Markdown, 52 enlaces locales,
+0 destinos ausentes**; no se comprobaron disponibilidad web ni anclas internas por este script.
+Escaneo de 207 archivos de texto candidatos: sin patrones de claves privadas, tokens de
+proveedor/GitHub o URL PostgreSQL con contraseña, ni .env/dumps/llaves candidatos. No equivale
+a garantía universal de ausencia de datos sensibles. .gitignore protege configuración local,
+respaldos, adjuntos, cachés y dependencias; SDD y ejemplos seguros permanecen versionables.
+
+Verificación final adicional de ruta QR privada: Playwright Pasaporte **1/1** (18,9 s),
+consulta directa por UUID → volver a /lotes preservando filtros → recarga conserva lista.
+Build final JS 289,35 kB / gzip 87,96 kB, CSS 26,61 kB / gzip 5,98 kB. Sin código cambiado
+tras esa comprobación; cierre siguiente solo documental y evidencias. Commit de integración
+local `26ceb8d`, autor real Danilo; sin push, merge, cambios en main/MVP ni llamadas pagadas.

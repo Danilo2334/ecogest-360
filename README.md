@@ -1,7 +1,10 @@
-# EcoGest 360
+# EcoGest 360 Intelligence
 
 MVP académico de gestión ambiental para una universidad: registro de residuos, lotes,
 movimientos, compostaje verificado, indicadores y CSV. Un solo producto, con metodología SDD.
+La rama V2 añade Observatorio, Pasaporte Ambiental, Simulador, Planes de acción y Asistente.
+La integración OpenAI está implementada y se verifica con mocks; permanece deshabilitada
+hasta autorizar presupuesto y realizar una prueba real controlada. El resto funciona sin IA.
 
 **Datos de demostración: simulados.** En esta versión, el aprovechamiento acreditado mide
 solo entradas a compostaje cuyo proceso y destino validó un gestor. Las entregas externas
@@ -18,8 +21,8 @@ Python 3.12, Django 5.2 LTS, DRF y PostgreSQL 16. React, TypeScript, Vite y CSS 
 Dependencias Python fijadas en `backend/requirements.txt`; frontend en `frontend/package-lock.json`.
 
 - [Constitución ratificada](.specify/memory/constitution.md)
-- [Especificación](specs/001-ecogest-mvp/spec.md), [plan](specs/001-ecogest-mvp/plan.md)
-- [Tareas y estado real](specs/001-ecogest-mvp/tasks.md)
+- [Especificación V2](specs/002-ecogest-intelligence/spec.md), [plan](specs/002-ecogest-intelligence/plan.md)
+- [Tareas y estado real V2](specs/002-ecogest-intelligence/tasks.md)
 - [Decisiones](docs/DECISIONES.md), [pruebas y límites](docs/PRUEBAS.md)
 
 ## Preparar desde cero — Windows PowerShell
@@ -83,6 +86,34 @@ consultarlo en el editor, sin publicarlo. `seed_demo` no reinicia contraseñas e
 El comando crea cuentas, campus, cafetería y catálogo demostrativo, pero no mediciones.
 Las pruebas de navegador agregan registros explícitamente simulados y los conservan.
 
+### Cohorte visual V2 (opcional y explícita)
+
+```powershell
+backend/.venv/Scripts/python.exe backend/manage.py seed_observatory_demo
+```
+
+Leer primero [el contrato de datos demo](docs/DATOS_DEMO_OBSERVATORIO.md). El comando
+crea una institución SIMULADA separada y cuentas `intelligence_administrador`,
+`intelligence_operador`, `intelligence_gestor`, `intelligence_consultor`; usa DEMO_PASSWORD
+solo al crearlas. Repetir no duplica ni reinicia contraseñas. Nunca se ejecuta al arrancar.
+Para el 2–15 noviembre de 2026, procedencia simulado: G=365 kg, A=100 kg, pendiente=265 kg,
+tasa=27,40 %. Son cifras sintéticas reproducibles; otros filtros pueden dar otros resultados.
+
+### Recorrido V2
+
+Entrar como `intelligence_gestor`, seleccionar ese período y procedencia simulado.
+Las rutas conservan filtros en la URL y admiten recarga/atrás del navegador:
+
+- `/`: Observatorio → evidencia del hallazgo en `/registros` → pasaporte del lote.
+- `/lotes` y `/lotes/{uuid}`: fuentes, saldo, QR privado, eventos y procesos relacionados.
+- `/simulador`: una hipótesis, comparación base/resultado, sin persistencia ambiental.
+- `/planes`: solo gestor crea, revisa, sigue y evalúa; demás roles consultan.
+- `/asistente`: fuentes y metodología locales; tres modos de IA sujetos a habilitación.
+
+El pasaporte permite abrir la cohorte de su período/origen en Simulador o Asistente;
+puede incluir otros registros, no se presenta como un filtro exclusivo por lote.
+Seguir [el guion audiovisual de 10–15 minutos](docs/DEMO_ACADEMICA.md).
+
 ## Demostración funcional
 
 1. Entrar con operador. En Registros crear 25 kg de orgánicos, área Cafetería,
@@ -122,6 +153,10 @@ npx.cmd playwright install chromium
 npm.cmd run test:e2e
 ```
 
+Para los recorridos V2 preparar previamente `seed_observatory_demo` y aplicar ambas
+migraciones aditivas (`interventions` e `intelligence`). Desde la raíz usar la etiqueta
+`test tests`: ejecutar `manage.py test` sin etiqueta desde raíz puede descubrir cero casos.
+
 Las pruebas Django crean una base `test_ecogest` independiente y la eliminan al terminar;
 no usan SQLite ni modifican los registros de desarrollo. Las pruebas de concurrencia usan
 conexiones separadas. La prueba de rendimiento mide 10 000 registros simulados y 10 lectores.
@@ -145,14 +180,50 @@ conserva el volumen. **No usar `down -v` ni eliminar volúmenes con registros.**
 
 ## Límites de esta entrega
 
-Una universidad administrable; la segunda institución solo aparece en fixtures de aislamiento.
-Sin IA, IoT, PDF de informes, certificaciones, portal QR público ni reversión de consumos.
+Una universidad administrable por sesión; la cohorte V2 usa una institución demostrativa
+separada. Sin IoT, PDF de informes, certificaciones, portal QR público ni reversión de consumos.
+OpenAI está integrado pero su prueba pagada permanece pendiente. El asistente selecciona
+evidencias y explicaciones de un catálogo validado; no es conversación abierta ni buscador web.
 Los informes usan generación corregida vigente y corte de validación, no reconstrucciones
 históricas de todas las correcciones. La acreditación se limita a compostaje.
 Hay 12/13 criterios aprobados técnicamente; CHK013 sigue pendiente de demostración humana.
 La aprobación académica no se deduce de los tests. La enmienda SVG está ratificada en constitución 1.1.0.
 Consultar `docs/PRUEBAS.md` para resultados ejecutados y limitaciones de cobertura, sin asumir
 que toda prueba planificada tiene evidencia histórica de una fase inicial fallida.
+
+## OpenAI: configuración sin gasto automático
+
+El backend carga el `.env` raíz; la clave nunca va a Vite ni al navegador. No crear otra
+clave si ya existe. Variables seguras de referencia en `.env.example`:
+`OPENAI_MODEL=gpt-5.6-terra`, `AI_ENABLED=0`, `AI_BUDGET_AUTHORIZED=0`,
+`OPENAI_SMOKE_TEST=0`, `AI_DAILY_BUDGET_USD=0`, `AI_PROJECT_BUDGET_USD=0`.
+Estos valores conservan el modo local. No se modificó el `.env` existente para activarlo.
+
+Antes de cambiar las tres banderas a 1, el titular debe autorizar un monto diario por
+institución y un monto total del proyecto, comprobar saldo/tarifa/disponibilidad en OpenAI
+y autorizar una única consulta de prueba con datos simulados. No hay fallback a otro modelo.
+El modelo permitido y su tarifa conservadora se revisan en `backend/intelligence/services.py`;
+cambiar OPENAI_MODEL por un modelo no tarifado mantiene el servicio bloqueado.
+
+Responses API, `store=false`, 1000 tokens máximos de salida, 25 s de timeout SDK, cero
+reintentos automáticos, espera UI acotada a 30 s. La reserva máxima local es USD 0,05456 por
+consulta con la tarifa revisada; se concilia usando tokens informados y precio conservador.
+No es una cotización permanente ni incluye gastos ajenos a esta aplicación. La cota de
+entrada utiliza bytes UTF-8 más margen de encuadre; no se envían herramientas ni adjuntos.
+Una consulta pendiente bloquea otra del mismo usuario y el límite es cinco por minuto.
+Reservas globales atómicas evitan que dos trabajadores sobrepasen el saldo configurado.
+
+Solo se persisten metadatos de uso, nunca preguntas ni respuestas. Errores sin información
+de consumo retienen la reserva; un proceso interrumpido deja un envío pendiente que exige
+conciliación manual con la cuenta antes de liberar cuota. No borrar esas filas para renovar
+presupuesto. Los límites de esta app no sustituyen los de la cuenta OpenAI.
+`store=false` no significa retención cero del proveedor; revisar la política en
+[research.md](specs/002-ecogest-intelligence/research.md). No introducir datos personales en
+preguntas: el filtro de patrones obvios no garantiza anonimización universal.
+
+Las pruebas normales simulan el proveedor y **no hacen llamadas pagadas**. No se ejecutó
+smoke test real ni se verificó saldo de la cuenta. CHK013, revisión auténtica del PR y
+entregas individuales en Campus UCC son actividades humanas pendientes.
 
 
 ## Mapa documental vigente
