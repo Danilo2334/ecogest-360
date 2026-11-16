@@ -23,3 +23,21 @@ por separado, el primer commit documental. No se interpretan estos pendientes co
 ## Autorización de implementación 2026-11-15
 A1 y A2 aprobados expresamente. Dashboard distinguirá compostaje acreditado del total institucional y de entregas externas. Se autorizan implementación, instalaciones aisladas, base nueva y commits locales con identidad verificada. Los 13 criterios de revisión se conservan abiertos; el usuario autoriza continuar. Identidad Git y cuenta activa verificadas: Danilo2334, id 134672640.
 
+
+## Decisiones de implementación
+
+- PostgreSQL 16 en contenedor dedicado ecogest360, volumen nuevo y puerto loopback 55436.
+  Usuario de aplicación ecogest_app sin superusuario; CREATEDB exclusivamente para tests locales.
+- Frontend en 5178 porque 5173 estaba ocupado; no se detuvo el proceso ajeno.
+- Los servicios de dominio permanecen separados; el transporte REST se concentra en core/views.py.
+  Movement de tipo entrega/entrada_compostaje representa el consumo único, evitando una entidad
+  Consumption duplicada; ConsumptionSource conserva reparto por origen. No cambia regla de masa.
+- Idempotencia: bloqueo transaccional advisory por institución/actor/ruta/clave antes de consultar
+  el recibo único; evita carreras de reintentos sin continuar transacciones rotas.
+- CSS Modules compartidos y pantallas separadas bajo frontend/src/features/. No se agregó biblioteca
+  de gráficos; SVG accesible y tabla representan datos reales de la consulta.
+- Para el piloto, las listas devuelven arrays; no se implementó la paginación prevista en el
+  contrato inicial. El panel agrega directamente en PostgreSQL y CSV prepara filas solo al exportar.
+  La carga es selectiva por pantalla; paginación permanece como mejora para listados voluminosos.
+- La fase inicial roja se ejecutó con el flujo vertical antes de existir los módulos. Varias pruebas
+  especializadas se añadieron después: no se atribuye una secuencia TDD completa a cada tarea.

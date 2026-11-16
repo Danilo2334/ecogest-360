@@ -8,7 +8,7 @@ No es implementación. Referencias a [modelo](../data-model.md) y [especificaci�
 Sesión de usuario y CSRF en todas las mutaciones, incluido login. 401 sin sesión con
 WWW-Authenticate, 403 sin permiso o CSRF, 404 recurso inexistente/no visible, 400 entrada inválida,
 409 saldo/estado/reintento incompatible. Error: code, message en español, field_errors opcional.
-Listas paginadas: count, next, previous, results; máximo 100 elementos por página.
+Implementación del piloto: listas como arrays sin paginación. Paginación queda como mejora técnica; no cambia filtros ni permisos.
 El servidor deriva institución/actor de membresía; no confía en campos enviados por cliente.
 Idempotency-Key obligatorio en creación de generación, lote, movimiento, entrada, finalización,
 confirmación y cierre; UUID de operación retenido por cliente mientras desconoce resultado.
@@ -50,8 +50,7 @@ provenance y cutoff. Validar fechas y procedencias; excluir eventos posteriores 
 numerador. Denominador usa generación vigente de cohorte, no suma movimientos.
 Respuesta incluye fórmula, unidades, universo, corte, calidad, provisional y limitaciones.
 CSV lleva columnas de contexto repetidas por fila, IDs de generación, masa generada y
-acreditada por origen. Sin filas: cabecera y contexto en descarga separada de metadatos
-incluidos en nombre/encabezados HTTP; UI conserva contexto del reporte vacío.
+acreditada por origen. Sin registros: una fila row_type=metadata conserva filtros/corte y ceros; no representa generación. Las filas ordinarias llevan row_type=generation.
 Neutralizar textos que comiencen por =, +, -, @ o caracteres de control y escapar CSV.
 
 ## Contrato UI
