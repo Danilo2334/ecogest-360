@@ -32,13 +32,13 @@ Orden final recibida: T012–T025 autorizadas localmente; CHK013 humana y activa
 
 - [X] T015 [US3] Probar x=E, x>E, G'=0, procedencia estimada y cero escritura en backend/tests/test_scenarios.py (FR-012–016, SC-004).
 - [X] T016 [US3] Implementar backend/reports/scenarios.py con E/N por origen y base actual revalidada (FR-012–016).
-- [ ] T017 [US3] Implementar frontend/src/features/scenarios/ScenarioPage.tsx y cálculo efímero etiquetado (FR-012–016,026–027).
+- [X] T017 [US3] Implementar frontend/src/features/scenarios/ScenarioPage.tsx y cálculo efímero etiquetado (FR-012–016,026–027).
 
 ## Phase 6 — US4 / D autorizada localmente
 
 - [ ] T018 [US4] Probar roles, concurrencia, base congelada y evaluación en backend/tests/test_interventions.py (FR-017–020, SC-005).
-- [ ] T019 [US4] Crear backend/interventions/models.py y migraciones aditivas: textos 1–2000, institución compartida, estados y versión entera según data-model.md (FR-017–020).
-- [ ] T020 [US4] Crear backend/interventions/services.py y frontend/src/features/plans/PlansPage.tsx con auditoría, metas y comparación válida (FR-017–020,026–028).
+- [X] T019 [US4] Crear backend/interventions/models.py y migraciones aditivas: textos 1–2000, institución compartida, estados y versión entera según data-model.md (FR-017–020).
+- [X] T020 [US4] Crear backend/interventions/services.py y frontend/src/features/plans/PlansPage.tsx con auditoría, metas y comparación válida (FR-017–020,026–028).
 
 ## Phase 7 — US5 / E autorizada localmente
 
@@ -76,3 +76,5 @@ Commits locales auténticos autorizados; push no autorizado. A no requiere esque
 - [X] T030 Registrar docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y detenerse para revisión. CHK013 y TDD histórico permanecen pendientes/parciales.
 
 Estado T017: cálculo/UX/pruebas implementados; falta transferencia revisable al plan durante D. T025 conserva prueba humana pendiente.
+
+T017: transferencia escenario→plan validada por servidor y Playwright. T018: roles, auditoría, versión obsoleta e idempotencia probados; ensayo concurrente real pendiente en convergencia.

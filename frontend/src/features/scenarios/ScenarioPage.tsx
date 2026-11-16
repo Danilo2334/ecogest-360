@@ -212,6 +212,7 @@ export function ScenarioPage({
                   disabled={
                     busy ||
                     !!error ||
+                    !data.filters.area ||
                     (amount !== data.amount &&
                       Number(amount) !== Number(data.amount))
                   }
@@ -219,6 +220,12 @@ export function ScenarioPage({
                 >
                   Revisar propuesta de plan
                 </button>
+              )}
+              {onPlan && !data.filters.area && (
+                <p>
+                  Selecciona un área en los filtros para preparar un plan con
+                  responsable y alcance concreto.
+                </p>
               )}
             </>
           )}

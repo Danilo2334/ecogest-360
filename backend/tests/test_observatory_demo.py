@@ -7,11 +7,17 @@ from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 from organizations.models import Institution, Membership
 from waste.models import Generation
-from core.models import AuditEvent
+from core.models import AuditEvent, OperationReceipt
 from reports.observatory import observatory
 
 
 class ObservatoryDemoTests(TestCase):
+    def test_plan_receipts_do_not_invalidate_environmental_seed(self):
+        first=self.run_seed('--apply','--end-date','2026-11-15')
+        m=Membership.objects.get(user__username='intelligence_gestor')
+        OperationReceipt.objects.create(institution=m.institution,actor=m.user,operation='v2/plans',key='demo-plan',digest='test',result={'id':1})
+        self.assertEqual(first,self.run_seed('--describe'))
+
     def run_seed(self, *args):
         out = io.StringIO()
         with patch.dict("os.environ", {"DEMO_PASSWORD": "Only-test-password-123!"}):

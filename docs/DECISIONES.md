@@ -155,3 +155,17 @@ fuentes/valores/consumos/filtros. Corte histórico se rechaza. Escenarios no per
 Respaldo previo a Planes en backups/ecogest-before-v2-plans-20261116.dump, excluido de Git,
 119353 bytes; pg_restore --list legible y restauración exitosa en base independiente
 ecogest_v2_migration_trial_20261116. Aún no se aplicaron migraciones nuevas.
+
+
+## 2026-11-16 — Planes persistentes D
+
+Interventions añade cuatro tablas, sin alterar modelos V1. Migración ensayada en copia
+restaurada y después aplicada localmente; esquema sin cambios pendientes. No se ejecutó
+reversión sobre datos. Gestor único escritor, filas bloqueadas y versión esperada, POST
+idempotentes. Inicio conserva base; fuente corregida da no_evaluable; cambiar versión
+exige nueva evaluación para cierre. Escenario es sugerencia: se revalida token y área en
+servidor antes de guardar, nunca se crean registros ambientales desde un plan.
+Se acotó la huella del generador a dominios ambientales V1, excluyendo recibos de Planes;
+la misma huella original sigue vigente tras crear un plan simulado.
+Inventario docs/specs: 41 Markdown, ningún duplicado exacto. No se archivó ni borró contenido
+académico; README ahora distingue fuentes canónicas y antecedentes. Pendiente cotejo final de enlaces.

@@ -6,6 +6,8 @@ import { LotsPage } from "../features/lots/LotsPage";
 import { WastePage } from "../features/waste/WastePage";
 import { ReportsPage } from "../features/reports/ReportsPage";
 import { ScenarioPage } from "../features/scenarios/ScenarioPage";
+import type { Scenario } from "../features/scenarios/ScenarioPage";
+import { PlansPage } from "../features/plans/PlansPage";
 import { useEffect, useState } from "react";
 import { api, type Row } from "../services/api";
 import s from "./App.module.css";
@@ -51,6 +53,7 @@ export default function App() {
   const [dashboard, setDashboard] = useState<Row | null>(null),
     [filters, setFilters] = useState<Row>(initialFilters);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [proposal, setProposal] = useState<Scenario | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const refresh = () => {
     setNotice("Operación guardada. Los datos se actualizaron.");
@@ -145,6 +148,7 @@ export default function App() {
   const nav = [
     "Resumen",
     "Simulador",
+    "Planes de acción",
     "Registros",
     "Lotes",
     "Compostaje",
@@ -268,6 +272,7 @@ export default function App() {
             onClick={async () => {
               await api("session/logout", {});
               setUser(null);
+              setProposal(null);
               setDashboard(null);
               setData({
                 areas: [],
@@ -333,7 +338,9 @@ export default function App() {
               <div className={s.loadingBar} />
             </div>
           )}
-          {["Resumen", "Registros", "Simulador"].includes(page) && (
+          {["Resumen", "Registros", "Simulador", "Planes de acción"].includes(
+            page,
+          ) && (
             <section
               className={`${s.filters} ${filtersOpen ? "" : s.filtersCollapsed}`}
               aria-label="Filtros"
@@ -466,7 +473,28 @@ export default function App() {
             />
           )}
           {page === "Registros" && <WastePage {...featureProps} />}
-          {page === "Simulador" && <ScenarioPage query={query} />}
+          {page === "Simulador" && (
+            <ScenarioPage
+              query={query}
+              onPlan={
+                manager
+                  ? (scenario) => {
+                      setProposal(scenario);
+                      setPage("Planes de acción");
+                    }
+                  : undefined
+              }
+            />
+          )}
+          {page === "Planes de acción" && (
+            <PlansPage
+              data={data}
+              manager={manager}
+              query={query}
+              proposal={proposal}
+              onClearProposal={() => setProposal(null)}
+            />
+          )}
           {page === "Lotes" && <LotsPage {...featureProps} />}
           {page === "Compostaje" && <CompostPage {...featureProps} />}
           {page === "Incidencias" && <IncidentsPage {...featureProps} />}

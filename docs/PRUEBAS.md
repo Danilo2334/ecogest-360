@@ -247,3 +247,19 @@ Cohorte simulada C: E=87 kg, hipótesis +10 muestra A'=110, G'=365 y tasa 30,14 
 Rechazo de +88 kg, recarga de base y cuatro anchos sin desbordamiento verificados.
 Capturas en evidencias/v2/pasaporte y evidencias/v2/simulador. Sin datos reales ni IA.
 Pendiente C: transferencia manual a Planes (fase D). CHK013 sin ejecución humana.
+
+
+### Planes D — pruebas del incremento
+
+Antes de implementación: tres tests fallaron por rutas 404. Después, cinco tests de Planes
+aprobados (43,180 s): permisos, versiones, historial, estados, evidencia, meta modificada,
+fuente corregida, idempotencia y aislamiento. Con generador: 10/10 (86,436 s), incluida
+repetición intacta tras recibo de plan. Vitest completa 14/14; TypeScript/build correctos.
+Playwright escenario→plan→inicio→evaluación→cierre: 1/1 (17,6 s). Capturas reales en
+evidencias/v2/planes (360/390/768/1280), sin overflow; revisión visual desktop realizada.
+Base sintética de acreditación 60 kg (19 oct–1 nov), meta 90, observación 100 (2–15 nov):
+alcanzada descriptivamente; no causalidad ni prueba humana. No consumo ambiental nuevo.
+Respaldo restaurado y migración inicial de interventions ejecutada con éxito en copia y
+luego desarrollo. manage.py check correcto; makemigrations --check --dry-run sin cambios.
+Pendientes finales: concurrencia real entre gestores, regresión global después de E, revisión
+visual móvil de Planes, enlaces documentales, CHK013 humana y pruebas pagadas IA no autorizadas.

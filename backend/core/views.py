@@ -34,6 +34,8 @@ from reports.selectors import report
 from reports.observatory import observatory
 from traceability.passport import passport
 from reports.scenarios import preview
+from interventions import services as interventions
+from interventions.models import Plan
 from reports.csv_export import export
 
 
@@ -157,9 +159,9 @@ def configure(m, resource, data, pk=None):
 @api_view(["GET", "POST", "PATCH"])
 def dispatch(request, path):
     routes = {
-        "GET": r"v2/lots/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/passport|session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|observatory|reports/generation\.csv",
-        "POST": r"v2/scenarios/preview|session/logout|sites|areas|materials|users|generations(?:/\d+/(?:review|correct))?|lots(?:/\d+/(?:movements|close))?|compost/processes(?:/\d+/(?:inputs|measurements|finalize|evidence|verify))?|incidents",
-        "PATCH": r"institution|(?:sites|areas|materials|users)/\d+",
+        "GET": r"v2/plans|v2/plan-options|v2/lots/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/passport|session/me|institution|sites|areas|materials|users|generations(?:/\d+)?|lots(?:/\d+(?:/image)?|/qr/[0-9a-f-]+)?|compost/processes(?:/\d+)?|evidence/\d+/download|incidents|dashboard|observatory|reports/generation\.csv",
+        "POST": r"v2/plans(?:/\d+/(?:transitions|followups|evaluations))?|v2/scenarios/preview|session/logout|sites|areas|materials|users|generations(?:/\d+/(?:review|correct))?|lots(?:/\d+/(?:movements|close))?|compost/processes(?:/\d+/(?:inputs|measurements|finalize|evidence|verify))?|incidents",
+        "PATCH": r"v2/plans/\d+|institution|(?:sites|areas|materials|users)/\d+",
     }
     if not re.fullmatch(routes[request.method], path):
         raise NotFound()
@@ -170,6 +172,10 @@ def dispatch(request, path):
     if request.method != "GET" and not isinstance(data, dict):
         raise ValidationError("Se requiere un objeto de datos.")
     if request.method == "GET":
+        if path == "v2/plans":
+            return Response([interventions.serialize(p) for p in Plan.objects.filter(institution=m.institution).order_by('-pk')])
+        if path == "v2/plan-options":
+            return Response([{'id':x.user_id,'name':x.user.username} for x in Membership.objects.filter(institution=m.institution,user__is_active=True).select_related('user')])
         if resource == "v2":
             return Response(passport(m, parts[2]))
         if path == "session/me":
@@ -261,6 +267,14 @@ def dispatch(request, path):
         if resource == "reports":
             return export(*report(m, request.query_params))
         raise NotFound()
+    if path == "v2/plans" or path.startswith("v2/plans/"):
+        m = member(request, ["gestor"])
+        def plan_action():
+            return interventions.create(m,data) if path == 'v2/plans' else interventions.mutate(m,parts[2],'edit' if request.method == 'PATCH' else parts[3],data)
+        if request.method == 'PATCH':
+            with transaction.atomic():
+                return Response(plan_action())
+        return Response(execute(m,path,request.headers.get('Idempotency-Key'),data,plan_action),status=201)
     if path == "v2/scenarios/preview":
         return Response(preview(m, data))
     if path == "session/logout":

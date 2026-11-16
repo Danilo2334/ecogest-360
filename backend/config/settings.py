@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "waste",
     "traceability",
     "compost",
+    "interventions",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

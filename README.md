@@ -153,3 +153,23 @@ Hay 12/13 criterios aprobados técnicamente; CHK013 sigue pendiente de demostrac
 La aprobación académica no se deduce de los tests. La enmienda SVG está ratificada en constitución 1.1.0.
 Consultar `docs/PRUEBAS.md` para resultados ejecutados y limitaciones de cobertura, sin asumir
 que toda prueba planificada tiene evidencia histórica de una fase inicial fallida.
+
+
+## Mapa documental vigente
+
+- Gobierno: [constitución 1.1.0](.specify/memory/constitution.md).
+- V2 vigente: [especificación](specs/002-ecogest-intelligence/spec.md),
+  [plan](specs/002-ecogest-intelligence/plan.md), [tareas](specs/002-ecogest-intelligence/tasks.md),
+  [diseño](docs/DISENO_EXPERIENCIA_V2.md).
+- Fuentes canónicas de seguimiento: [decisiones](docs/DECISIONES.md), [pruebas](docs/PRUEBAS.md).
+- Demo reproducible: [cohorte SIMULADA](docs/DATOS_DEMO_OBSERVATORIO.md);
+  [guion académico](docs/DEMO_ACADEMICA.md) y [registro humano pendiente](docs/REGISTRO_DEMO_HUMANA.md).
+- Evidencias visuales: [carpeta V2](docs/evidencias/v2/).
+- Historia V1: [artefactos MVP](specs/001-ecogest-mvp/), auditoría y matriz docente en docs/.
+- Plantillas originales: [constitución](docs/plantilla_constitucion_sdd.md),
+  [especificación](docs/prompt_spec_template.md).
+
+Los informes de fase A/refinamiento, diagnóstico preliminar, preparación de GitHub y propuestas
+de PR son antecedentes, no fuentes del estado actual. Se conservan por trazabilidad académica.
+El prompt maestro es brief de origen; spec.md tiene prioridad. Nuevos resultados se incorporan
+a DECISIONES/PRUEBAS, sin crear un informe por ajuste.

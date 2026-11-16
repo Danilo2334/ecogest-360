@@ -27,11 +27,23 @@ def fingerprint(institution):
 
     payload = {}
     for model in apps.get_models():
+        if model._meta.app_label not in {
+            "core",
+            "organizations",
+            "catalog",
+            "waste",
+            "traceability",
+            "compost",
+        }:
+            continue
         if model is AuditEvent:
             continue
         if any(f.name == "institution" for f in model._meta.fields):
+            records = model.objects.filter(institution=institution)
+            if model._meta.label == 'core.OperationReceipt':
+                records = records.exclude(operation__startswith='v2/plans')
             payload[model._meta.label] = list(
-                model.objects.filter(institution=institution).order_by("pk").values()
+                records.order_by("pk").values()
             )
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, default=str).encode()
