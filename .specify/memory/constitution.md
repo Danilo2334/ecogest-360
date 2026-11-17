@@ -1,7 +1,7 @@
 # Constitución del Proyecto: EcoGest 360
 
 > **Estado:** RATIFICADA — versión 1.1.0, aprobada por el usuario el 2026-11-15.
-> **Documento base:** plantilla_constitucion_sdd.md entregada por la profesora.
+> **Documento base:** docs/plantillas/plantilla_constitucion_sdd.md entregada por la profesora.
 > **Propósito:** esta constitución establece reglas transversales del proyecto. Las funcionalidades concretas, flujos, historias y criterios de aceptación se desarrollarán después en las especificaciones (`spec.md`).
 
 ## 1. Naturaleza del Proyecto
@@ -79,7 +79,7 @@ y PATCH para aclaraciones. Toda revisión o PR comprobará conformidad con esta 
 Las decisiones y pruebas se registrarán en `docs/DECISIONES.md` y `docs/PRUEBAS.md`.
 
 La visión no autoriza funciones futuras. El alcance inicial procede de
-`docs/03_ALCANCE_MVP_ECOGEST360.md`; los permisos por transición y criterios de aceptación
+`docs/historico/03_ALCANCE_MVP_ECOGEST360.md`; los permisos por transición y criterios de aceptación
 se definirán en `spec.md`, sin endpoints ni SQL. IA, campañas, metas, IoT, comercio,
 gestión agrícola, certificaciones y despliegue público multiinstitución quedan fuera del MVP.
 PDF es una mejora posterior al flujo prioritario y CSV.

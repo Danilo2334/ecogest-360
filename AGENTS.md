@@ -4,12 +4,12 @@
 - Repositorio ya inicializado con GitHub Spec Kit. NO ejecutar `specify init` de nuevo ni borrar `.specify/`, `.github/` o datos existentes.
 - Un solo producto: EcoGest 360. Integra gestión de residuos (EcoGest), trazabilidad de lotes y QR (idea TraceFood) y aprovechamiento orgánico/compostaje (idea AgroPilot). Piloto de una universidad, con arquitectura extensible.
 - Este proyecto tiene dos destinos académicos: Ingeniería Web (SDD + artefactos, Git, pruebas, demo) e Ingeniería Ambiental (registro, caracterización e indicadores honestos).
-- Lee `docs/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/02_CONSTITUCION_PROPUESTA_ECOGEST360.md`, `docs/03_ALCANCE_MVP_ECOGEST360.md` y las plantillas docentes antes de decidir o modificar.
+- Lee `docs/historico/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/historico/02_CONSTITUCION_PROPUESTA_ECOGEST360.md`, `docs/historico/03_ALCANCE_MVP_ECOGEST360.md` y las plantillas docentes antes de decidir o modificar.
 - Las plantillas de la profesora tienen prioridad sobre propuestas informales; respeta sus seis apartados constitucionales y lista de verificación.
 
 ## Fuente de verdad y alcance
 1. Constitución aprobada en `.specify/memory/constitution.md`; especificaciones funcionales bajo `specs/` en `spec.md`; plan y tareas según Spec Kit. Ante contradicción crítica, detener ese cambio e informar.
-2. El alcance prioritario propuesto para la primera entrega se define en `docs/03_ALCANCE_MVP_ECOGEST360.md`. No transformar ideas futuras en funcionalidades actuales sin aprobación del usuario.
+2. El alcance prioritario propuesto para la primera entrega se define en `docs/historico/03_ALCANCE_MVP_ECOGEST360.md`. No transformar ideas futuras en funcionalidades actuales sin aprobación del usuario.
 3. No confundir especificación funcional con plan técnico: `spec.md` debe describir qué, para quién, reglas, criterios medibles y Non-Goals; sin endpoints ni estructura SQL.
 4. La solicitud del estudiante autoriza crear artefactos SDD y desarrollar el MVP aprobado, de modo incremental y comprobable, sin exigir confirmación para cada edición normal. No autoriza acciones destructivas o exposición de secretos.
 

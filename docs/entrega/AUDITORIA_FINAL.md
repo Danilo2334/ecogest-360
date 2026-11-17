@@ -15,7 +15,7 @@ evaluación mencionado en la conversación no está en el repositorio: no se cer
 Resultados de esta revisión técnica, no aprobación de la profesora ni firma del responsable
 ambiental. Las casillas originales conservan su semántica de revisión humana de requisitos.
 **Estado actualizado tras cierre CHK004: 12 aprobados técnicamente y 1 pendiente (CHK013).**
-La auditoría inicial tenía 11/13; sus ejecuciones y fallos se conservan en PRUEBAS.md.
+La auditoría inicial tenía 11/13; sus ejecuciones y fallos se conservan en docs/PRUEBAS.md.
 
 | Criterio / requisito | Evidencia verificable | Resultado | Riesgo o límite |
 | --- | --- | --- | --- |
@@ -29,12 +29,12 @@ La auditoría inicial tenía 11/13; sus ejecuciones y fallos se conservan en PRU
 | CHK008: cohorte, corte y corrección vigente | spec.md Clarifications; reports/selectors.py limitations; test_compost.py test_cohort_sources_and_nonorganic y prueba de corte | Aprobado | No reconstruye estados/correcciones históricos completos; se declara en panel y CSV |
 | CHK009: 25/20/8 y denominador cero | test_vertical.py; test_security.py consulta vacía; frontend/tests/reports.test.tsx | Aprobado | Universo aislado: G=25, A=20, pendiente=5, tasa=80 %; vacío es No calculable |
 | CHK010: catálogo piloto como dependencia | spec.md Assumptions; core/management/commands/seed_demo.py; README | Aprobado | Catálogo demostrativo identificado; su aprobación institucional real sigue pendiente |
-| CHK011: entregas externas | A1 aprobado en spec.md y DECISIONES.md; test_reports.py test_external_delivery_not_accredited | Aprobado | Entrega consume saldo pero no acredita aprovechamiento externo |
+| CHK011: entregas externas | A1 aprobado en spec.md y docs/DECISIONES.md; test_reports.py test_external_delivery_not_accredited | Aprobado | Entrega consume saldo pero no acredita aprovechamiento externo |
 | CHK012: acceso QR, evidencias y CSV | test_security.py aislamiento; test_compost.py descarga privada; test_audit.py test_qr_image_and_authorized_lookup | Aprobado | PNG generado, lookup UUID autorizado y anónimo rechazado. No se ejecutó decodificación óptica del QR ni escaneo con cámara |
 | CHK013: teclado, errores y tamaños medibles | FR-025/SC-006; Playwright vertical.spec.ts; Vitest form.test.tsx | Pendiente | Automatización pasa a 360/1280 px, foco y teclado; falta operador humano sin ayuda oral y evaluación de accesibilidad más amplia |
 
 Rutas backend relativas a backend/, frontend relativas a frontend/. Reejecutar suites con
-los comandos de README. Los resultados de ejecución de esta auditoría están en PRUEBAS.md.
+los comandos de README. Los resultados de ejecución de esta auditoría están en docs/PRUEBAS.md.
 
 ## Defectos confirmados y correcciones
 
@@ -66,7 +66,7 @@ la falta de secuencia TDD histórica de T008/T014/T019/T026/T032.
 - **Gráficos:** constitución §2 pide elegir una biblioteca; research.md, T035 y código usan SVG
   nativo. La justificación de simplicidad no equivale a una enmienda aprobada. Requiere decisión
   humana sobre alineación documental/técnica; no se añadió una dependencia durante la auditoría.
-  Propuesta mínima en ENMIENDA_CONSTITUCION_SVG.md: 1.0.0 → 1.1.0, pendiente de ratificación.
+  Propuesta mínima en docs/entrega/ENMIENDA_CONSTITUCION_SVG.md: 1.0.0 → 1.1.0, pendiente de ratificación.
 - **Paginación:** FR-008 exige listar/filtrar, pero no exige páginas. El contrato vigente declara
   arrays. No es una funcionalidad obligatoria omitida de spec.md; sí es una desviación técnica
   respecto al contrato inicial, documentada. Las listas hacen consultas por registro; el objetivo
@@ -99,11 +99,11 @@ la falta de secuencia TDD histórica de T008/T014/T019/T026/T032.
   correo noreply de Danilo2334. No se cambiaron cuentas. Sin remotos configurados.
 - Estado Git actualizado: `main` en `58bab1f`, implementación en `d29b01b`, base común
   `58bab1f`. Cuatro commits, dos por autor registrado; tabla y límites de atribución en
-  PREPARACION_GITHUB.md. Confirmación individual y PRs pendientes.
+  docs/historico/PREPARACION_GITHUB.md. Confirmación individual y PRs pendientes.
 
 ## Demostración recomendada y cierre
 
-Seguir [DEMO_ACADEMICA.md](DEMO_ACADEMICA.md) y completar REGISTRO_DEMO_HUMANA.md. Antes de
+Seguir [DEMO_ACADEMICA.md](DEMO_ACADEMICA.md) y completar docs/entrega/REGISTRO_DEMO_HUMANA.md. Antes de
 entrega definitiva: ratificar enmienda SVG, ejecutar demostración humana, revisar catálogo y rubricar
 criterios con responsable, contrastar PDF docente y preparar contribuciones/PRs reales solo
 con autorización de publicación. No atribuir aportes a otra cuenta por cambiar autor.
@@ -112,8 +112,8 @@ Se detiene el trabajo tras entregar este informe para revisión humana.
 
 ## Cierre puntual posterior
 
-La regla ambiental quedó aprobada y corregida; pruebas finales y comandos en PRUEBAS.md.
-Se preparó MATRIZ_CUMPLIMIENTO_DOCENTE.md provisional con las seis evidencias locales;
+La regla ambiental quedó aprobada y corregida; pruebas finales y comandos en docs/PRUEBAS.md.
+Se preparó docs/entrega/MATRIZ_CUMPLIMIENTO_DOCENTE.md provisional con las seis evidencias locales;
 no se hace pasar por rúbrica oficial. Nuevos archivos y cambios permanecen sin commit.
 Constitución 1.0.0 intacta, cinco tareas TDD históricas parciales y CHK013 pendiente.
 
@@ -121,7 +121,7 @@ Constitución 1.0.0 intacta, cinco tareas TDD históricas parciales y CHK013 pen
 
 En la conversación se confirmaron los seis títulos del PDF, página 2:
 Artefactos SDD; Aplicación funcional; Calidad técnica; Trabajo colaborativo;
-Pruebas y verificación; Documentación y demo. MATRIZ_CUMPLIMIENTO_DOCENTE.md ya utiliza
+Pruebas y verificación; Documentación y demo. docs/entrega/MATRIZ_CUMPLIMIENTO_DOCENTE.md ya utiliza
 esos títulos y sustituye la agrupación provisional. El agente no inspeccionó el PDF original,
 que continúa fuera del repositorio. No se infieren porcentajes ni aprobación de la profesora.
 También se registra la exigencia comunicada de su página 8: cada integrante entrega en
@@ -134,7 +134,7 @@ constitucional queda cerrada; las referencias anteriores a propuesta pendiente s
 Se preservan 12/13 criterios aprobados técnicamente (CHK004 respaldado por regresiones) y
 CHK013 pendiente de ejecución humana. No cambian las cinco tareas TDD parciales.
 El cierre quedó registrado en `d29b01b`, atribuido a Francisco según aclaración del usuario.
-PREPARACION_GITHUB.md refleja el historial actual y las revisiones todavía pendientes.
+docs/historico/PREPARACION_GITHUB.md refleja el historial actual y las revisiones todavía pendientes.
 
 Los recuentos de tres commits y estados sin commit anteriores describen etapas históricas
-de la auditoría; el estado actual es el indicado en PREPARACION_GITHUB.md.
+de la auditoría; el estado actual es el indicado en docs/historico/PREPARACION_GITHUB.md.

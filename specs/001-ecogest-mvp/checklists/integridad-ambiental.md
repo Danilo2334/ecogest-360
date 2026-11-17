@@ -33,6 +33,6 @@
 13 criterios nuevos, pendientes de revisión; no se adjudica aprobación humana.
 speckit-implement lee estos marcadores, pero no los modifica.
 
-Actualización técnica posterior: 12/13 con evidencia en docs/AUDITORIA_FINAL.md; CHK004
+Actualización técnica posterior: 12/13 con evidencia en docs/entrega/AUDITORIA_FINAL.md; CHK004
 cerrado tras regla aprobada y regresiones de procedencia. CHK013 pendiente de ejecución humana.
 Se conservan casillas de revisión humana sin adjudicar firma ni aprobación académica automática.

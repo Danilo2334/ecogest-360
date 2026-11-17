@@ -18,5 +18,5 @@ Los ajustes actuales actualizan referencias de autoría, matriz docente y proced
 publicación. Permanecen sin commit hasta revisar su diff y autorizar su incorporación.
 El respaldo `backup/antes-correccion-autoria` se conserva únicamente local.
 Constitución 1.1.0 ratificada; CHK013 pendiente y T008/T014/T019/T026/T032 parciales.
-Los resultados de 38 pruebas corresponden a la ejecución registrada en PRUEBAS.md;
+Los resultados de 38 pruebas corresponden a la ejecución registrada en docs/PRUEBAS.md;
 no se han vuelto a ejecutar por estos cambios documentales.

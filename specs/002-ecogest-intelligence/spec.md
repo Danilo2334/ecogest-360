@@ -3,7 +3,7 @@
 **Feature Branch**: `feat/002-ecogest-intelligence`
 **Created**: 2026-11-15
 **Status**: Dirección aprobada el 2026-11-16. Ejecución local A–E e integración autorizada por orden final del usuario; IA sin llamadas pagadas hasta presupuesto y bandera explícita.
-**Input**: [Brief maestro](../../docs/PROMPT_MAESTRO_ECOGEST_360_INTELLIGENCE_V2.md).
+**Input**: [Brief maestro](../../docs/historico/PROMPT_MAESTRO_ECOGEST_360_INTELLIGENCE_V2.md).
 
 Esta especificación describe solo la evolución del MVP. Conserva la constitución 1.1.0 y
 las reglas de `../001-ecogest-mvp/spec.md`. La exclusión de IA y planes en V1 se mantiene

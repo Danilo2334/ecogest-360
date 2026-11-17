@@ -19,7 +19,7 @@ revisión humana de este refinamiento pendiente. Pasaporte, Simulador, Planes e 
 
 ## Datos demostrativos
 
-Ver [mecanismo, fórmula y ejecución](DATOS_DEMO_OBSERVATORIO.md).
+Ver [mecanismo, fórmula y ejecución](../evidencias/DATOS_DEMO_OBSERVATORIO.md).
 Generador documentado y probado antes de ejecutar en la base local. Creó 84 generaciones,
 tres áreas, tres materiales y dos procesos en otra institución. Repetición local con --apply
 devolvió el mismo manifiesto/huella sin agregar datos. No se restablecieron cuentas anteriores.
@@ -77,16 +77,16 @@ del mismo universo. Las capturas originales se copiaron antes de regenerar evide
 
 | Ancho | Antes | Después |
 |---|---|---|
-| 1280 | [Captura](evidencias/v2/antes-refinamiento/observatorio-1280.png) | [Captura](evidencias/v2/despues-refinamiento/observatorio-1280.png) |
-| 768 | [Captura](evidencias/v2/antes-refinamiento/observatorio-768.png) | [Captura](evidencias/v2/despues-refinamiento/observatorio-768.png) |
-| 390 | [Captura](evidencias/v2/antes-refinamiento/observatorio-390.png) | [Captura](evidencias/v2/despues-refinamiento/observatorio-390.png) |
-| 360 | [Captura](evidencias/v2/antes-refinamiento/observatorio-360.png) | [Captura](evidencias/v2/despues-refinamiento/observatorio-360.png) |
+| 1280 | [Captura](../evidencias/v2/antes-refinamiento/observatorio-1280.png) | [Captura](../evidencias/v2/despues-refinamiento/observatorio-1280.png) |
+| 768 | [Captura](../evidencias/v2/antes-refinamiento/observatorio-768.png) | [Captura](../evidencias/v2/despues-refinamiento/observatorio-768.png) |
+| 390 | [Captura](../evidencias/v2/antes-refinamiento/observatorio-390.png) | [Captura](../evidencias/v2/despues-refinamiento/observatorio-390.png) |
+| 360 | [Captura](../evidencias/v2/antes-refinamiento/observatorio-360.png) | [Captura](../evidencias/v2/despues-refinamiento/observatorio-360.png) |
 
 ## Archivos de esta intervención
 
 Nuevos: backend/core/management/commands/seed_observatory_demo.py,
 backend/tests/test_observatory_demo.py, frontend/tests/e2e/refinement.spec.ts,
-docs/DATOS_DEMO_OBSERVATORIO.md, este informe, carpetas de capturas antes/después.
+docs/evidencias/DATOS_DEMO_OBSERVATORIO.md, este informe, carpetas de capturas antes/después.
 
 Actualizados: backend/reports/observatory.py, backend/tests/test_observatory.py;
 frontend/src/components/MetricCard.tsx, frontend/src/features/reports/{ReportsPage.tsx,

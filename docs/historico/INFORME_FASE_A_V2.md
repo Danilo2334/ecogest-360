@@ -55,8 +55,8 @@ componentes tipados nuevos, SVG con alternativa tabular, sin dependencias ni HTM
 
 ## Capturas de ejecución
 
-[Escritorio 1280](evidencias/v2/observatorio-1280.png), [tablet 768](evidencias/v2/observatorio-768.png),
-[móvil 390](evidencias/v2/observatorio-390.png), [móvil 360](evidencias/v2/observatorio-360.png).
+[Escritorio 1280](../evidencias/v2/observatorio-1280.png), [tablet 768](../evidencias/v2/observatorio-768.png),
+[móvil 390](../evidencias/v2/observatorio-390.png), [móvil 360](../evidencias/v2/observatorio-360.png).
 Las capturas muestran la base local, procedencia simulada y filtros visibles. Las cifras difieren
 de la imagen conceptual del usuario: no se introdujeron 250/40/150 para imitarla.
 Datos sin período anterior suficiente muestran Sin comparación, correctamente.

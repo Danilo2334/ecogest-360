@@ -1,7 +1,7 @@
 # EcoGest 360 Intelligence — diagnóstico preliminar Brownfield
 
 Estado: diagnóstico de diseño actualizado tras lectura completa del brief maestro; no es auditoría exhaustiva ni prueba de ejecución.
-Fuente recibida: docs/PROMPT_MAESTRO_ECOGEST_360_INTELLIGENCE_V2.md.
+Fuente recibida: docs/historico/PROMPT_MAESTRO_ECOGEST_360_INTELLIGENCE_V2.md.
 La guía académica Brownfield mencionada no se ha identificado en los documentos consultados.
 
 ## Base preservada
@@ -84,7 +84,7 @@ el alcance. Este documento no afirma compatibilidad de una versión específica 
    fallo del proveedor y resistencia a instrucciones maliciosas dentro de datos consultados.
 
 La especificación Draft está en specs/002-ecogest-intelligence/spec.md y su diseño en
-DISENO_EXPERIENCIA_V2.md. Se actualizó únicamente el selector .specify/feature.json a la nueva
+docs/diseno/DISENO_EXPERIENCIA_V2.md. Se actualizó únicamente el selector .specify/feature.json a la nueva
 carpeta. Q1–Q3 requieren revisión; plan y tareas detalladas esperan aprobación conforme al brief.
 
 ## Hallazgos ampliados de código y compatibilidad

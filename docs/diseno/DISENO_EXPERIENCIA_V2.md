@@ -1,7 +1,7 @@
 # EcoGest 360 Intelligence — diseño de experiencia V2
 
 Estado: dirección aprobada el 2026-11-16; fase A implementada, restantes vistas solo diseñadas. Fuente: brief maestro y
-[spec V2](../specs/002-ecogest-intelligence/spec.md). Q1–Q3 aprobadas; gasto y credenciales IA no habilitados.
+[spec V2](../../specs/002-ecogest-intelligence/spec.md). Q1–Q3 aprobadas; gasto y credenciales IA no habilitados.
 Las referencias visuales son descripciones; no hay imágenes de referencia disponibles que se hayan inspeccionado.
 
 ## Concepto y arquitectura de información
@@ -239,4 +239,4 @@ sin reintentos automáticos. La IA nunca inicia decisiones humanas. Capturas en
 `evidencias/v2/asistente` muestran el modo local real, no respuestas falsas de OpenAI.
 
 Las capturas reales en pasaporte/simulador/planes/asistente cubren 360/390/768/1280; resultados
-finales y límites en PRUEBAS.md. El guion audiovisual existente se amplió, no se creó otro.
+finales y límites en docs/PRUEBAS.md. El guion audiovisual existente se amplió, no se creó otro.

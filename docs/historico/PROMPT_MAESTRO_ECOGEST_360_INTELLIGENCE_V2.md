@@ -4,7 +4,7 @@
 
 Estás trabajando **LOCALMENTE** en el repositorio existente `document-management`, producto EcoGest 360. La rama `feat/002-ecogest-intelligence` **ya fue creada desde `34ce7bf`** y el MVP anterior está preservado en `feat/001-ecogest-mvp` y en el PR Draft #1. **No recrees la rama ni reinicialices Spec Kit.**
 
-Lee `AGENTS.md`, `.specify/memory/constitution.md`, `docs/DIAGNOSTICO_V2_PRELIMINAR.md` (si existe), `docs/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/03_ALCANCE_MVP_ECOGEST360.md`, `README.md`, `docs/DECISIONES.md`, `docs/PRUEBAS.md`, `specs/001-ecogest-mvp/{spec,plan,tasks}.md`, los contratos actuales y el código real. Distingue los hechos comprobados de las propuestas. Si un archivo no existe, indícalo sin inventar su contenido.
+Lee `AGENTS.md`, `.specify/memory/constitution.md`, `docs/historico/DIAGNOSTICO_V2_PRELIMINAR.md` (si existe), `docs/historico/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/historico/03_ALCANCE_MVP_ECOGEST360.md`, `README.md`, `docs/DECISIONES.md`, `docs/PRUEBAS.md`, `specs/001-ecogest-mvp/{spec,plan,tasks}.md`, los contratos actuales y el código real. Distingue los hechos comprobados de las propuestas. Si un archivo no existe, indícalo sin inventar su contenido.
 
 **Guía académica Brownfield (reglas operativas aportadas por el equipo):** preservar el estado funcional; documentar comportamiento actual y contratos; especificar solamente el cambio; aclarar requisitos, generar plan y tareas; ejecutar análisis de consistencia; implementar por incrementos con pruebas de regresión y convergencia; actualizar documentación antes de cambiar comportamientos. Si el PDF docente no está en el repositorio, no te bloquees: deja constancia de que no fue inspeccionado localmente. No falsifiques evidencias ni fechas.
 
@@ -30,7 +30,7 @@ Experiencia deseada:
 
 Diseñar estados de carga, vacío, error, confirmación, sin datos suficientes, permiso denegado y servicio IA no disponible. Responsive real en 360/390/768/1280 px, navegación por teclado, foco visible, tablas/gráficas accesibles, textos en español. No sacrificar operatividad por estética.
 
-**Antes de implementar**, entregar un documento de diseño `docs/DISENO_EXPERIENCIA_V2.md` con mapa de navegación, arquitectura de información, wireframes textuales detallados (desktop y móvil), componentes reutilizables, estados de cada pantalla, sistema visual (colores/tipografía/espaciado) y flujos de demostración.
+**Antes de implementar**, entregar un documento de diseño `docs/diseno/DISENO_EXPERIENCIA_V2.md` con mapa de navegación, arquitectura de información, wireframes textuales detallados (desktop y móvil), componentes reutilizables, estados de cada pantalla, sistema visual (colores/tipografía/espaciado) y flujos de demostración.
 
 ## 3. Funcionalidades V2 y sus contratos
 
@@ -71,10 +71,10 @@ Conservar Django 5.2 + DRF + Python 3.12 + PostgreSQL 16; React + TypeScript + V
 
 ## 5. Proceso SDD Brownfield y decisión de esta etapa
 
-1. Inspeccionar arquitectura **real** del repositorio y pruebas. Reutilizar `docs/DIAGNOSTICO_V2_PRELIMINAR.md` y corregir sus hipótesis según código comprobado.
+1. Inspeccionar arquitectura **real** del repositorio y pruebas. Reutilizar `docs/historico/DIAGNOSTICO_V2_PRELIMINAR.md` y corregir sus hipótesis según código comprobado.
 2. Producir **especificación exclusiva de la evolución V2**, con intención, historias, reglas, criterios de aceptación medibles, límites, riesgos, dependencias y Non-Goals. Ubicarla según convención de Spec Kit sin sobrescribir `specs/001-ecogest-mvp`.
 3. Identificar preguntas críticas de negocio (indicador histórico, simulación, permisos de planes, evidencia del asistente, presupuestos de API). Proponer defaults conservadores para revisión; **no inventar decisiones críticas**.
-4. Entregar `docs/DISENO_EXPERIENCIA_V2.md` y arquitectura UX antes de código. Especificar cómo se verá cada pantalla, cómo se navega y cómo se comprobará que no sea un CRUD genérico.
+4. Entregar `docs/diseno/DISENO_EXPERIENCIA_V2.md` y arquitectura UX antes de código. Especificar cómo se verá cada pantalla, cómo se navega y cómo se comprobará que no sea un CRUD genérico.
 5. Después de aprobar la especificación y el diseño, planificar: modelos/adiciones necesarias, contratos de API, componentes y pruebas; generar tareas atómicas por fases; analizar contradicciones antes de implementar.
 6. Implantación posterior únicamente tras una nueva autorización: a) base visual + observatorio; b) pasaporte; c) simulador; d) intervenciones; e) asistente OpenAI; f) pruebas de regresión, accesibilidad y demostración. En cada fase probar antes de continuar.
 7. Preparar demo integrada para grabación final: diagnóstico → lotes → escenario → plan → consulta IA contextual → indicadores. Debe distinguir lo simulado de lo medido y no depender totalmente de disponibilidad de OpenAI.
@@ -85,7 +85,7 @@ Conservar Django 5.2 + DRF + Python 3.12 + PostgreSQL 16; React + TypeScript + V
 
 - Confirmación de rama actual y Git limpio al inicio; comprobar base y reversibilidad.
 - Auditoría breve del MVP real: qué se reutiliza, qué se amplía, riesgos de compatibilidad.
-- `docs/DISENO_EXPERIENCIA_V2.md` con especificación de las vistas premium, estados desktop/móvil, estilo y navegación.
+- `docs/diseno/DISENO_EXPERIENCIA_V2.md` con especificación de las vistas premium, estados desktop/móvil, estilo y navegación.
 - Especificación SDD nueva de los cinco componentes, con criterios comprobables y Non-Goals; sin SQL, rutas ni modelos técnicos dentro de la **spec funcional**.
 - Matriz de flujos/roles/datos/autorización, riesgos de costos y privacidad IA, y dependencias del MVP.
 - Preguntas pendientes separadas en bloqueantes y no bloqueantes, con alternativas recomendadas.

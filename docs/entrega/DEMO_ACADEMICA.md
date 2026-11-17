@@ -10,7 +10,7 @@ Seguir README para instalación, migraciones y servidores. Si ya están activos,
 En una terminal raíz: `backend/.venv/Scripts/python.exe backend/manage.py runserver 127.0.0.1:8000`.
 En otra: `npm.cmd --prefix frontend run dev`. Abrir http://127.0.0.1:5178/.
 La cohorte se prepara explícitamente con `seed_observatory_demo`, documentada en
-[DATOS_DEMO_OBSERVATORIO.md](DATOS_DEMO_OBSERVATORIO.md); repetir verifica integridad sin
+[DATOS_DEMO_OBSERVATORIO.md](../evidencias/DATOS_DEMO_OBSERVATORIO.md); repetir verifica integridad sin
 resembrar. No editar ni borrar sus registros para ajustar cifras. Usar otras áreas para
 ensayos operativos nuevos. Cuentas intelligence_gestor e intelligence_consultor, contraseña
 local DEMO_PASSWORD que el responsable consulta sin compartir ni grabar. No activar OpenAI.
@@ -27,7 +27,7 @@ local DEMO_PASSWORD que el responsable consulta sin compartir ni grabar. No acti
 | 8–10 min | Para demostrar evaluación, cambiar base a 19 oct–1 nov, simulado, área Cafetería. Simular +10 kg → Revisar propuesta de plan. Elegir responsable intelligence_gestor, indicador compostaje acreditado, meta mínima 90 kg, plazo 31 dic 2026, problema/acción/motivo claramente SIMULADOS. Guardar y abrir el plan. | Base 60 kg conservada al iniciar. La simulación no garantiza la meta; requiere acción y evidencia posteriores. Solo gestor escribe. |
 | 10–11 min | Iniciar → pasar a evaluación. Registrar seguimiento humano simulado. Evaluar período 2–15 nov, mismo ámbito, con motivo. | Observación acreditada 100 kg frente a meta 90: meta alcanzada observada. Comparación sintética, no éxito causado por el plan. Cerrar requiere evaluación vigente. |
 | 11–13 min | Abrir Asistente con los mismos filtros. Mostrar fuentes y desplegar metodología local. Preparar preguntas sugeridas de los tres modos. | OpenAI no disponible: no se finge una respuesta de IA. Datos locales consultables. Cerrar sesión y entrar como intelligence_consultor: no puede editar planes. |
-| 13–14 min | Mostrar pruebas/capturas, límites y pendientes humanos. | Rama V2 local, ningún push/merge de esta ejecución, llamada real IA no probada; CHK013 y revisión académica pendientes. |
+| 13–14 min | Mostrar pruebas/capturas, límites y pendientes humanos. | Dos consultas OpenAI reales verificadas desde Django en docs/PRUEBAS.md; servicio desactivado, recorrido del navegador con IA real pendiente. CHK013 y revisión académica pendientes. |
 
 Si un valor difiere, registrar filtros y resultado observado; no inventar el resultado ni borrar
 información. Los planes de ensayo pueden conservarse cerrados/cancelados con motivo; no son
@@ -41,6 +41,11 @@ Preguntas preparadas para una futura prueba OpenAI **solo después de autorizaci
 El modelo selecciona fuentes y explicaciones del catálogo validado; no ejecuta acciones,
 no hace búsqueda web, no responde con cifras propias. Fuera del catálogo declara insuficiencia.
 Cambiar filtros deja la respuesta anterior identificada con su contexto; salir limpia la conversación.
+
+Las dos consultas autorizadas del 2026-11-16 ya están registradas en
+[PRUEBAS.md](../PRUEBAS.md), con consumo y fuentes verificadas. Fueron ejecutadas desde Django;
+no deben presentarse como prueba de este recorrido en navegador. La demostración mantiene
+OpenAI desactivado y no autoriza llamadas adicionales.
 
 Registrar ejecutor, observador, fecha, duración, dificultades, IDs y capturas observadas en
 [REGISTRO_DEMO_HUMANA.md](REGISTRO_DEMO_HUMANA.md), sin marcar aprobación anticipada.
@@ -67,7 +72,7 @@ En otra terminal: `npm.cmd --prefix frontend run dev`. Si los servicios ya está
 no duplicarlos. Abrir http://127.0.0.1:5178/. Cuentas: demo_administrador, demo_operador,
 demo_gestor y demo_consultor; consultar DEMO_PASSWORD local sin mostrarlo en capturas.
 No ejecutar migraciones ni reinicializar datos para este ensayo. Preparar la hoja
-REGISTRO_DEMO_HUMANA.md y entregar el guion escrito; el observador no guía verbalmente.
+docs/entrega/REGISTRO_DEMO_HUMANA.md y entregar el guion escrito; el observador no guía verbalmente.
 El catálogo se mantiene como demostrativo y no oficial. No marcar la ejecución por anticipado.
 
 1. Mostrar constitución, spec y tasks; explicar cinco módulos y las cinco tareas TDD parciales.

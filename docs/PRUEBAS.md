@@ -104,8 +104,8 @@ Es una muestra local pequeña, no una prueba de carga sostenida ni certificació
 
 ## 2026-11-15 — Auditoría posterior, sin commits
 
-Informe detallado: [AUDITORIA_FINAL.md](AUDITORIA_FINAL.md); guion humano:
-[DEMO_ACADEMICA.md](DEMO_ACADEMICA.md). No se sustituyen resultados históricos.
+Informe detallado: [AUDITORIA_FINAL.md](entrega/AUDITORIA_FINAL.md); guion humano:
+[DEMO_ACADEMICA.md](entrega/DEMO_ACADEMICA.md). No se sustituyen resultados históricos.
 
 | Ejecución en esta auditoría | Resultado |
 | --- | --- |
@@ -200,7 +200,7 @@ sigue siendo 38 aprobadas / 0 fallidas finales, con sus fallos iniciales preserv
 
 ## 2026-11-16 — Fase A Intelligence
 
-Resultados y fallos preservados en [INFORME_FASE_A_V2.md](INFORME_FASE_A_V2.md).
+Resultados y fallos preservados en [INFORME_FASE_A_V2.md](historico/INFORME_FASE_A_V2.md).
 Django 39/39, Vitest 7/7, Playwright 4/4: 50 pruebas finales aprobadas en esta fase.
 TypeScript/build correctos. Observatorio p95 0.457 s, 10 000 registros, 10 lectores, 100 consultas.
 Capturas reales bajo docs/evidencias/v2; simulaciones existentes, no mediciones reales.
@@ -217,7 +217,7 @@ Generador: documentado primero, pruebas antes del comando (3 errores y 1 paso po
 esperada), luego 4/4; ejecución local y repetición con misma huella, sin duplicados.
 Observatorio p95 0,418 s; V1 p95 conservador 0,073 s; CSV 0,598 s.
 Primer recorrido nuevo falló por selector de Área, corregido y validado. Sin migraciones.
-Detalle reproducible, limitaciones y archivos en INFORME_REFINAMIENTO_OBSERVATORIO.md.
+Detalle reproducible, limitaciones y archivos en docs/historico/INFORME_REFINAMIENTO_OBSERVATORIO.md.
 CHK013 pendiente; T008/T014/T019/T026/T032 históricas del MVP continúan parciales.
 
 

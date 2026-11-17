@@ -92,7 +92,7 @@ Las pruebas de navegador agregan registros explícitamente simulados y los conse
 backend/.venv/Scripts/python.exe backend/manage.py seed_observatory_demo
 ```
 
-Leer primero [el contrato de datos demo](docs/DATOS_DEMO_OBSERVATORIO.md). El comando
+Leer primero [el contrato de datos demo](docs/evidencias/DATOS_DEMO_OBSERVATORIO.md). El comando
 crea una institución SIMULADA separada y cuentas `intelligence_administrador`,
 `intelligence_operador`, `intelligence_gestor`, `intelligence_consultor`; usa DEMO_PASSWORD
 solo al crearlas. Repetir no duplica ni reinicia contraseñas. Nunca se ejecuta al arrancar.
@@ -112,7 +112,7 @@ Las rutas conservan filtros en la URL y admiten recarga/atrás del navegador:
 
 El pasaporte permite abrir la cohorte de su período/origen en Simulador o Asistente;
 puede incluir otros registros, no se presenta como un filtro exclusivo por lote.
-Seguir [el guion audiovisual de 10–15 minutos](docs/DEMO_ACADEMICA.md).
+Seguir [el guion audiovisual de 10–15 minutos](docs/entrega/DEMO_ACADEMICA.md).
 
 ## Demostración funcional
 
@@ -201,7 +201,7 @@ Estos valores conservan el modo local. No se modificó el `.env` existente para 
 
 Antes de cambiar las tres banderas a 1, el titular debe autorizar un monto diario por
 institución y un monto total del proyecto, comprobar saldo/tarifa/disponibilidad en OpenAI
-y autorizar una única consulta de prueba con datos simulados. No hay fallback a otro modelo.
+y autorizar una cantidad acotada de consultas con datos simulados. No hay fallback a otro modelo.
 El modelo permitido y su tarifa conservadora se revisan en `backend/intelligence/services.py`;
 cambiar OPENAI_MODEL por un modelo no tarifado mantiene el servicio bloqueado.
 
@@ -221,24 +221,32 @@ presupuesto. Los límites de esta app no sustituyen los de la cuenta OpenAI.
 [research.md](specs/002-ecogest-intelligence/research.md). No introducir datos personales en
 preguntas: el filtro de patrones obvios no garantiza anonimización universal.
 
-Las pruebas normales simulan el proveedor y **no hacen llamadas pagadas**. No se ejecutó
-smoke test real ni se verificó saldo de la cuenta. CHK013, revisión auténtica del PR y
-entregas individuales en Campus UCC son actividades humanas pendientes.
+Las pruebas normales simulan el proveedor y **no hacen llamadas pagadas**. El 2026-11-16
+se ejecutaron dos consultas reales autorizadas desde Django, con resultados satisfactorios
+y costo local calculado de USD 0,00538700 sobre un presupuesto de USD 0,12. El servicio
+quedó desactivado. No se probó el recorrido completo del navegador con OpenAI real ni se
+consultaron saldo o facturación oficial; detalle en [PRUEBAS.md](docs/PRUEBAS.md).
+CHK013, revisión auténtica del PR y entregas individuales en Campus UCC siguen pendientes.
 
 
 ## Mapa documental vigente
 
+Inventario completo y clasificación: [índice de documentación](docs/README.md).
+
 - Gobierno: [constitución 1.1.0](.specify/memory/constitution.md).
 - V2 vigente: [especificación](specs/002-ecogest-intelligence/spec.md),
   [plan](specs/002-ecogest-intelligence/plan.md), [tareas](specs/002-ecogest-intelligence/tasks.md),
-  [diseño](docs/DISENO_EXPERIENCIA_V2.md).
+  [diseño](docs/diseno/DISENO_EXPERIENCIA_V2.md).
 - Fuentes canónicas de seguimiento: [decisiones](docs/DECISIONES.md), [pruebas](docs/PRUEBAS.md).
-- Demo reproducible: [cohorte SIMULADA](docs/DATOS_DEMO_OBSERVATORIO.md);
-  [guion académico](docs/DEMO_ACADEMICA.md) y [registro humano pendiente](docs/REGISTRO_DEMO_HUMANA.md).
+- Demo reproducible: [cohorte SIMULADA](docs/evidencias/DATOS_DEMO_OBSERVATORIO.md);
+  [guion académico](docs/entrega/DEMO_ACADEMICA.md) y [registro humano pendiente](docs/entrega/REGISTRO_DEMO_HUMANA.md).
 - Evidencias visuales: [carpeta V2](docs/evidencias/v2/).
-- Historia V1: [artefactos MVP](specs/001-ecogest-mvp/), auditoría y matriz docente en docs/.
-- Plantillas originales: [constitución](docs/plantilla_constitucion_sdd.md),
-  [especificación](docs/prompt_spec_template.md).
+- Entrega: [checklist](docs/entrega/CHECKLIST_ENTREGA.md) y
+  [matriz docente](docs/entrega/MATRIZ_CUMPLIMIENTO_DOCENTE.md).
+- Historia V1: [artefactos MVP](specs/001-ecogest-mvp/),
+  [auditoría](docs/entrega/AUDITORIA_FINAL.md) y antecedentes en `docs/historico/`.
+- Plantillas originales: [constitución](docs/plantillas/plantilla_constitucion_sdd.md),
+  [especificación](docs/plantillas/prompt_spec_template.md).
 
 Los informes de fase A/refinamiento, diagnóstico preliminar, preparación de GitHub y propuestas
 de PR son antecedentes, no fuentes del estado actual. Se conservan por trazabilidad académica.

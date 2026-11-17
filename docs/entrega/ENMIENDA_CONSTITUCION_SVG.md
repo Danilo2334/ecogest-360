@@ -36,7 +36,7 @@ aprobada del producto. No se instalaron bibliotecas ni se modificó el gráfico 
 - `.specify/memory/constitution.md`: sustituir únicamente la oración indicada, actualizar
   versión/fecha de enmienda y registrar aprobación conservando la fecha original de ratificación.
 - `plan.md` y `docs/DECISIONES.md`: sustituir estado pendiente por referencia a la versión ratificada.
-- `docs/AUDITORIA_FINAL.md`: cerrar la discrepancia documental solo después de aprobación.
+- `docs/entrega/AUDITORIA_FINAL.md`: cerrar la discrepancia documental solo después de aprobación.
 - `spec.md`, modelos y migraciones: sin cambios necesarios por esta enmienda.
 - Plantillas originales de la profesora: no modificar.
 

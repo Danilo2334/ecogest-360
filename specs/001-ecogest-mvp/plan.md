@@ -129,5 +129,5 @@ masas, locks ni idempotencia. Medidos requieren salida independiente y evidencia
 mantienen etiquetas y filtros. Pruebas nuevas antes del arreglo, sin rehacer historial TDD.
 
 SVG nativo se conserva en código y queda permitido por constitución 1.1.0, ratificada
-el 2026-11-15. docs/ENMIENDA_CONSTITUCION_SVG.md registra la aprobación. La discrepancia
+el 2026-11-15. docs/entrega/ENMIENDA_CONSTITUCION_SVG.md registra la aprobación. La discrepancia
 detectada en auditoría queda cerrada, sin cambiar dominio ni añadir dependencias.

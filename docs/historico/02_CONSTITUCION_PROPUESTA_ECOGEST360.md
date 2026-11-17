@@ -1,7 +1,7 @@
 # Constitución del Proyecto: EcoGest 360
 
 > **Estado:** BORRADOR PARA REVISIÓN ACADÉMICA Y APROBACIÓN DEL EQUIPO.  
-> **Documento base:** plantilla_constitucion_sdd.md entregada por la profesora.  
+> **Documento base:** docs/plantillas/plantilla_constitucion_sdd.md entregada por la profesora.<br>
 > **Propósito:** esta constitución establece reglas transversales del proyecto. Las funcionalidades concretas, flujos, historias y criterios de aceptación se desarrollarán después en las especificaciones (`spec.md`).
 
 ## 1. Naturaleza del Proyecto

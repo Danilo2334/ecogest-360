@@ -73,7 +73,7 @@ Commits locales auténticos autorizados; push no autorizado. A no requiere esque
 - [X] T027 Documentar y probar seed_observatory_demo antes de ejecutarlo; escenario aislado, bloqueo, atomicidad, colisiones y repetición sin escritura.
 - [X] T028 Refinar balance, materiales, hallazgos, acceso a cohorte, fechas y filtros móviles.
 - [X] T029 Ejecutar backend 43, frontend 9, Playwright 5, TypeScript/build y capturas en cuatro anchos; comprobación representativa de contraste y teclado.
-- [X] T030 Registrar docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y detenerse para revisión. CHK013 y TDD histórico permanecen pendientes/parciales.
+- [X] T030 Registrar docs/historico/INFORME_REFINAMIENTO_OBSERVATORIO.md y detenerse para revisión. CHK013 y TDD histórico permanecen pendientes/parciales.
 
 Estado final T017: cálculo, UX, pruebas y transferencia revisable al plan completos. T025 conserva prueba humana pendiente.
 
@@ -82,7 +82,7 @@ T017: transferencia escenario→plan validada por servidor y Playwright. T018: r
 ## Phase 8: Convergence
 
 - [X] T031 Completar restablecimiento explícito de filtros y verificar rutas con contexto en frontend/src/app/App.tsx y frontend/tests/e2e/assistant.spec.ts según FR-002/003/026 (partial, MEDIUM).
-- [X] T032 Actualizar estado vigente de plan.md, data-model.md, README.md, docs/DISENO_EXPERIENCIA_V2.md y reutilizar docs/DEMO_ACADEMICA.md para recorrido V2 de 10–15 minutos; conservar historia y mapa documental según plan F (partial, MEDIUM).
+- [X] T032 Actualizar estado vigente de plan.md, data-model.md, README.md, docs/diseno/DISENO_EXPERIENCIA_V2.md y reutilizar docs/entrega/DEMO_ACADEMICA.md para recorrido V2 de 10–15 minutos; conservar historia y mapa documental según plan F (partial, MEDIUM).
 - [X] T033 Ejecutar regresión integrada, capturas de cuatro anchos, teclado y revisión visual B–E; registrar resultados finales y límites en docs/PRUEBAS.md según SC-001/006/007/008/010 (partial, HIGH).
 
 Convergencia 2026-11-16: 32 FR, 10 SC y 5 historias examinadas. Sin conflicto constitucional crítico detectado. T021 (presupuesto/prueba real IA) y T025 (componente humano SC-007/CHK013) permanecen pendientes; no se duplican ni se cierran mediante automatización.

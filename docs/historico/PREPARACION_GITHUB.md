@@ -50,7 +50,7 @@ gh repo create Danilo2334/ecogest-360 --private --source . --remote origin
 git push -u origin main
 git push -u origin feat/001-ecogest-mvp
 gh repo edit Danilo2334/ecogest-360 --default-branch main
-gh pr create --repo Danilo2334/ecogest-360 --base main --head feat/001-ecogest-mvp --draft --title "EcoGest 360: MVP ambiental y cierre de auditoria" --body-file docs/PR_MVP_PROPUESTO.md
+gh pr create --repo Danilo2334/ecogest-360 --base main --head feat/001-ecogest-mvp --draft --title "EcoGest 360: MVP ambiental y cierre de auditoria" --body-file docs/historico/PR_MVP_PROPUESTO.md
 ```
 
 No se han ejecutado estas mutaciones. No usar `gh pr create --dry-run` como garantÃ­a de
@@ -75,8 +75,8 @@ no publicar: puede subir cambios. No se autoriza merge ni despliegue con este do
 
 ## Evidencias acadÃ©micas pendientes
 
-Consultar CHECKLIST_ENTREGA.md. CHK013 requiere ejecuciÃ³n humana y registro real en
-REGISTRO_DEMO_HUMANA.md; un PR o Playwright no lo sustituye. Mantener cinco tareas TDD
+Consultar docs/entrega/CHECKLIST_ENTREGA.md. CHK013 requiere ejecuciÃ³n humana y registro real en
+docs/entrega/REGISTRO_DEMO_HUMANA.md; un PR o Playwright no lo sustituye. Mantener cinco tareas TDD
 histÃ³ricamente parciales. Cada integrante debe cargar su entrega en Campus UCC.
 El PDF docente fue revisado externamente segÃºn la conversaciÃ³n y sigue fuera del repositorio.
 

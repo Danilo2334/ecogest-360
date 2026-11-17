@@ -48,7 +48,7 @@ A1 y A2 aprobados expresamente. Dashboard distinguirá compostaje acreditado del
 - Correcciones dentro del alcance: rechazar textos obligatorios nulos y adjuntos inesperados;
   fecha inicial del formulario en hora local, no recorte UTC. Pruebas de regresión ejecutadas.
 - Se informa contradicción SVG/biblioteca de gráficos y regla de salida estimada/medición propia
-  sin enmendar constitución ni decidir reglas ambientales nuevas. Ver AUDITORIA_FINAL.md.
+  sin enmendar constitución ni decidir reglas ambientales nuevas. Ver docs/entrega/AUDITORIA_FINAL.md.
 - No se agrega paginación durante auditoría: no la exige spec.md, aunque rendimiento de todos
   los listados a 10 000 registros no está demostrado. Panel/CSV sí tienen medición local.
 - Aprobaciones humanas y cinco tareas TDD históricas permanecen pendientes; nuevas pruebas
@@ -119,7 +119,7 @@ solo gestor y Q3 IA contextual opcional sin escritura ni gasto hasta autorizaci�
 implementada: identidad/navegación/Observatorio; sin nuevas dependencias o migraciones.
 Se conserva report() V1 como fuente de G/A. Consulta observatory aditiva, corte compartido,
 comparación no disponible ante evidencia insuficiente, procedencias separadas y fechas Bogotá.
-Plan/tareas/contratos en specs/002-ecogest-intelligence; informe y capturas en INFORME_FASE_A_V2.md.
+Plan/tareas/contratos en specs/002-ecogest-intelligence; informe y capturas en docs/historico/INFORME_FASE_A_V2.md.
 No commits, push, merge, despliegue o modificaciones del PR #1. Backend de desarrollo reiniciado
 por usar --noreload; datos conservados. B–F requieren nueva autorización.
 
@@ -131,7 +131,7 @@ hallazgos deterministas; KPI consultan cohorte base sin confundirla con masa acr
 Escenario SIMULADO opcional en institución separada, comando explícito probado antes de
 ejecutar, sin restablecimientos. Fechas explicativas es-CO y controles nativos conservados.
 Filtros plegables en móvil; detalle metodológico accesible. No se inicia Pasaporte ni IA.
-Ver docs/INFORME_REFINAMIENTO_OBSERVATORIO.md y docs/DATOS_DEMO_OBSERVATORIO.md.
+Ver docs/historico/INFORME_REFINAMIENTO_OBSERVATORIO.md y docs/evidencias/DATOS_DEMO_OBSERVATORIO.md.
 
 
 ## 2026-11-16 — Orden final V2: ejecución local B–E
@@ -197,7 +197,7 @@ Convergencia Spec Kit añadió T031–033 para filtros, documentación y verific
 Se conservan evidencias originales de fases; Playwright escribe ahora en integracion/.
 Inventario de 44 Markdown (41 docs/specs + README/AGENTS/constitución), sin duplicados exactos.
 No se archivaron ni fusionaron antecedentes académicos; README funciona como mapa canónico.
-Se amplió DEMO_ACADEMICA.md para V2 y se preservó el recorrido operativo V1 como alternativa.
+Se amplió docs/entrega/DEMO_ACADEMICA.md para V2 y se preservó el recorrido operativo V1 como alternativa.
 Sin nuevos informes por etapa, sin cambios en plantillas, constitución, autores o historial.
 
 Cotejo final de 52 vínculos locales: ningún destino ausente. Respaldos excluidos, 0 claves
@@ -211,3 +211,27 @@ Asistente/navegación/convergencia. No se reescribió ningún commit anterior. E
 siguiente incorpora únicamente documentación y capturas revisadas. main conserva
 58bab1f87373d0110b088fc5d894a9f9f467e104; MVP conserva
 34ce7bf24463a3ce476cdb52e9c002f2ab777faf; respaldo local conservado.
+
+## 2026-11-16 — Cierre de prueba OpenAI y organización documental
+
+Tras autorización expresa se ejecutaron dos consultas reales en un proceso Django aislado,
+con un máximo autorizado de USD 0,12. Se reutilizó la clave local sin mostrarla ni escribirla
+en el repositorio. Resultados, consumo y limitaciones en [PRUEBAS.md](PRUEBAS.md).
+La habilitación fue temporal: el servidor del navegador y la configuración persistente
+permanecieron desactivados. No se autoriza uso continuo ni se modifica el alcance del asistente.
+
+Se clasificaron los 23 Markdown existentes de docs/ en un único [índice](README.md).
+Cinco antecedentes pasan a historico/ y dos documentos de entrega a entrega/. Se actualizan
+enlaces y referencias; las rutas canónicas de DECISIONES/PRUEBAS, constitución y specs/
+se conservan. No hay duplicados exactos; informes de fase, auditoría y propuestas tienen
+valor histórico independiente y no se fusionan. Las plantillas originales no se alteran.
+Los documentos citados por AGENTS o artefactos SDD permanecen en su lugar para evitar
+cambiar instrucciones y fuentes protegidas. Capturas y evidencias únicas se conservan.
+
+
+Organizaci?n final solicitada posteriormente: solo README, DECISIONES y PRUEBAS quedan
+en la ra?z de docs/. Se trasladaron los 14 documentos restantes a diseno/, entrega/,
+evidencias/, historico/ y plantillas/, sin excepciones. La autorizaci?n incluye corregir
+rutas en AGENTS, constituci?n y specs/; se mantienen su ubicaci?n, reglas y estados.
+Las plantillas originales se conservan byte por byte. El ?ndice existente sustituye
+la clasificaci?n parcial anterior; no se crea otro informe ni se realiza un commit.
