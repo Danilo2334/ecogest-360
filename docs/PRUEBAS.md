@@ -332,3 +332,102 @@ consulta directa por UUID → volver a /lotes preservando filtros → recarga co
 Build final JS 289,35 kB / gzip 87,96 kB, CSS 26,61 kB / gzip 5,98 kB. Sin código cambiado
 tras esa comprobación; cierre siguiente solo documental y evidencias. Commit de integración
 local `26ceb8d`, autor real Danilo; sin push, merge, cambios en main/MVP ni llamadas pagadas.
+
+## 2026-11-16 — Dos consultas reales autorizadas a OpenAI
+
+Este registro actualiza el estado de OpenAI descrito en las entradas anteriores, que se
+conservan como historia. Prueba ejecutada entre **17:17:53 y 17:17:58 UTC**
+(12:17:53–12:17:58 de Bogotá), con autorización expresa para dos consultas y un presupuesto
+total de **USD 0,12**. Modelo utilizado: **`gpt-5.6-terra`**, mediante Responses API.
+
+Procedimiento: proceso Django aislado, `APIClient(enforce_csrf_checks=True)`, sesión del
+gestor de demostración y token CSRF válido; POST a `/api/v2/assistant` con identificador
+único por consulta. Se ejecutó el proveedor real, sin simular sus respuestas y sin
+reintentos. La habilitación temporal y los presupuestos diario/total de USD 0,12 se
+aplicaron solo a ese proceso. No se modificó `.env` ni se habilitó el servidor del navegador.
+
+Cohorte institucional autorizada: **02–15 de noviembre de 2026**, procedencia **simulado**.
+Las masas siguientes son datos de demostración, no mediciones ambientales reales.
+
+| Consulta | Respuesta y fundamento verificados | Resultado |
+| --- | --- | --- |
+| ¿Cuánto compostaje está acreditado y cuánto queda pendiente en este período? | Fuente seleccionada `cohort`: generación 365,000 kg; entrada con compostaje acreditado 100,000 kg; pendiente 265,000 kg; tasa 27,40 %. Explicaciones `rate`, `pending` y `provenance` | HTTP 200; proveedor `completed`; respuesta `disponible`; criterio de aceptación satisfecho |
+| ¿Por qué la salida de compost no se suma a los residuos que entraron al proceso? | Explicación local seleccionada `output`: entrada y salida se miden independientemente; sumarlas duplicaría parte del material; no se presume rendimiento ni calidad. No seleccionó una fuente numérica (`sources=[]`); el fundamento es el catálogo metodológico del backend | HTTP 200; proveedor `completed`; respuesta `disponible`; criterio de aceptación satisfecho |
+
+El modelo seleccionó identificadores y códigos permitidos. La aplicación resolvió cifras
+y explicaciones desde sus fuentes locales; no se validó un chat de texto libre.
+Ambas respuestas devolvieron período, procedencia, unidad, corte, fórmula y limitaciones.
+Cortes: `2026-11-16T17:17:53.650736+00:00` y `2026-11-16T17:17:56.768962+00:00`.
+Fórmula: entrada de la cohorte con compostaje validado hasta el corte / generación vigente
+de esa cohorte × 100. El indicador no representa todo el aprovechamiento institucional
+ni reconstruye correcciones históricas. Pendiente no equivale necesariamente a masa disponible.
+
+| Consulta | Tokens de entrada | Tokens de salida | Costo local calculado (USD) |
+| --- | ---: | ---: | ---: |
+| Balance de cohorte | 930 | 35 | 0,00274500 |
+| Entrada y salida de compostaje | 932 | 26 | 0,00264200 |
+| **Total** | **1.862** | **61** | **0,00538700** |
+
+Tokens informados por el proveedor; cálculo conservador de la aplicación con USD 2,50
+por millón de tokens de entrada y USD 12 por millón de salida. **No es facturación oficial
+de OpenAI**: no se consultaron factura ni saldo de la cuenta. Consumo calculado inferior
+al presupuesto autorizado de USD 0,12; cada solicitud reservó como máximo USD 0,05456.
+
+Comprobación posterior: dos invocaciones locales, ambas `completed`, total contable
+USD 0,00538700. Las huellas de los registros de waste, traceability, compost, organizations
+e interventions no cambiaron. Finalizada la prueba, `configuration()` volvió a no habilitada;
+AI_ENABLED, AI_BUDGET_AUTHORIZED y OPENAI_SMOKE_TEST quedaron falsos y presupuestos de la
+configuración local en cero. No se eliminó ni reinició el registro de consumo.
+
+Evidencia consultada para esta transcripción: archivo temporal
+`ecogest-openai-authorized-smoke-result.json`, todavía disponible al documentar el cierre.
+Se preservan aquí los resultados relevantes; no se copia el archivo completo ni rutas
+personales, claves, cookies o tokens de autenticación al repositorio. Los conteos de tokens
+de la tabla son unidades de uso del modelo, no credenciales.
+
+**Límites:** prueba realizada desde Django, sin recorrer el navegador ni probar la presentación
+visual de una respuesta real. No certifica disponibilidad continua, todos los roles o todas
+las preguntas. CHK013 y las cinco tareas TDD históricamente parciales siguen pendientes/parciales.
+No se modifica ni se marca como completada una tarea SDD por esta actualización documental.
+La integración permanece desactivada; esta evidencia no autoriza consumo adicional.
+
+Antes de la prueba real también se ejecutaron **11 pruebas locales aprobadas en 68,125 s**:
+`tests.test_intelligence` y
+`tests.test_concurrency.ConcurrencyTests.test_assistant_global_budget_and_inflight_are_atomic`,
+con `--keepdb --noinput` y el constructor real de OpenAI bloqueado. No hubo llamadas pagadas
+en esa ejecución. No se reejecutaron suites de aplicación durante el cierre documental.
+
+## 2026-11-16 — Verificación del cierre documental
+
+Rama de trabajo: `feat/002-ecogest-intelligence`. Inventario inicial: 23 Markdown en docs/;
+final: 24, incluido únicamente el nuevo índice. Cinco documentos históricos y dos de
+entrega reubicados; ninguno eliminado ni fusionado. Los documentos anteriores continúan
+disponibles en su ubicación original o en la nueva ruta registrada por el índice.
+
+| Comprobación ejecutada | Antes | Después |
+| --- | ---: | ---: |
+| Markdown examinados (docs/, specs/, raíz y constitución) | 46 | 47 |
+| Enlaces locales Markdown, incluidas imágenes y directorios | 52 | 95 |
+| Destinos locales ausentes | 0 | 0 |
+
+Se actualizaron enlaces relativos y referencias textuales de las rutas movidas; búsqueda
+final sin referencias a las siete rutas anteriores. Los 23 documentos originales figuran
+en el índice. No hay enlaces con fragmentos de ancla en el conjunto examinado; siete
+enlaces Markdown externos se excluyeron de la comprobación de disponibilidad web.
+No se evaluó la vigencia de URLs escritas como texto plano ni rutas propuestas para futuros
+informes todavía no creados. El cotejo de enlaces comprueba existencia, no contenido remoto.
+
+Comparación SHA-256 antes/después de **239 archivos protegidos**: sin cambios en código,
+pruebas de software, configuración versionada, constitución, specs/, plantillas docentes
+y capturas. `git diff --check`: sin errores. No se ejecutaron pruebas funcionales, nuevas
+consultas a OpenAI, migraciones, commits, push, merge ni despliegues en este cierre documental.
+
+Organización final posterior solicitada: se trasladaron otros 14 Markdown y quedaron solo
+README.md, DECISIONES.md y PRUEBAS.md en la raíz de docs/; total conservado: 24 Markdown.
+Verificación antes/después sobre 47 Markdown: 95 enlaces locales, cero destinos ausentes
+y cero referencias a las rutas sustituidas; siete enlaces externos no comprobados.
+Los 200 archivos no Markdown inventariados permanecen idénticos, incluidas capturas y código.
+Las dos plantillas conservan sus bytes; los cambios en constitución, AGENTS y specs/ son
+solo rutas documentales. Todos los documentos se conservaron y el índice los incluye.
+`git diff --check` sin errores. Sin nuevos informes, commits, ejecución de pruebas funcionales
+ni llamadas OpenAI; los cambios documentales anteriores pendientes se conservaron.
