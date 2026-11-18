@@ -2,8 +2,8 @@
 
 ## 2026-11-15 — Documentos SDD
 
-Estas son verificaciones documentales. No se ejecutaron pruebas de aplicación, instalaciones
-ni migraciones; no existen aún frontend/backend implementados.
+En este primer hito solo se realizaron verificaciones documentales. Los resultados de la
+implementación posterior se registran abajo; no confundir ambos momentos.
 
 | Procedimiento ejecutado | Resultado |
 | --- | --- |
@@ -18,3 +18,489 @@ ni migraciones; no existen aún frontend/backend implementados.
 Los scripts se invocaron con powershell -NoProfile -ExecutionPolicy Bypass -File, limitado
 al proceso, sin cambiar la política global. Los escenarios de software por ejecutar se
 encuentran en quickstart.md y tasks.md. No confundir casillas de calidad con tests aprobados.
+
+## 2026-11-15 — MVP implementado y ejecutado localmente
+
+Entorno: Windows, Intel Core i5-11400H 2.70 GHz, aproximadamente 16 GiB RAM;
+Python 3.12, Node 22.23.3, npm 10.9.9, Django 5.2.19, DRF 3.18.3,
+PostgreSQL 16 en Docker Desktop, React y Vite 8.3.8. Versiones exactas reproducibles
+en requirements.txt y package-lock.json. Sin cambios a instalaciones Python globales.
+
+### Resultados finales ejecutados
+
+| Comando/procedimiento | Resultado observado |
+| --- | --- |
+| `manage.py migrate` en base nueva ecogest | Migraciones Django y seis aplicaciones propias aplicadas |
+| `manage.py check` | Sin problemas |
+| `manage.py makemigrations --check --dry-run` | Sin cambios de modelos pendientes |
+| `manage.py test tests --noinput` | **20 pruebas aprobadas**, 40.348 s, PostgreSQL real |
+| `npm.cmd run test -- --run` | **3 pruebas aprobadas**, 2 archivos Vitest |
+| `npm.cmd run typecheck` | TypeScript sin errores |
+| `npm.cmd run build` | Compilación de producción correcta |
+| `npm.cmd run test:e2e` | **3 recorridos aprobados**, Chromium, 11.1 s |
+| `npm.cmd ci` | Instalación reproducible del lockfile completada |
+| `pip check` y `npm audit` | Dependencias Python compatibles; 0 vulnerabilidades reportadas por npm en la ejecución |
+| Reiniciar servidor Django y consultar registros | 1 registro antes y 1 después en ese momento; ejecuciones E2E posteriores agregan datos simulados |
+| Consultar privilegios PostgreSQL de aplicación | ecogest_app: SUPERUSER=false, CREATEROLE=false |
+
+Los comandos completos y sus directorios están en README.md. Las pruebas Django crean y
+eliminan test_ecogest; los recorridos de navegador usan ecogest y conservan sus demos.
+No se borraron datos para forzar totales ni se utilizaron mediciones ambientales reales.
+
+### Cobertura comprobada
+
+- `test_vertical.py`: 25 kg generados, 20 kg a compostaje, salida independiente de 8 kg,
+  acreditación de 20 kg, pendiente 5 kg y 80 %; nunca 28 kg acreditados. Masas inválidas y lector.
+- `test_security.py`: login/logout con CSRF real, cuatro roles, aislamiento en listas,
+  detalle, QR, evidencia y CSV; corrección 25→24 auditada, incidencias, categoría especial,
+  claves repetidas con contenido diferente y rollback con fallo inyectado.
+- `test_concurrency.py`: conexiones independientes y consumos 4+4 sobre saldo 5,
+  repetición simultánea de clave, corrección contra asignación, entrada contra finalización,
+  doble confirmación sin duplicar efecto.
+- `test_compost.py`: elegibilidad, procedencia, evidencia incompleta, permisos, corte,
+  procesos cerrados, cohortes mixtas, controles y carga/descarga privada de documento.
+- `test_reports.py`: entrega externa separada de acreditación, filtros inválidos,
+  contexto CSV, neutralización de fórmulas y recuperación de información.
+- `test_persistence.py`: recuperación tras cerrar conexión y crear cliente independiente.
+- Vitest: error visible conservando masa, reintento con misma clave, nueva clave al corregir,
+  éxito y limpieza de formulario; universo vacío sin tasa inventada y filtro del enlace CSV.
+- Playwright: login, generación, lote, entrada y salida, evidencia, validación por gestor,
+  exportación; consultor sin escritura; captura por teclado, foco y cinco pantallas a 360/1280 px.
+  Sin errores JavaScript en el flujo vertical ni desbordamiento horizontal de la página.
+
+### Rendimiento local, no garantía de producción
+
+10 000 generaciones simuladas de 1 kg, 10 lectores concurrentes mediante APIClient y
+conexiones PostgreSQL independientes. Máximo de las diez muestras (p95 conservador):
+**0.072 s**, objetivo <2 s. Preparación del informe y CSV: **0.675 s**, objetivo <10 s.
+CSV mide selector y serialización, sin descarga por red; panel no incluye render del navegador.
+Es una muestra local pequeña, no una prueba de carga sostenida ni certificación de capacidad.
+
+### Fallos encontrados y corregidos
+
+- Primer flujo rojo: módulos todavía inexistentes (`No module named organizations`).
+  Varias pruebas especializadas fueron posteriores al código: no existe evidencia TDD completa.
+- Descubrimiento sin etiqueta desde raíz encontró 0 pruebas: se fijó el comando `test tests`.
+- Primera medición de panel: 7.583 s; se sustituyó materialización de filas por agregaciones SQL.
+- Selectores accesibles del navegador ambiguos: etiquetas explícitas e iconos decorativos
+  fuera del nombre accesible. Recorridos finales aprobados.
+- `npm ci` falló EPERM por DLL de Vite en uso: se detuvo solo el proceso propio y se reinstaló.
+- Prueba de archivo cerraba conexión antes de comprobar anónimo: se corrigió orden de cierre.
+- Hook beforeEach devolvía una función mock rechazada: se corrigió el hook; Vitest final aprobado.
+
+### Límites y revisión pendiente
+
+- 13 criterios personalizados de integridad ambiental siguen abiertos para revisión humana.
+- T008/T014/T019/T026/T032 tienen cobertura funcional, pero permanece incumplida la secuencia
+  histórica estricta de escribir y observar cada prueba antes del código. No se puede reconstruir
+  retrospectivamente esa evidencia; no se marca esa parte como completada.
+- Pruebas se agrupan por riesgo y recorrido, no en todos los nombres de archivos del plan.
+  Formularios comparten ActionForm; E2E verifica integración, Vitest comportamiento compartido.
+  No hay cobertura exhaustiva de todas las combinaciones de errores o navegadores.
+- Listados sin paginación; archivos PDF revisados por firma y permisos, sin antivirus.
+  No se realizó despliegue, prueba de recuperación de backup ni revisión WCAG formal.
+- Capturas versionadas en docs/evidencias/ muestran exclusivamente demostración simulada.
+  Totales dependen del número de ejecuciones previas; no constituyen mediciones reales.
+
+## 2026-11-15 — Auditoría posterior, sin commits
+
+Informe detallado: [AUDITORIA_FINAL.md](entrega/AUDITORIA_FINAL.md); guion humano:
+[DEMO_ACADEMICA.md](entrega/DEMO_ACADEMICA.md). No se sustituyen resultados históricos.
+
+| Ejecución en esta auditoría | Resultado |
+| --- | --- |
+| Suite backend original | 20/20 aprobadas, 40.435 s |
+| Regresiones nuevas antes de arreglo | Evidencia null: cuatro aserciones fallidas; campo inesperado de archivo: KeyError confirmado en ejecución aislada |
+| Suite backend tras correcciones | **24/24 aprobadas**, 40.522 s, PostgreSQL real |
+| Panel con 10 000 generaciones y 10 lectores | Máximo de diez muestras 0.060 s; CSV 0.600 s; mismos límites metodológicos anteriores |
+| Vitest original | 3/3 aprobadas |
+| Regresión fecha antes de arreglo | 1 fallida: 2026-11-16 en lugar de 2026-11-15 a las 23:30 de Bogotá |
+| Vitest final con TZ=America/Bogota | **4/4 aprobadas**, 3 archivos |
+| TypeScript y build final | Correctos; build incluye tsc --noEmit |
+| Playwright inicial | 3/3 aprobados, 11.9 s |
+| Playwright ampliado con capturas | 1 fallo por carrera del test entre logout y navegación; 2 aprobados |
+| Playwright tras esperar logout | 3/3 aprobados, 10.1 s; repetición tras ajuste de fecha registrada abajo |
+| Playwright final con fecha local y navegador America/Bogota | **3/3 aprobados**, 10.3 s |
+| Django check / makemigrations --check --dry-run | Sin problemas / sin cambios pendientes |
+| showmigrations --plan | Todas las migraciones existentes aplicadas; no se ejecutaron migraciones sobre la base de desarrollo en esta auditoría |
+| pip check | Sin dependencias incompatibles |
+| npm ci --dry-run --ignore-scripts | Lockfile aceptado; simulación, no reinstalación completa |
+| npm audit --omit=dev | 0 vulnerabilidades reportadas en dependencias de producción; no escáner de backend |
+| Escaneo Git de secretos | 3 commits, 129 blobs únicos, sin coincidencias de secretos locales/patrones buscados |
+
+Nuevas pruebas backend: test_audit.py cubre nulos en evidencia, adjunto con campo inesperado,
+22 acciones denegadas al consultor, PNG QR y consulta autorizada/anonimato. Los roles restantes,
+aislamiento, decimales, doble conteo, persistencia, concurrencia y CSV conservan sus suites.
+La generación PNG y lookup UUID no equivalen a una decodificación óptica: cámara pendiente.
+
+El test QR inicialmente cerraba FileResponse dentro de TestCase, cerrando su conexión antes del
+siguiente fixture; se corrigió el test. Las nuevas regresiones sí tienen rojo/verde observado;
+T008/T014/T019/T026/T032 permanecen parciales por falta de evidencia histórica anterior.
+
+No se borraron registros de desarrollo. Los recorridos agregaron generaciones y comprobantes
+simulados, incluidos intentos de demo incompletos del test fallido. Sus totales no deben
+interpretarse como una sola cohorte de 25 kg. El guion usa un área nueva para aislar cifras.
+11 criterios ambientales aprobados técnicamente; CHK004 y CHK013 pendientes según el informe.
+No se adjudica aprobación humana ni cumplimiento del PDF docente no disponible localmente.
+
+## 2026-11-15 — Cierre puntual CHK004
+
+Se aprobaron primero FR-018/019 y cuatro criterios de aceptación en spec.md. Después se creó
+test_compost_provenance.py y se ejecutó **antes de corregir el código**:
+6 pruebas, **3 aprobadas y 3 fallidas** en 9.775 s. Fallos reproducidos: estimado confirmado
+(201 frente a 400), salida histórica incompatible confirmada (201 frente a 400) y confirmación
+estimada histórica sumada a A (20 frente a 0). No se extrapola este rojo/verde al desarrollo previo.
+
+Corrección mínima: verify exige proceso medido/simulado y salida independiente de igual
+procedencia; rechaza estimados. Selector del panel/CSV excluye confirmaciones estimadas y
+salidas incompatibles. UI informa la restricción y no ofrece confirmar estimados, pero mantiene
+posibilidad de rechazo y trazabilidad. No se borran evidencias ni se cambian masas/procedencias.
+
+| Comando ejecutado desde raíz, salvo frontend | Resultado final |
+| --- | --- |
+| `backend/.venv/Scripts/python.exe backend/manage.py test tests --noinput` | **30/30 aprobadas**, 50.888 s, PostgreSQL real |
+| `npm.cmd run test -- --run` en frontend, con TZ=America/Bogota | **5/5 aprobadas**, 4 archivos |
+| `npm.cmd run test:e2e` en frontend | **3/3 aprobados**, 10.7 s, navegador America/Bogota |
+| `npm.cmd run typecheck` y `npm.cmd run build` en frontend | Correctos |
+| `manage.py check` | Sin problemas |
+| `manage.py makemigrations --check --dry-run` | Sin cambios de modelos pendientes |
+| `manage.py showmigrations --plan` | Todas las migraciones existentes aplicadas; no nuevas migraciones |
+
+**Total final: 38 pruebas aprobadas y 0 fallidas en las suites finales.** Los tres fallos
+iniciales de regresión permanecen documentados arriba. Se reinició solo el servidor Django
+propio para que Playwright probara el código corregido. No se reinicializó PostgreSQL.
+
+Los seis casos nuevos verifican medido con salida propia e idempotencia, estimado bloqueado,
+simulado separado, intento de salida incompatible, salida histórica incompatible y exclusión
+de acreditación estimada histórica sin borrar Verification. Panel y CSV coinciden por procedencia.
+Los datos etiquetados medido/estimado de estas pruebas son fixtures sintéticos dentro de
+test_ecogest: no mediciones de campo ni registros reales de la universidad.
+Vitest adicional comprueba mensaje y opciones del gestor ante proceso estimado.
+Las suites previas vuelven a comprobar masas, permisos, concurrencia, persistencia e integridad.
+
+Rendimiento observado con el mismo escenario local: panel máximo de diez muestras 0.073 s,
+CSV 0.589 s. No se extiende esa medición a todos los listados ni a producción.
+
+CHK004 aprobado técnicamente con regla autorizada: **12/13**; CHK013 permanece pendiente.
+Constitución vigente intacta y propuesta SVG 1.1.0 pendiente. Se creó hoja humana vacía y matriz
+docente provisional; el PDF oficial aún no está disponible. No hay nuevo commit ni publicación.
+T008/T014/T019/T026/T032 conservan su estado parcial por evidencia histórica TDD ausente.
+
+## Ratificación y cierre documental posterior
+
+Se ratifica constitución 1.1.0 con fecha 2026-11-15 por aprobación explícita del usuario.
+Se ejecutaron resolve-template constitution-template y check-prerequisites con RequireSpec,
+RequireTasks e IncludeTasks: ambos resolvieron correctamente. Sin hooks de extensiones.
+Se revisó coherencia de constitución, 25 FR, 7 SC y 42 tareas; no se modifican las cinco
+tareas TDD parciales. La lectura SDD distingue cobertura planificada de ejecución humana:
+T038 no sustituye CHK013, ni T041 prueba rendimiento de todos los listados.
+La guía de demo y hoja vacía se revisaron; no hay ejecución humana nueva.
+Estos cambios son documentales: no se repitieron suites de software. La última evidencia
+sigue siendo 38 aprobadas / 0 fallidas finales, con sus fallos iniciales preservados arriba.
+
+## 2026-11-16 — Fase A Intelligence
+
+Resultados y fallos preservados en [INFORME_FASE_A_V2.md](historico/INFORME_FASE_A_V2.md).
+Django 39/39, Vitest 7/7, Playwright 4/4: 50 pruebas finales aprobadas en esta fase.
+TypeScript/build correctos. Observatorio p95 0.457 s, 10 000 registros, 10 lectores, 100 consultas.
+Capturas reales bajo docs/evidencias/v2; simulaciones existentes, no mediciones reales.
+Ninguna prueba de IA ni de fases futuras ejecutada; CHK013 y TDD histórico V1 sin cambios.
+
+
+## 2026-11-16 — Refinamiento del Observatorio
+
+Backend: 43/43 (76,059 s); Vitest: 9/9; Playwright: 5/5 (19,5 s).
+Después se amplió el recorrido de refinamiento con contraste y teclado: 1/1 (3,4 s),
+cinco textos representativos ≥5,43:1. TypeScript/build correcto. Cuatro anchos sin
+desbordamiento, capturas antes/después preservadas e inspeccionadas.
+Generador: documentado primero, pruebas antes del comando (3 errores y 1 paso por excepción
+esperada), luego 4/4; ejecución local y repetición con misma huella, sin duplicados.
+Observatorio p95 0,418 s; V1 p95 conservador 0,073 s; CSV 0,598 s.
+Primer recorrido nuevo falló por selector de Área, corregido y validado. Sin migraciones.
+Detalle reproducible, limitaciones y archivos en docs/historico/INFORME_REFINAMIENTO_OBSERVATORIO.md.
+CHK013 pendiente; T008/T014/T019/T026/T032 históricas del MVP continúan parciales.
+
+
+## 2026-11-16 — Ejecución final V2 en curso
+
+Línea base repetida antes de B: backend 43/43 (82,511 s), Vitest 9/9, TypeScript correcto.
+Observatorio p95 0,567 s; V1 p95 conservador 0,197 s, CSV 0,733 s.
+Pasaporte: 3 pruebas previas a implementación, 2 fallos y 1 error por endpoint ausente;
+después 3/3 (4,653 s). Casos saldo/traslado, acceso institucional/QR y salida compartida.
+Build correcto tras UI B. Recorrido Playwright B 1/1 (6,2 s), capturas reales en
+evidencias/v2/pasaporte a 360/390/768/1280, sin overflow; QR por teclado y vuelta a lista.
+Primer intento de navegador falló porque el selector buscaba 87 sin unidad; corregido a 87 kg.
+B aún requiere ampliar integración/accesos y revisar capturas antes de cerrar tarea y checkpoint.
+C/D/E todavía pendientes de implementación. No llamada OpenAI ni prueba humana CHK013.
+
+
+### Cierre técnico B y cálculo C
+
+Pasaporte compacto con generaciones desplegables, acceso desde Registros (incluido hallazgo
+del Observatorio→Registros), fuentes y QR. Capturas desktop/móvil inspeccionadas.
+Simulador: cuatro pruebas previas fallaron con 404; tras implementación cinco pasan,
+incluyendo 25/20/8 +3→23 acreditados hipotéticos, 2 pendientes y 92 %.
+Regresión completa ejecutada: 51/51 backend (160,961 s), 12/12 Vitest, TypeScript/build
+correctos, 7/7 Playwright (45,8 s). Observatorio p95 0,700 s; V1 p95 conservador 0,129 s;
+CSV 1,207 s. Pasaporte+Simulador específicos 8/8 backend.
+Cohorte simulada C: E=87 kg, hipótesis +10 muestra A'=110, G'=365 y tasa 30,14 %.
+Rechazo de +88 kg, recarga de base y cuatro anchos sin desbordamiento verificados.
+Capturas en evidencias/v2/pasaporte y evidencias/v2/simulador. Sin datos reales ni IA.
+Pendiente C: transferencia manual a Planes (fase D). CHK013 sin ejecución humana.
+
+
+### Planes D — pruebas del incremento
+
+Antes de implementación: tres tests fallaron por rutas 404. Después, cinco tests de Planes
+aprobados (43,180 s): permisos, versiones, historial, estados, evidencia, meta modificada,
+fuente corregida, idempotencia y aislamiento. Con generador: 10/10 (86,436 s), incluida
+repetición intacta tras recibo de plan. Vitest completa 14/14; TypeScript/build correctos.
+Playwright escenario→plan→inicio→evaluación→cierre: 1/1 (17,6 s). Capturas reales en
+evidencias/v2/planes (360/390/768/1280), sin overflow; revisión visual desktop realizada.
+Base sintética de acreditación 60 kg (19 oct–1 nov), meta 90, observación 100 (2–15 nov):
+alcanzada descriptivamente; no causalidad ni prueba humana. No consumo ambiental nuevo.
+Respaldo restaurado y migración inicial de interventions ejecutada con éxito en copia y
+luego desarrollo. manage.py check correcto; makemigrations --check --dry-run sin cambios.
+Pendientes finales: concurrencia real entre gestores, regresión global después de E, revisión
+visual móvil de Planes, enlaces documentales, CHK013 humana y pruebas pagadas IA no autorizadas.
+
+
+## 2026-11-16 — Asistente E e integración final V2
+
+E inició con 4 tests: 3 fallos 404 y 1 caso CSRF ya satisfecho. Tras implementar,
+9/9 pasaron (67,149 s); se añadió un caso de selección de lotes sin verificación.
+Proveedor simulado: ausencia de clave/presupuesto, cuatro roles, ámbito institucional,
+contexto mínimo sin nombres/textos libres, entrada maliciosa sin capacidades, respuesta
+con fuentes ajenas/campos inventados, timeout, idempotencia, reserva, cuota y cinco/minuto.
+SDK oficial instalado; firma local responses.parse comprobada. El mock verifica store=false,
+1000 tokens, timeout 25 s, cero reintentos, sin tools ni previous_response_id.
+
+Concurrencia PostgreSQL real: 2/2 (19,073 s), edición de plan con versión obsoleta y
+reserva global/usuario simultánea; ambas mantienen una sola operación aceptada.
+
+Regresión completa: `backend/.venv/Scripts/python.exe backend/manage.py test tests --keepdb --noinput`:
+**69/69**, 616,697 s. Incluye V1, procedencias, QR/evidencias/permisos, masas, duplicados,
+compostaje, Pasaporte, Simulador, Planes, IA simulada y rendimiento. Una invocación anterior
+sin la etiqueta `tests` descubrió cero pruebas; NO se contabiliza como validación.
+Observatorio 10 000 filas / 10 lectores / 100 muestras: **p95=0,814 s**.
+Reporte V1 p95 conservador=0,267 s; exportación CSV=3,309 s. CSV no se presenta como <2 s.
+
+Playwright completo: **9/9** (2,0 min), incluido flujo vertical original de 25/20/8,
+CSV, consultor, filtros y cuatro anchos. Tras ajustes de orden visual/rutas/filtros:
+**3/3** (38,0 s), Asistente→Simulador→recarga→Atrás→restablecer, Pasaporte→cohorte del
+Simulador y plan con evaluación/cierre. El primer ensayo de Asistente falló por selector
+exacto SIMULADO; el texto real incluía corte. Se corrigió el selector, no los datos.
+Vitest: 17/17 (12,47 s) antes de la última ampliación de verificación de contexto.
+TypeScript/build correctos; JS 289,12 kB / gzip 87,92 kB y CSS 26,61 kB.
+
+Revisión visual: capturas efectivas de B/C/D/E en 360/390/768/1280 sin overflow; inspección
+representativa en los cuatro tamaños. Se corrigió herencia de estilo en valores del Asistente,
+se restauró anchura de filtros y se puso evidencia de Planes antes de formularios en tablet.
+Teclado: fuentes/QR, ejemplos del asistente y navegación; contraste de cinco textos del
+Observatorio mínimo 5,43:1. No es una certificación integral WCAG ni ensayo humano CHK013.
+
+Las capturas originales de A/B/C/D se conservaron byte por byte. Nuevas capturas de
+regresión en `docs/evidencias/v2/integracion/`; Asistente en `docs/evidencias/v2/asistente/`.
+No se presentan mocks como respuesta OpenAI real. La repetición del seed después de Planes
+conservó 84 registros y huella `0338edc5f662074ac44d29fe36577ef135fd0001004605c0681d22cf69fa17e2`.
+
+Migración intelligence ensayada en copia y aplicada en desarrollo. Además, todas las
+migraciones V1+D+E pasaron desde una base PostgreSQL vacía independiente
+`ecogest_v2_clean_trial_20261116`; no se borró ninguna base ni se probó reversión destructiva.
+Respaldo previo E en `backups/ecogest-before-v2-assistant-20261116.dump`, ignorado por Git.
+`manage.py check`: correcto; `makemigrations --check --dry-run`: sin cambios; `pip check`:
+sin incompatibilidades. Se conservaron ramas protegidas y constitución 1.1.0.
+
+OpenAI: presencia de clave comprobada solo como booleano; AI_ENABLED, AI_BUDGET_AUTHORIZED
+y OPENAI_SMOKE_TEST falsos; **0 invocaciones en la base local**. Ninguna llamada pagada,
+saldo de cuenta ni latencia real verificados. T021 permanece pendiente de autorización.
+CHK013 y componente humano de T025/SC-007 pendientes. T008/T014/T019/T026/T032 del MVP
+continúan parciales por evidencia TDD histórica; esta suite no corrige el pasado.
+
+
+Última ampliación UI: **18/18 Vitest** (11,97 s), incluida respuesta previa identificada
+al cambiar filtros y botones de contexto obsoleto deshabilitados. TypeScript/build correcto
+(JS 289,32 kB / gzip 87,96 kB). Cotejo documental final: **44 Markdown, 52 enlaces locales,
+0 destinos ausentes**; no se comprobaron disponibilidad web ni anclas internas por este script.
+Escaneo de 207 archivos de texto candidatos: sin patrones de claves privadas, tokens de
+proveedor/GitHub o URL PostgreSQL con contraseña, ni .env/dumps/llaves candidatos. No equivale
+a garantía universal de ausencia de datos sensibles. .gitignore protege configuración local,
+respaldos, adjuntos, cachés y dependencias; SDD y ejemplos seguros permanecen versionables.
+
+Verificación final adicional de ruta QR privada: Playwright Pasaporte **1/1** (18,9 s),
+consulta directa por UUID → volver a /lotes preservando filtros → recarga conserva lista.
+Build final JS 289,35 kB / gzip 87,96 kB, CSS 26,61 kB / gzip 5,98 kB. Sin código cambiado
+tras esa comprobación; cierre siguiente solo documental y evidencias. Commit de integración
+local `26ceb8d`, autor real Danilo; sin push, merge, cambios en main/MVP ni llamadas pagadas.
+
+## 2026-11-16 — Dos consultas reales autorizadas a OpenAI
+
+Este registro actualiza el estado de OpenAI descrito en las entradas anteriores, que se
+conservan como historia. Prueba ejecutada entre **17:17:53 y 17:17:58 UTC**
+(12:17:53–12:17:58 de Bogotá), con autorización expresa para dos consultas y un presupuesto
+total de **USD 0,12**. Modelo utilizado: **`gpt-5.6-terra`**, mediante Responses API.
+
+Procedimiento: proceso Django aislado, `APIClient(enforce_csrf_checks=True)`, sesión del
+gestor de demostración y token CSRF válido; POST a `/api/v2/assistant` con identificador
+único por consulta. Se ejecutó el proveedor real, sin simular sus respuestas y sin
+reintentos. La habilitación temporal y los presupuestos diario/total de USD 0,12 se
+aplicaron solo a ese proceso. No se modificó `.env` ni se habilitó el servidor del navegador.
+
+Cohorte institucional autorizada: **02–15 de noviembre de 2026**, procedencia **simulado**.
+Las masas siguientes son datos de demostración, no mediciones ambientales reales.
+
+| Consulta | Respuesta y fundamento verificados | Resultado |
+| --- | --- | --- |
+| ¿Cuánto compostaje está acreditado y cuánto queda pendiente en este período? | Fuente seleccionada `cohort`: generación 365,000 kg; entrada con compostaje acreditado 100,000 kg; pendiente 265,000 kg; tasa 27,40 %. Explicaciones `rate`, `pending` y `provenance` | HTTP 200; proveedor `completed`; respuesta `disponible`; criterio de aceptación satisfecho |
+| ¿Por qué la salida de compost no se suma a los residuos que entraron al proceso? | Explicación local seleccionada `output`: entrada y salida se miden independientemente; sumarlas duplicaría parte del material; no se presume rendimiento ni calidad. No seleccionó una fuente numérica (`sources=[]`); el fundamento es el catálogo metodológico del backend | HTTP 200; proveedor `completed`; respuesta `disponible`; criterio de aceptación satisfecho |
+
+El modelo seleccionó identificadores y códigos permitidos. La aplicación resolvió cifras
+y explicaciones desde sus fuentes locales; no se validó un chat de texto libre.
+Ambas respuestas devolvieron período, procedencia, unidad, corte, fórmula y limitaciones.
+Cortes: `2026-11-16T17:17:53.650736+00:00` y `2026-11-16T17:17:56.768962+00:00`.
+Fórmula: entrada de la cohorte con compostaje validado hasta el corte / generación vigente
+de esa cohorte × 100. El indicador no representa todo el aprovechamiento institucional
+ni reconstruye correcciones históricas. Pendiente no equivale necesariamente a masa disponible.
+
+| Consulta | Tokens de entrada | Tokens de salida | Costo local calculado (USD) |
+| --- | ---: | ---: | ---: |
+| Balance de cohorte | 930 | 35 | 0,00274500 |
+| Entrada y salida de compostaje | 932 | 26 | 0,00264200 |
+| **Total** | **1.862** | **61** | **0,00538700** |
+
+Tokens informados por el proveedor; cálculo conservador de la aplicación con USD 2,50
+por millón de tokens de entrada y USD 12 por millón de salida. **No es facturación oficial
+de OpenAI**: no se consultaron factura ni saldo de la cuenta. Consumo calculado inferior
+al presupuesto autorizado de USD 0,12; cada solicitud reservó como máximo USD 0,05456.
+
+Comprobación posterior: dos invocaciones locales, ambas `completed`, total contable
+USD 0,00538700. Las huellas de los registros de waste, traceability, compost, organizations
+e interventions no cambiaron. Finalizada la prueba, `configuration()` volvió a no habilitada;
+AI_ENABLED, AI_BUDGET_AUTHORIZED y OPENAI_SMOKE_TEST quedaron falsos y presupuestos de la
+configuración local en cero. No se eliminó ni reinició el registro de consumo.
+
+Evidencia consultada para esta transcripción: archivo temporal
+`ecogest-openai-authorized-smoke-result.json`, todavía disponible al documentar el cierre.
+Se preservan aquí los resultados relevantes; no se copia el archivo completo ni rutas
+personales, claves, cookies o tokens de autenticación al repositorio. Los conteos de tokens
+de la tabla son unidades de uso del modelo, no credenciales.
+
+**Límites:** prueba realizada desde Django, sin recorrer el navegador ni probar la presentación
+visual de una respuesta real. No certifica disponibilidad continua, todos los roles o todas
+las preguntas. CHK013 y las cinco tareas TDD históricamente parciales siguen pendientes/parciales.
+No se modifica ni se marca como completada una tarea SDD por esta actualización documental.
+La integración permanece desactivada; esta evidencia no autoriza consumo adicional.
+
+Antes de la prueba real también se ejecutaron **11 pruebas locales aprobadas en 68,125 s**:
+`tests.test_intelligence` y
+`tests.test_concurrency.ConcurrencyTests.test_assistant_global_budget_and_inflight_are_atomic`,
+con `--keepdb --noinput` y el constructor real de OpenAI bloqueado. No hubo llamadas pagadas
+en esa ejecución. No se reejecutaron suites de aplicación durante el cierre documental.
+
+## 2026-11-16 — Verificación del cierre documental
+
+Rama de trabajo: `feat/002-ecogest-intelligence`. Inventario inicial: 23 Markdown en docs/;
+final: 24, incluido únicamente el nuevo índice. Cinco documentos históricos y dos de
+entrega reubicados; ninguno eliminado ni fusionado. Los documentos anteriores continúan
+disponibles en su ubicación original o en la nueva ruta registrada por el índice.
+
+| Comprobación ejecutada | Antes | Después |
+| --- | ---: | ---: |
+| Markdown examinados (docs/, specs/, raíz y constitución) | 46 | 47 |
+| Enlaces locales Markdown, incluidas imágenes y directorios | 52 | 95 |
+| Destinos locales ausentes | 0 | 0 |
+
+Se actualizaron enlaces relativos y referencias textuales de las rutas movidas; búsqueda
+final sin referencias a las siete rutas anteriores. Los 23 documentos originales figuran
+en el índice. No hay enlaces con fragmentos de ancla en el conjunto examinado; siete
+enlaces Markdown externos se excluyeron de la comprobación de disponibilidad web.
+No se evaluó la vigencia de URLs escritas como texto plano ni rutas propuestas para futuros
+informes todavía no creados. El cotejo de enlaces comprueba existencia, no contenido remoto.
+
+Comparación SHA-256 antes/después de **239 archivos protegidos**: sin cambios en código,
+pruebas de software, configuración versionada, constitución, specs/, plantillas docentes
+y capturas. `git diff --check`: sin errores. No se ejecutaron pruebas funcionales, nuevas
+consultas a OpenAI, migraciones, commits, push, merge ni despliegues en este cierre documental.
+
+Organización final posterior solicitada: se trasladaron otros 14 Markdown y quedaron solo
+README.md, DECISIONES.md y PRUEBAS.md en la raíz de docs/; total conservado: 24 Markdown.
+Verificación antes/después sobre 47 Markdown: 95 enlaces locales, cero destinos ausentes
+y cero referencias a las rutas sustituidas; siete enlaces externos no comprobados.
+Los 200 archivos no Markdown inventariados permanecen idénticos, incluidas capturas y código.
+Las dos plantillas conservan sus bytes; los cambios en constitución, AGENTS y specs/ son
+solo rutas documentales. Todos los documentos se conservaron y el índice los incluye.
+`git diff --check` sin errores. Sin nuevos informes, commits, ejecución de pruebas funcionales
+ni llamadas OpenAI; los cambios documentales anteriores pendientes se conservaron.
+
+## 2026-11-17 — Preparación local de Azure
+
+- Azure CLI 2.93.0 y Bicep 0.49.2 ejecutados correctamente.
+- `scripts/package_azure.py`: TypeScript/Vite aprobados; ZIP final de 147154 bytes.
+- `scripts/check_azure_package.py`: 4 pruebas aprobadas sobre ZIP extraído en directorio
+  temporal: redirección HTTPS/host, SPA, exclusión de rutas privadas, API/CSRF y assets.
+  Primer ensayo falló por comparar separadores Windows/Linux en una aserción; se corrigió
+  con as_posix y se repitió satisfactoriamente. No hubo conexiones DB ni llamadas pagadas.
+- `npm.cmd --prefix frontend run test -- --run`: 18 pruebas en 9 archivos aprobadas.
+- `manage.py check`: sin problemas. Check Azure --deploy con clave temporal fuerte:
+  solo W021 por HSTS preload desactivado deliberadamente; HSTS inicial de 3600 segundos.
+- `az bicep build`: plantilla compilada, sin errores. No equivale a validación ARM remota.
+- `git diff --check`: aprobado durante la preparación.
+- Login Azure normal satisfactorio; suscripción Enabled, FreeTrial, spendingLimit On.
+  Azure anuncia Python 3.12 y PostgreSQL B1ms en East US 2. Microsoft.DBforPostgreSQL
+  NotRegistered; consulta de cuota Microsoft.Web devolvió BadRequest. No se modificaron
+  recursos existentes ni protecciones del directorio.
+
+Límites: Docker Desktop sin motor disponible, no se ejecutó Gunicorn Linux. No se
+ejecutaron suite completa backend/PostgreSQL, migraciones, recorrido E2E remoto ni
+provisionamiento. Saldo y vencimiento de crédito no comprobados. Precios recuperados
+del HTML público oficial tras HTTP 429 de Retail Prices; desglose y fuentes en
+[DESPLIEGUE_AZURE.md](entrega/DESPLIEGUE_AZURE.md). Sin commits, push, despliegue ni gastos.
+
+## 2026-11-17 — Despliegue Azure autorizado y comprobado
+
+El usuario autorizó crear y desplegar con presupuesto estimado USD 35/mes. Web operativa:
+https://ecogest360-d2334-1117.azurewebsites.net. App Service B1 Central US; PostgreSQL 16
+B1ms/32 GiB Canada Central. Estimado base USD 30,69/mes más transferencia interregional,
+impuestos y consumos extraordinarios. Presupuesto de seguimiento de USD 35 creado mediante
+API Consumption 2024-08-01; sin corte automático ni notificaciones. No se modificaron
+recursos previos de la suscripción ni su límite de gasto FreeTrial.
+
+Incidencias de infraestructura resueltas: cuota B1 cero en East US 2/Canada Central/West US 2;
+Central US validó web pero PostgreSQL devolvió SkuNotAvailable; PostgreSQL East US 2 devolvió
+ParameterOutOfRange. Canada Central creó la base. Los intentos fallidos no dejaron una
+segunda base activa. El primer reintento de OneDeploy solapó dos builds; se detuvo únicamente
+el proceso antiguo y el build vigente terminó. Deployment activo:
+`71e0bd4c-2d6e-4048-b8ce-7675a80bb023`. Python remoto 3.12.16.
+
+Preparación DB: 23 migraciones aplicadas, rol ecogest_app sin SUPERUSER/CREATEDB/CREATEROLE,
+13 IPs web concretas autorizadas, regla temporal retirada. Primera ejecución de
+seed_observatory_demo sin --apply fue dry-run; no creó la cohorte y el login Intelligence
+devolvió 401. Se ejecutó después con --apply --end-date 2026-11-15 y se comprobó el resultado.
+Una actualización redundante de AZURE_APP_HOST devolvió BadGatewayConnection; el valor
+ya era correcto y se verificó por lectura. El bootstrap se ajustó para evitar ese cambio
+cuando el dominio estándar coincide. No se modificaron generadores ni reglas ambientales.
+
+| Comprobación remota ejecutada | Resultado |
+| --- | --- |
+| HTML React y GET /api/session/csrf por HTTPS | Aprobado |
+| Flujo navegador generación → lote/QR → compostaje → evidencia → validación → CSV | Aprobado, 30,2 s (repetición tras fallo inicial de acceso) |
+| Consultor sin formularios de escritura | Aprobado, 6,5 s |
+| Teclado y cinco pantallas en 360/1280 px | Aprobado, 19,2 s |
+| Asistente local, fuentes, cuatro anchos y navegación al simulador | Aprobado, 15,3 s, después de crear cohorte Intelligence |
+| Login gestor y cohorte SIMULADA 02–15 noviembre | 365 kg generados y 100 kg acreditados, comprobados por API |
+| Reinicio de App Service y repetición de login/consulta de cohorte | Aprobado; cifras conservadas |
+| HTTPS obligatorio y FTP/SCM basic publishing | HTTPS true; ambas políticas básicas false |
+| Flags IA externa | AI_ENABLED/AI_BUDGET_AUTHORIZED/OPENAI_SMOKE_TEST = 0 |
+| Secretos locales excluidos de Git y diff --check | Aprobados |
+
+La primera ejecución Playwright dio 2 fallos y 2 aprobados: faltaban usuarios Intelligence
+por el dry-run; el caso vertical también falló al esperar el observatorio tras el acceso.
+Los dos casos fallidos se repitieron y aprobaron, sin cambiar código funcional para ocultar
+errores. Son cuatro casos distintos aprobados en ejecuciones separadas, no una suite completa
+de backend ejecutada en Azure. Las copias de pruebas usan destino/credenciales cloud y
+capturas bajo test-results; originales del repositorio intactos.
+
+Límites: datos exclusivamente simulados; sin prueba pagada OpenAI, prueba de carga remota,
+restauración de backups ni recuperación de adjuntos. Saldo restante y vencimiento del crédito
+no confirmados. Los backups PostgreSQL no respaldan archivos de /home: antes de datos reales
+debe definirse y probarse el respaldo de adjuntos. Sin commits, push ni cambios de historia Git.

@@ -1,7 +1,7 @@
 # Constitución del Proyecto: EcoGest 360
 
-> **Estado:** RATIFICADA — versión 1.0.0, aprobada por el usuario el 2026-11-15.
-> **Documento base:** plantilla_constitucion_sdd.md entregada por la profesora.
+> **Estado:** RATIFICADA — versión 1.1.0, aprobada por el usuario el 2026-11-15.
+> **Documento base:** docs/plantillas/plantilla_constitucion_sdd.md entregada por la profesora.
 > **Propósito:** esta constitución establece reglas transversales del proyecto. Las funcionalidades concretas, flujos, historias y criterios de aceptación se desarrollarán después en las especificaciones (`spec.md`).
 
 ## 1. Naturaleza del Proyecto
@@ -16,7 +16,7 @@ El MVP operará para una única institución universitaria piloto. La administra
 
 ## 2. Stack Tecnológico (Reglas de Implementación)
 
-- **Frontend / UI:** React con TypeScript y Vite; estilos responsivos con CSS Modules como solución inicial; futuras ampliaciones requieren justificación y aprobación. Priorizar accesibilidad, claridad, rendimiento y componentes reutilizables. Elegir y documentar una sola biblioteca de gráficos para evitar duplicidades.
+- **Frontend / UI:** React con TypeScript y Vite; estilos responsivos con CSS Modules como solución inicial; futuras ampliaciones requieren justificación y aprobación. Priorizar accesibilidad, claridad, rendimiento y componentes reutilizables. Para los gráficos del MVP se permite SVG nativo accesible, con alternativa textual o tabular, sin biblioteca adicional. Si se aprueba una biblioteca de gráficos en una fase posterior, se elegirá y documentará una sola, evitando duplicidades y manteniendo accesibilidad.
 - **Backend:** Python 3.12 como versión objetivo, Django 5.2 LTS y Django REST Framework para la API REST. Evitar agregar otros frameworks de servidor salvo aprobación explícita.
 - **Base de Datos:** PostgreSQL mediante ORM y migraciones de Django. Usar restricciones e integridad transaccional para movimientos de masas, lotes y estados. Prohibido usar bases de datos o archivos temporales como sustituto de la fuente de verdad en operaciones centrales.
 - **Lenguaje:** TypeScript/TSX en frontend, Python en backend y SQL únicamente cuando sea necesario y esté justificado; documentación en español, código con convenciones técnicas estables.
@@ -69,6 +69,8 @@ Estas reglas son obligatorias. El agente de IA debe respetarlas estrictamente:
 ### Gobernanza, aprobación y revisión
 
 La versión 1.0.0 es la primera constitución ratificada, aprobada el 2026-11-15.
+La enmienda 1.1.0, ratificada por aprobación explícita del usuario el 2026-11-15,
+permite SVG nativo en §2; conserva las demás reglas y los seis apartados docentes.
 El usuario autorizó iniciar `speckit-specify`; la planificación y la implementación requieren revisión posterior de las especificaciones.
 Las enmiendas documentarán motivo, reglas afectadas e impacto en especificaciones, plan,
 tareas y pruebas. El usuario aprobará los cambios antes de implementarlos.
@@ -77,7 +79,7 @@ y PATCH para aclaraciones. Toda revisión o PR comprobará conformidad con esta 
 Las decisiones y pruebas se registrarán en `docs/DECISIONES.md` y `docs/PRUEBAS.md`.
 
 La visión no autoriza funciones futuras. El alcance inicial procede de
-`docs/03_ALCANCE_MVP_ECOGEST360.md`; los permisos por transición y criterios de aceptación
+`docs/historico/03_ALCANCE_MVP_ECOGEST360.md`; los permisos por transición y criterios de aceptación
 se definirán en `spec.md`, sin endpoints ni SQL. IA, campañas, metas, IoT, comercio,
 gestión agrícola, certificaciones y despliegue público multiinstitución quedan fuera del MVP.
 PDF es una mejora posterior al flujo prioritario y CSV.
@@ -96,7 +98,7 @@ No fabricar autorías, revisiones ni fechas. Las cuentas reales son `Danilo2334`
 Antes de un push se comprobarán cuenta activa e identidad Git. Push, merge, despliegue
 público, gastos y cambios destructivos requieren autorización explícita para esa acción.
 
-**Versión**: 1.0.0 | **Ratificación**: 2026-11-15
+**Versión**: 1.1.0 | **Ratificación**: 2026-11-15
 **Última modificación**: 2026-11-15
 
 ## Lista de verificación antes de aprobarla

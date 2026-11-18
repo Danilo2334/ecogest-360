@@ -1,6 +1,6 @@
 # Feature Specification: EcoGest 360 — MVP ambiental universitario
 
-**Feature Branch**: `main` (existente; no se creó rama ni commit)
+**Feature Branch**: `feat/001-ecogest-mvp`; rama base: `main`. Al redactar la especificación aún no se había creado la rama de implementación.
 
 **Created**: 2026-11-15
 
@@ -19,6 +19,13 @@ Las prioridades siguientes ordenan el trabajo; las cinco áreas forman parte de 
 - Q: ¿Qué masa y evidencia acreditan compostaje? → A: Q3 A; entradas por lote de procesos finalizados y validados por gestor, con salida independiente, fecha, responsable y evidencia verificable de destino, sin doble conteo.
 
 ### Reglas operativas y casos derivados
+
+- Cierre de CHK004 aprobado por el usuario: solo un proceso de entradas medidas, con salida
+  medida independientemente y evidencia verificable de tratamiento/destino, puede acreditar
+  aprovechamiento real. Los procesos estimados no se confirman ni aportan A en el MVP, aunque
+  tengan salida y evidencia; su regularización queda fuera de alcance. Los simulados completan
+  exclusivamente la demostración y conservan su procedencia en cantidades, evidencia e indicadores.
+  Una validación nunca convierte estimado o simulado en medido.
 
 - Matriz de permisos: administrador mantiene cuentas, roles, espacios y catálogo; operador
   registra y confirma generación, lotes, movimientos, entradas, mediciones, salida y cierre;
@@ -239,11 +246,17 @@ Los requisitos se organizan a continuación según las cinco áreas docentes. La
   Estados operativos: en proceso y finalizado; verificación del resultado es separada.
 - **FR-018**: Registrar salidas positivas independientemente de las entradas, fecha y destino
   declarado. En operación real se exige medición propia; en demo se declara simulación explícita.
+  La salida conserva la procedencia del proceso. Un proceso estimado puede conservar su salida
+  estimada para trazabilidad, pero no puede acreditar aprovechamiento ni regularizarse en este MVP.
   **No asumir rendimiento, equivalencia 1:1 ni certificación de calidad del compost**.
 - **FR-019**: Distinguir resultado pendiente de resultado confirmado con evidencia y responsable
   de validación. Una entrega no prueba automáticamente aprovechamiento y el compost obtenido
   no se suma a su entrada como dos aprovechamientos.
   Decisión Q3 aprobada: sumar una sola vez la masa de entrada identificada por lote cuando el proceso esté finalizado y el gestor valide pesaje independiente de salida, fecha, responsable y comprobante documental o registro verificable del destino. Sin cualquiera de esos elementos permanece pendiente. La salida de compost se informa por separado y nunca incrementa generación ni el numerador de aprovechamiento.
+  Restricción CHK004: confirmar solo procesos medidos con entrada/salida medidas o procesos
+  simulados como demostración. Rechazar confirmación de estimados sin cambiar procedencia,
+  saldos ni historial. Confirmaciones estimadas anteriores, si existieran, se conservan como
+  historial pero no se computan como A bajo esta regla; no se borran ni se reclasifican.
 
 ### 5. Indicadores ambientales, dashboard y reportes
 
@@ -304,17 +317,30 @@ Los requisitos se organizan a continuación según las cinco áreas docentes. La
   recuperados conservan categoría y procedencia; toda evidencia confirmada satisface FR-019 y ninguna
   salida se presenta como certificación (FR-004, FR-006, FR-017–019).
 
+### Aceptación adicional de CHK004
+
+1. Con G=25 kg medidos y entrada=20, salida propia=8 y evidencia completa, el gestor confirma:
+   A=20, pendiente=5 y tasa=80 %; repetir la operación no duplica A y CSV coincide con el panel.
+2. Con las mismas masas estimadas y evidencia completa, confirmar se rechaza; A=0,
+   pendiente=25, saldo de lote=5 y procedencia estimada intacta. Una confirmación histórica
+   estimada no incrementa indicadores ni CSV.
+3. Una salida enviada como estimada a un proceso medido se rechaza sin finalizar ni crear salida.
+   Tampoco se valida una salida histórica cuya procedencia contradiga la del proceso.
+4. El flujo 25/20/8 simulado sigue funcionando como demostración; su A=20 solo pertenece
+   al universo simulado, y un filtro medido no lo incluye. Sin evidencia válida no se confirma.
+
 ## Assumptions
 
 - Una universidad piloto; el administrador prepara cuentas, espacios y catálogo antes de la demo.
   La selección institucional y su catálogo requieren validación del responsable del piloto;
   no se presenta un catálogo ficticio como oficial.
-- Los estados y la prohibición inicial de mezclar procedencias reducen ambigüedad
-  del MVP y quedan sujetas a revisión de esta especificación; no son decisiones ya implementadas.
+- Los estados y la prohibición de mezclar procedencias reducen ambigüedad del MVP;
+  están implementados y se verifican en las pruebas registradas en docs/PRUEBAS.md.
 - No se presupone conexión a equipos de pesaje. Las mediciones se introducen manualmente.
 - Las pruebas usan datos declarados simulados; no se afirma que existan mediciones de campo.
 - No hay flujo público por QR. La arquitectura futura no autoriza administrar varias instituciones.
-- Los escenarios son criterios por ejecutar, no evidencia de pruebas de una aplicación existente.
+- Los escenarios definen aceptación; la evidencia de sus ejecuciones está en docs/PRUEBAS.md,
+  no se infiere cumplimiento solamente por aparecer en esta especificación.
 - El alcance de validación verificable del MVP es compostaje. Las entregas externas conservan trazabilidad y estado pendiente, sin asumir aprovechamiento por una recepción. A1 aprobado por el usuario el 2026-11-15. El dashboard identifica explícitamente aprovechamiento confirmado por compostaje, no aprovechamiento total institucional.
 
 ## Lo que NO se va a construir en esta iteración (Non-Goals)

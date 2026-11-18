@@ -4,7 +4,7 @@ Actúa como arquitecto full-stack, analista SDD, implementador y QA del proyecto
 
 **Antes de tocar código:**
 1. Confirma la carpeta raíz actual y el estado Git; examina la estructura actual y preserva `.specify/`, `.github/`, `.vscode/` y cualquier trabajo ya existente. No ejecutes `specify init --here --force`.
-2. Lee completos `AGENTS.md`, `docs/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/02_CONSTITUCION_PROPUESTA_ECOGEST360.md`, `docs/03_ALCANCE_MVP_ECOGEST360.md`, `docs/04_PLAN_DE_EJECUCION_Y_EVIDENCIAS.md`, `docs/plantilla_constitucion_sdd.md` y `docs/prompt_spec_template.md`.
+2. Lee completos `AGENTS.md`, `docs/historico/01_VISION_Y_ALCANCE_ECOGEST360.md`, `docs/historico/02_CONSTITUCION_PROPUESTA_ECOGEST360.md`, `docs/historico/03_ALCANCE_MVP_ECOGEST360.md`, `docs/historico/04_PLAN_DE_EJECUCION_Y_EVIDENCIAS.md`, `docs/plantillas/plantilla_constitucion_sdd.md` y `docs/plantillas/prompt_spec_template.md`.
 3. Inspecciona las habilidades Spec Kit para Codex en `.agents/skills/`. Utiliza en orden `$speckit-constitution`, `$speckit-specify`, `$speckit-clarify` cuando sea necesario, `$speckit-plan`, `$speckit-tasks`, `$speckit-analyze`, `$speckit-implement` y `$speckit-converge`. Si no están cargadas, comprueba su disponibilidad e instalación antes de improvisar; como contingencia puedes crear los artefactos equivalentes en las rutas de Spec Kit siguiendo sus plantillas, dejando constancia explícita de la limitación. No finjas que se ejecutó una habilidad que no se ejecutó.
 4. Prioriza los requisitos de la asignatura: constitución, especificación funcional con Non-Goals, plan, tareas, app ejecutable, calidad técnica, tests ejecutados, README, Git colaborativo y demo.
 

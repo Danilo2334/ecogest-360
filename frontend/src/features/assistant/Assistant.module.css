@@ -1,0 +1,182 @@
+.assistant {
+  color: #25332e;
+}
+.hero {
+  background: #12382f;
+  color: #f7f9f5;
+  padding: 28px;
+  border-radius: 16px;
+}
+.hero span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.hero h2 {
+  font-size: 30px;
+  margin: 14px 0;
+}
+.hero p {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+.status {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  font-size: 14px;
+}
+.status span {
+  color: #53665e;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.conversation {
+  min-width: 0;
+  display: grid;
+  gap: 18px;
+}
+.composer,
+.response,
+.method,
+.sources {
+  background: white;
+  border: 1px solid #dce5df;
+  border-radius: 14px;
+  padding: 24px;
+  min-width: 0;
+}
+.composer {
+  display: grid;
+  gap: 14px;
+}
+.composer label {
+  display: grid;
+  gap: 8px;
+}
+.composer textarea {
+  resize: vertical;
+  min-height: 90px;
+  font: inherit;
+  color: #25332e;
+  border: 1px solid #bdcec3;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+}
+.composer p {
+  margin: 0;
+}
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.examples button {
+  background: #edf3ee;
+  border: 1px solid #dce5df;
+  color: #145443;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+}
+.note {
+  color: #53665e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.sources h3,
+.method h3 {
+  margin-top: 0;
+  font-size: 21px;
+}
+.fact {
+  padding: 16px 0;
+  border-top: 1px solid #dce5df;
+}
+.fact h4 {
+  font-size: 16px;
+  margin: 0 0 14px;
+}
+.fact dl {
+  margin: 0;
+  display: block;
+}
+.fact dl div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.fact dt {
+  color: #53665e;
+  font-size: 14px;
+}
+.fact dd {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.fact button {
+  background: none;
+  color: #145443;
+  padding-left: 0;
+  text-align: left;
+}
+.method details,
+.sources details {
+  border-top: 1px solid #dce5df;
+  padding: 14px 0;
+}
+.method summary,
+.sources summary {
+  cursor: pointer;
+  min-height: 30px;
+  color: #145443;
+}
+.method p,
+.response p {
+  line-height: 1.6;
+}
+.response {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .conversation {
+    display: contents;
+  }
+  .sources {
+    order: 2;
+  }
+  .method {
+    order: 3;
+  }
+  .hero,
+  .composer,
+  .response,
+  .method,
+  .sources {
+    padding: 20px;
+  }
+}
+@media (max-width: 430px) {
+  .hero h2 {
+    font-size: 25px;
+  }
+  .hero,
+  .composer,
+  .response,
+  .method,
+  .sources {
+    padding: 16px;
+  }
+}
