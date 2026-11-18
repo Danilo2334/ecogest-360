@@ -235,3 +235,38 @@ evidencias/, historico/ y plantillas/, sin excepciones. La autorizaci?n incluye 
 rutas en AGENTS, constituci?n y specs/; se mantienen su ubicaci?n, reglas y estados.
 Las plantillas originales se conservan byte por byte. El ?ndice existente sustituye
 la clasificaci?n parcial anterior; no se crea otro informe ni se realiza un commit.
+
+## 2026-11-17 — Preparación de despliegue Azure
+
+Solicitud explícita de preparar Azure CLI y presentar costos antes de crear recursos.
+Artefactos incrementales en specs/003-azure-deployment; constitución y lógica ambiental
+sin cambios. Settings/URLs/WSGI de Azure separados conservan el arranque local.
+App Service Linux B1 + PostgreSQL 16 B1ms/32 GiB, una instancia, HTTPS, adjuntos privados
+persistidos en /home. Gunicorn 27.0.1 y WhiteNoise 6.12.0 fijados solo para producción.
+Empaquetado por lista permitida sin .env, media ni DB local. IA externa desactivada.
+
+CLI 2.93.0 instalada de ZIP oficial en directorio de usuario. Login por dispositivo
+rechazado por Security Defaults; login normal de navegador satisfactorio sin cambiar
+protecciones. Suscripción FreeTrial activa con spendingLimit On. East US restringida
+para PostgreSQL; East US 2 anuncia B1ms y App Service B1. Propuesta base USD 28,50 por
+730 horas y 32 GiB; margen propuesto USD 35/mes. Saldo/vencimiento y cuotas definitivas
+pendientes. No crear recursos, registrar proveedores ni publicar antes de aprobar costo.
+Detalle, fuentes, supuestos y secuencia: entrega/DESPLIEGUE_AZURE.md.
+
+### Ejecución posterior autorizada — Azure
+
+El usuario aprobó crear recursos y desplegar con USD 35/mes. Se eligió finalmente web B1
+en Central US y PostgreSQL B1ms en Canada Central por restricciones efectivas de Azure;
+base USD 30,69/mes más transferencia y extras, sin escalar tamaños ni gastar en OpenAI.
+Grupo rg-ecogest360-demo, recursos previos intactos. Presupuesto de seguimiento USD 35
+registrado sin notificaciones ni corte automático. Se preserva spendingLimit On.
+
+Paquete publicado por Azure CLI/Entra, sin push. Configuración de producción separada,
+credenciales nuevas en archivos ignorados, .env local sin cambios. Rol DB limitado,
+firewall de IPs concretas, permisos y reglas ambientales originales conservados.
+Demo explícita SIMULADA con cohorte 02–15 noviembre; usuarios y contraseña en archivo
+local ignorado secrets/azure-access.json. No se publica ninguna credencial en documentación.
+Asistente local comprobado; proveedor externo desactivado como se acordó.
+
+Cuatro casos de navegador y persistencia tras reiniciar comprobados; incidencias y límites
+en PRUEBAS.md. Respaldar adjuntos y verificar restauración antes de usar datos reales.

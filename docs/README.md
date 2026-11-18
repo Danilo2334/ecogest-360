@@ -5,6 +5,14 @@ La ra?z de docs/ contiene ?nicamente este ?ndice y los dos registros principales
 en total, incluidos los antecedentes. Para instalar y ejecutar la aplicaci?n, consultar
 el [README principal](../README.md).
 
+## Preparación Azure
+
+- [Despliegue Azure: configuración, presupuesto y pendientes](entrega/DESPLIEGUE_AZURE.md).
+- [Especificación](../specs/003-azure-deployment/spec.md),
+  [plan](../specs/003-azure-deployment/plan.md) y
+  [tareas](../specs/003-azure-deployment/tasks.md).
+- Se añade un documento a los 24 del inventario histórico: total actual 25 Markdown.
+
 ## Fuentes oficiales SDD
 
 La [constituci?n vigente](../.specify/memory/constitution.md) permanece en .specify/.

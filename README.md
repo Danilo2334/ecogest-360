@@ -1,5 +1,9 @@
 # EcoGest 360 Intelligence
 
+Despliegue académico: [EcoGest 360 en Azure](https://ecogest360-d2334-1117.azurewebsites.net).
+[Configuración, costos y operación de Azure](docs/entrega/DESPLIEGUE_AZURE.md).
+Requiere autenticación; la cohorte de demostración está identificada como SIMULADA.
+
 MVP académico de gestión ambiental para una universidad: registro de residuos, lotes,
 movimientos, compostaje verificado, indicadores y CSV. Un solo producto, con metodología SDD.
 La rama V2 añade Observatorio, Pasaporte Ambiental, Simulador, Planes de acción y Asistente.

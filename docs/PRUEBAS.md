@@ -431,3 +431,76 @@ Las dos plantillas conservan sus bytes; los cambios en constitución, AGENTS y s
 solo rutas documentales. Todos los documentos se conservaron y el índice los incluye.
 `git diff --check` sin errores. Sin nuevos informes, commits, ejecución de pruebas funcionales
 ni llamadas OpenAI; los cambios documentales anteriores pendientes se conservaron.
+
+## 2026-11-17 — Preparación local de Azure
+
+- Azure CLI 2.93.0 y Bicep 0.49.2 ejecutados correctamente.
+- `scripts/package_azure.py`: TypeScript/Vite aprobados; ZIP final de 147154 bytes.
+- `scripts/check_azure_package.py`: 4 pruebas aprobadas sobre ZIP extraído en directorio
+  temporal: redirección HTTPS/host, SPA, exclusión de rutas privadas, API/CSRF y assets.
+  Primer ensayo falló por comparar separadores Windows/Linux en una aserción; se corrigió
+  con as_posix y se repitió satisfactoriamente. No hubo conexiones DB ni llamadas pagadas.
+- `npm.cmd --prefix frontend run test -- --run`: 18 pruebas en 9 archivos aprobadas.
+- `manage.py check`: sin problemas. Check Azure --deploy con clave temporal fuerte:
+  solo W021 por HSTS preload desactivado deliberadamente; HSTS inicial de 3600 segundos.
+- `az bicep build`: plantilla compilada, sin errores. No equivale a validación ARM remota.
+- `git diff --check`: aprobado durante la preparación.
+- Login Azure normal satisfactorio; suscripción Enabled, FreeTrial, spendingLimit On.
+  Azure anuncia Python 3.12 y PostgreSQL B1ms en East US 2. Microsoft.DBforPostgreSQL
+  NotRegistered; consulta de cuota Microsoft.Web devolvió BadRequest. No se modificaron
+  recursos existentes ni protecciones del directorio.
+
+Límites: Docker Desktop sin motor disponible, no se ejecutó Gunicorn Linux. No se
+ejecutaron suite completa backend/PostgreSQL, migraciones, recorrido E2E remoto ni
+provisionamiento. Saldo y vencimiento de crédito no comprobados. Precios recuperados
+del HTML público oficial tras HTTP 429 de Retail Prices; desglose y fuentes en
+[DESPLIEGUE_AZURE.md](entrega/DESPLIEGUE_AZURE.md). Sin commits, push, despliegue ni gastos.
+
+## 2026-11-17 — Despliegue Azure autorizado y comprobado
+
+El usuario autorizó crear y desplegar con presupuesto estimado USD 35/mes. Web operativa:
+https://ecogest360-d2334-1117.azurewebsites.net. App Service B1 Central US; PostgreSQL 16
+B1ms/32 GiB Canada Central. Estimado base USD 30,69/mes más transferencia interregional,
+impuestos y consumos extraordinarios. Presupuesto de seguimiento de USD 35 creado mediante
+API Consumption 2024-08-01; sin corte automático ni notificaciones. No se modificaron
+recursos previos de la suscripción ni su límite de gasto FreeTrial.
+
+Incidencias de infraestructura resueltas: cuota B1 cero en East US 2/Canada Central/West US 2;
+Central US validó web pero PostgreSQL devolvió SkuNotAvailable; PostgreSQL East US 2 devolvió
+ParameterOutOfRange. Canada Central creó la base. Los intentos fallidos no dejaron una
+segunda base activa. El primer reintento de OneDeploy solapó dos builds; se detuvo únicamente
+el proceso antiguo y el build vigente terminó. Deployment activo:
+`71e0bd4c-2d6e-4048-b8ce-7675a80bb023`. Python remoto 3.12.16.
+
+Preparación DB: 23 migraciones aplicadas, rol ecogest_app sin SUPERUSER/CREATEDB/CREATEROLE,
+13 IPs web concretas autorizadas, regla temporal retirada. Primera ejecución de
+seed_observatory_demo sin --apply fue dry-run; no creó la cohorte y el login Intelligence
+devolvió 401. Se ejecutó después con --apply --end-date 2026-11-15 y se comprobó el resultado.
+Una actualización redundante de AZURE_APP_HOST devolvió BadGatewayConnection; el valor
+ya era correcto y se verificó por lectura. El bootstrap se ajustó para evitar ese cambio
+cuando el dominio estándar coincide. No se modificaron generadores ni reglas ambientales.
+
+| Comprobación remota ejecutada | Resultado |
+| --- | --- |
+| HTML React y GET /api/session/csrf por HTTPS | Aprobado |
+| Flujo navegador generación → lote/QR → compostaje → evidencia → validación → CSV | Aprobado, 30,2 s (repetición tras fallo inicial de acceso) |
+| Consultor sin formularios de escritura | Aprobado, 6,5 s |
+| Teclado y cinco pantallas en 360/1280 px | Aprobado, 19,2 s |
+| Asistente local, fuentes, cuatro anchos y navegación al simulador | Aprobado, 15,3 s, después de crear cohorte Intelligence |
+| Login gestor y cohorte SIMULADA 02–15 noviembre | 365 kg generados y 100 kg acreditados, comprobados por API |
+| Reinicio de App Service y repetición de login/consulta de cohorte | Aprobado; cifras conservadas |
+| HTTPS obligatorio y FTP/SCM basic publishing | HTTPS true; ambas políticas básicas false |
+| Flags IA externa | AI_ENABLED/AI_BUDGET_AUTHORIZED/OPENAI_SMOKE_TEST = 0 |
+| Secretos locales excluidos de Git y diff --check | Aprobados |
+
+La primera ejecución Playwright dio 2 fallos y 2 aprobados: faltaban usuarios Intelligence
+por el dry-run; el caso vertical también falló al esperar el observatorio tras el acceso.
+Los dos casos fallidos se repitieron y aprobaron, sin cambiar código funcional para ocultar
+errores. Son cuatro casos distintos aprobados en ejecuciones separadas, no una suite completa
+de backend ejecutada en Azure. Las copias de pruebas usan destino/credenciales cloud y
+capturas bajo test-results; originales del repositorio intactos.
+
+Límites: datos exclusivamente simulados; sin prueba pagada OpenAI, prueba de carga remota,
+restauración de backups ni recuperación de adjuntos. Saldo restante y vencimiento del crédito
+no confirmados. Los backups PostgreSQL no respaldan archivos de /home: antes de datos reales
+debe definirse y probarse el respaldo de adjuntos. Sin commits, push ni cambios de historia Git.
